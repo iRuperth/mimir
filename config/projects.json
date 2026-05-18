@@ -1,0 +1,50 @@
+{
+  "categories": [
+    { "id": "ai", "label_en": "AI Development", "label_es": "Desarrollo IA" },
+    { "id": "fullstack", "label_en": "Full Stack", "label_es": "Full Stack" },
+    { "id": "backend", "label_en": "Backend", "label_es": "Backend" },
+    { "id": "cloud", "label_en": "Cloud", "label_es": "Cloud" }
+  ],
+  "projects": [
+    {
+      "id": "project-1",
+      "category": "ai",
+      "title_en": "Semantic Search Engine",
+      "title_es": "Motor de Búsqueda Semántica",
+      "description_en": "Vector-based search system with hybrid retrieval and re-ranking, handling 10M+ documents with sub-200ms latency.",
+      "description_es": "Sistema de búsqueda basado en vectores con recuperación híbrida y re-ranking, gestionando 10M+ documentos con latencia sub-200ms.",
+      "tools": ["Python", "FastAPI", "Qdrant", "OpenAI", "Docker"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-1" },
+        { "label": "Demo", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-1"
+    },
+    {
+      "id": "project-2",
+      "category": "fullstack",
+      "title_en": "Real-time Collaboration App",
+      "title_es": "App de Colaboración en Tiempo Real",
+      "description_en": "Multi-user editor with CRDT sync, presence awareness, and offline support, deployed on edge infrastructure.",
+      "description_es": "Editor multi-usuario con sincronización CRDT, conciencia de presencia y soporte offline, desplegado en edge.",
+      "tools": ["React", "Node.js", "PostgreSQL", "WebSockets", "Yjs"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-2" }
+      ],
+      "imageFolder": "project-2"
+    },
+    {
+      "id": "project-3",
+      "category": "cloud",
+      "title_en": "Serverless Data Pipeline",
+      "title_es": "Pipeline de Datos Serverless",
+      "description_en": "Event-driven ETL pipeline processing 500K events/min using AWS Lambda, Kinesis, and S3 with full observability.",
+      "description_es": "Pipeline ETL orientado a eventos procesando 500K eventos/min usando AWS Lambda, Kinesis y S3 con observabilidad completa.",
+      "tools": ["AWS Lambda", "Kinesis", "Terraform", "Python", "Grafana"],
+      "links": [
+        { "label": "Case Study", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-3"
+    }
+  ]
+}
