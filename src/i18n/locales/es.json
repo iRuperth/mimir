@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "scroll": "Desplázate para explorar"
+  },
+  "about": {
+    "title": "Sobre mí"
+  },
+  "projects": {
+    "title": "Proyectos",
+    "all": "Todos",
+    "tools": "Herramientas",
+    "empty": "Aún no hay proyectos en esta categoría."
+  },
+  "contact": {
+    "title": "Conectemos",
+    "subtitle": "Siempre estoy abierto a conversaciones interesantes y nuevas oportunidades."
+  },
+  "footer": {
+    "made": "Hecho con",
+    "and": "y",
+    "rights": "Todos los derechos reservados."
+  },
+  "controls": {
+    "theme_light": "Modo claro",
+    "theme_dark": "Modo oscuro",
+    "language": "Idioma",
+    "colorblind": "Modo daltónico",
+    "music_on": "Reproducir música",
+    "music_off": "Pausar música"
+  }
+}

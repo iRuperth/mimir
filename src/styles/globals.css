@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+body {
+  color: rgb(var(--text));
+  transition: color 400ms ease;
+  overflow-x: hidden;
+  background-color: rgb(var(--bg-soft));
+}
+
+/* Animated background — drifting blobs behind everything.
+   Glass elements refract these as they pass over, giving the
+   refraction continuous motion without scroll dependency. */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-layer > span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+}
+
+.bg-layer .blob-a {
+  top: -22vh;
+  left: -12vw;
+  width: 72vw;
+  height: 72vw;
+  background: rgb(var(--accent));
+  opacity: 0.5;
+  animation: blob-drift-a 26s ease-in-out infinite alternate;
+}
+
+.bg-layer .blob-b {
+  bottom: -25vh;
+  right: -15vw;
+  width: 66vw;
+  height: 66vw;
+  background: rgb(var(--accent-2));
+  opacity: 0.42;
+  animation: blob-drift-b 32s ease-in-out infinite alternate;
+}
+
+.bg-layer .blob-c {
+  top: 28vh;
+  left: 32vw;
+  width: 52vw;
+  height: 52vw;
+  background: rgb(var(--surface));
+  opacity: 0.55;
+  animation: blob-drift-c 38s ease-in-out infinite alternate;
+}
+
+[data-theme="light"] .bg-layer .blob-a { opacity: 0.32; }
+[data-theme="light"] .bg-layer .blob-b { opacity: 0.28; }
+[data-theme="light"] .bg-layer .blob-c { opacity: 0.5; }
+
+@keyframes blob-drift-a {
+  0%   { transform: translate3d(-12vw, -2vh, 0) scale(1); }
+  100% { transform: translate3d(18vw, 4vh, 0) scale(1.12); }
+}
+
+@keyframes blob-drift-b {
+  0%   { transform: translate3d(-20vw, 3vh, 0) scale(0.95); }
+  100% { transform: translate3d(10vw, -3vh, 0) scale(1.1); }
+}
+
+@keyframes blob-drift-c {
+  0%   { transform: translate3d(-15vw, 0, 0) scale(0.9); }
+  100% { transform: translate3d(22vw, 5vh, 0) scale(1.15); }
+}
+
+::selection {
+  background-color: rgb(var(--accent) / 0.4);
+  color: rgb(var(--text));
+}
+
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--bg-soft));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--surface));
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--accent) / 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

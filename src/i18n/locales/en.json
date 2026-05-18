@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "scroll": "Scroll to explore"
+  },
+  "about": {
+    "title": "About me"
+  },
+  "projects": {
+    "title": "Projects",
+    "all": "All",
+    "tools": "Tools",
+    "empty": "No projects in this category yet."
+  },
+  "contact": {
+    "title": "Let's connect",
+    "subtitle": "I'm always open to interesting conversations and new opportunities."
+  },
+  "footer": {
+    "made": "Made with",
+    "and": "and",
+    "rights": "All rights reserved."
+  },
+  "controls": {
+    "theme_light": "Light mode",
+    "theme_dark": "Dark mode",
+    "language": "Language",
+    "colorblind": "Colorblind mode",
+    "music_on": "Play music",
+    "music_off": "Pause music"
+  }
+}
