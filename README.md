@@ -35,7 +35,31 @@ Open `.env` and tweak:
 | `SOCIAL_*`   | Links to GitHub, LinkedIn, email, X, Instagram (empty = hidden)   |
 | `MUSIC_*`    | Background music toggle, file path, default volume               |
 
-### 2. Projects — edit `config/projects.json`
+### 2. Categories — edit `config/projects.json`
+
+Each category becomes a full page section with its own title, concept paragraph,
+auto-derived skills, and project grid. Categories live under `categories[]`:
+
+```json
+{
+  "id": "ai",
+  "enabled": true,
+  "label_en": "AI Development",
+  "label_es": "Desarrollo IA",
+  "description_en": "Designing and shipping AI systems end to end…",
+  "description_es": "Diseño y despliegue de sistemas con IA…"
+}
+```
+
+- **Enable / disable** a category by flipping `enabled` to `true` / `false`. A
+  disabled category hides its section AND all its projects, no need to delete
+  data.
+- **Add a new category** (e.g. `deeplearning`) by adding an entry — a section
+  appears automatically as soon as at least one project references its `id`.
+- **Reorder** categories by reordering the array.
+- Categories with no visible projects are auto-hidden.
+
+### 3. Projects — edit `config/projects.json`
 
 Each project has bilingual fields (`_en` / `_es`), a category, tools, links, and an `imageFolder`:
 
@@ -53,9 +77,11 @@ Each project has bilingual fields (`_en` / `_es`), a category, tools, links, and
 }
 ```
 
-Add or rename categories in the `categories` array — categories with no projects are auto-hidden.
+The `tools` array doubles as the skills source — every tool listed here
+shows up in the per-category skills row AND in the global Skills section
+at the end of the page (no manual upkeep).
 
-### 3. Project images
+### 4. Project images
 
 Drop images into `public/projects/<imageFolder>/`:
 
@@ -67,7 +93,72 @@ public/projects/my-project/02.webp
 They are auto-discovered at build time and shown in the carousel sorted alphabetically.
 Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
 
-### 4. Background music (optional)
+### 5. Skills section
+
+The Skills section at the end of the page is the full toolbox, split into
+buckets — Languages, Frontend, Backend, Data, AI / ML, DevOps, Cloud,
+Tools / Workflow — driven by three fields in `config/projects.json`:
+
+**`skillGroups`** — the buckets and their order. Add, rename, reorder or
+remove them freely; their labels are bilingual:
+
+```json
+"skillGroups": [
+  { "id": "languages", "label_en": "Languages", "label_es": "Lenguajes" },
+  { "id": "ai", "label_en": "AI / ML", "label_es": "IA / ML" }
+]
+```
+
+**`skillGroupOf`** — maps each skill name to its bucket id. Skills with
+no mapping land in an auto-generated "Other" bucket so nothing is lost:
+
+```json
+"skillGroupOf": {
+  "Python": "languages",
+  "PyTorch": "ai",
+  "Cursor": "tools"
+}
+```
+
+**`skillsExtra`** — skills you have but haven't shipped a project around
+yet (Rust, Cursor, Figma, learning Elixir, etc.) They appear in their
+mapped bucket just like everything else:
+
+```json
+"skillsExtra": ["Rust", "Cursor", "Figma"]
+```
+
+Skills used in a project (`tools[]`) and skills in `skillsExtra` get
+deduped and merged automatically.
+
+### 6. Skill icons (optional)
+
+Drop icons in `public/icons/` named after the slugified skill name to
+render them next to the label:
+
+```
+public/icons/react.svg
+public/icons/node-js.svg     ← "Node.js" slug
+public/icons/cpp.svg         ← "C++" slug
+```
+
+Slug rules: lowercase, spaces / `.` / `/` → `-`, `++` → `pp`, `#` → `sharp`.
+If the natural slug is awkward, override it in `config/projects.json`:
+
+```json
+"skillIcons": {
+  "Node.js": "nodejs",
+  "Apollo Federation": "apollo"
+}
+```
+
+Skills without an icon file just render as text — nothing breaks.
+
+Source icons from [Devicon](https://devicon.dev/),
+[Simple Icons](https://simpleicons.org/), or anywhere else you like.
+See [`public/icons/README.md`](public/icons/README.md) for full details.
+
+### 7. Background music (optional)
 
 1. Drop an audio file in `public/audio/`, e.g. `track.mp3`.
 2. Set `VITE_MUSIC_FILE=/audio/track.mp3` in `.env`.
@@ -75,7 +166,7 @@ Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
 
 The audio starts paused; visitors enable it with the switch.
 
-### 5. Add a new language
+### 8. Add a new language
 
 1. Add `src/i18n/locales/<code>.json` (copy `en.json`).
 2. Register it in `src/i18n/index.ts` (`resources` and `supportedLngs`).
@@ -138,6 +229,7 @@ mimir/
 │   └── projects.json      # project metadata
 ├── public/
 │   ├── projects/          # project images, one folder per project
+│   ├── icons/             # skill icons (slug-based filenames)
 │   ├── audio/             # optional background music
 │   └── avatar.jpg         # your avatar
 ├── src/
