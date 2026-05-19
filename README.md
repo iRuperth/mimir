@@ -1,44 +1,125 @@
 # Mimir — Portfolio Template
 
-A reusable, lightweight portfolio template with **liquid glass** styling, Apple-style scroll animations, project carousels by category, light/dark/colorblind modes, optional background music, and full English/Spanish localization. Nothing is hardcoded — fork it, edit `.env` and `config/projects.json`, and deploy.
+A reusable, lightweight portfolio template with liquid glass styling, scroll-driven animations, project carousels by category, light / dark / colorblind modes, optional background music, and full English / Spanish localization. Nothing is hardcoded — fork it, edit `.env` and `config/projects.json`, and deploy.
 
 Named after **Mímir**, the Norse god of knowledge and wisdom.
 
+> 🇪🇸 Spanish version: [`README.es.md`](README.es.md)
+
 ---
 
-## Quick start
+## 1. Requirements
 
-```bash
-git clone <your-fork> mimir
-cd mimir
-cp .env.example .env       # edit your values
-pnpm install
-pnpm dev                   # http://localhost:5173
-```
+You need:
 
-> Requires [pnpm](https://pnpm.io/) (`corepack enable && corepack prepare pnpm@latest --activate`).
+- **Node.js 20 or newer** — download from <https://nodejs.org>
+- **pnpm** — installed via Corepack (two commands, see below)
+- **Git** — download from <https://git-scm.com>
 
-## Make it yours
+### Install pnpm (one time, any OS)
 
-### 1. Personal info & theme — edit `.env`
+Run these two commands once. They work on macOS, Linux, and Windows:
 
-Open `.env` and tweak:
+- `corepack enable`
+- `corepack prepare pnpm@latest --activate`
 
-| Group        | What it controls                                                  |
-| ------------ | ----------------------------------------------------------------- |
-| `OWNER_*`    | Your name, title, avatar path, bio (EN and ES)                    |
-| `DEFAULT_LANGUAGE` | `en` or `es` (browser detection still applies for visitors) |
-| `ANIMATIONS` | `true` / `false` — toggle scroll-driven animations                |
-| `DEFAULT_THEME` | `light` / `dark` / `system`                                    |
-| `LIGHT_*` / `DARK_*` | Full color palette per theme                            |
-| `CB_*`       | Okabe-Ito safe accents used when colorblind mode is enabled       |
-| `SOCIAL_*`   | Links to GitHub, LinkedIn, email, X, Instagram (empty = hidden)   |
-| `MUSIC_*`    | Background music toggle, file path, default volume               |
+Verify the installation:
 
-### 2. Categories — edit `config/projects.json`
+- `pnpm --version`
 
-Each category becomes a full page section with its own title, concept paragraph,
-auto-derived skills, and project grid. Categories live under `categories[]`:
+---
+
+## 2. Start the project
+
+Pick the section that matches your OS.
+
+### macOS
+
+- `git clone https://github.com/<your-user>/mimir.git`
+- `cd mimir`
+- `cp .env.example .env`
+- `pnpm install`
+- `pnpm dev`
+
+Then open <http://localhost:5173> in your browser.
+
+### Linux
+
+- `git clone https://github.com/<your-user>/mimir.git`
+- `cd mimir`
+- `cp .env.example .env`
+- `pnpm install`
+- `pnpm dev`
+
+Then open <http://localhost:5173> in your browser.
+
+### Windows (PowerShell)
+
+- `git clone https://github.com/<your-user>/mimir.git`
+- `cd mimir`
+- `Copy-Item .env.example .env`
+- `pnpm install`
+- `pnpm dev`
+
+Then open <http://localhost:5173> in your browser.
+
+### Windows (Command Prompt)
+
+- `git clone https://github.com/<your-user>/mimir.git`
+- `cd mimir`
+- `copy .env.example .env`
+- `pnpm install`
+- `pnpm dev`
+
+Then open <http://localhost:5173> in your browser.
+
+### With `make` (any OS that has GNU Make installed)
+
+- `git clone https://github.com/<your-user>/mimir.git`
+- `cd mimir`
+- `cp .env.example .env`
+- `make install`
+- `make dev`
+
+Then open <http://localhost:5173> in your browser.
+
+> **Note:** the dev server hot-reloads. Edits to `.env` require a server restart; edits to `config/projects.json`, images, and source files apply instantly.
+
+---
+
+## 3. Customize the site
+
+All site content lives in **two files**:
+
+- `.env` — your personal info, theme colors, social links.
+- `config/projects.json` — categories, projects, skills, icon mapping.
+
+You never need to touch source code to change content.
+
+### 3.1 Personal info — edit `.env`
+
+1. Copy the template (you already did this in section 2 with `cp` / `Copy-Item` / `copy`).
+2. Open `.env` in your editor.
+3. Fill in your values.
+
+| Variable group       | What it controls                                                |
+| -------------------- | --------------------------------------------------------------- |
+| `OWNER_*`            | Your name, title, avatar path, bio (English and Spanish)        |
+| `DEFAULT_LANGUAGE`   | `en` or `es` (visitor's browser still wins when it matches)     |
+| `ANIMATIONS`         | `true` / `false` — toggle scroll-driven animations              |
+| `DEFAULT_THEME`      | `light`, `dark`, or `system`                                    |
+| `LIGHT_*` / `DARK_*` | Full color palette per theme                                    |
+| `CB_*`               | Okabe-Ito safe accents used when colorblind mode is on          |
+| `SOCIAL_*`           | Links to GitHub, LinkedIn, email, X, Instagram (empty = hidden) |
+| `MUSIC_*`            | Background music toggle, file path, default volume              |
+
+Restart the dev server after editing `.env`.
+
+### 3.2 Categories — edit `config/projects.json`
+
+Each category becomes its own page section, with a heading, a short description, an auto-derived skills row, and a project grid below.
+
+Categories live in the `"categories"` array at the top of `config/projects.json`. Each entry looks like this:
 
 ```json
 {
@@ -51,17 +132,14 @@ auto-derived skills, and project grid. Categories live under `categories[]`:
 }
 ```
 
-- **Enable / disable** a category by flipping `enabled` to `true` / `false`. A
-  disabled category hides its section AND all its projects, no need to delete
-  data.
-- **Add a new category** (e.g. `deeplearning`) by adding an entry — a section
-  appears automatically as soon as at least one project references its `id`.
-- **Reorder** categories by reordering the array.
-- Categories with no visible projects are auto-hidden.
+- **Add a category** — append a new object with a unique `id`. The section appears automatically when at least one project uses that `id` in its `category` field.
+- **Remove a category** — delete the object from the array. Or set `enabled` to `false` to hide it without losing the data. Hidden categories also hide every project that belongs to them.
+- **Reorder categories** — change the order of the objects in the array.
+- **Rename a category** — edit its `label_en` and `label_es`.
 
-### 3. Projects — edit `config/projects.json`
+### 3.3 Projects — edit `config/projects.json`
 
-Each project has bilingual fields (`_en` / `_es`), a category, tools, links, and an `imageFolder`:
+Each project lives in the `"projects"` array. Each entry looks like this:
 
 ```json
 {
@@ -69,38 +147,51 @@ Each project has bilingual fields (`_en` / `_es`), a category, tools, links, and
   "category": "ai",
   "title_en": "My Project",
   "title_es": "Mi Proyecto",
-  "description_en": "...",
-  "description_es": "...",
+  "description_en": "Short summary in English.",
+  "description_es": "Resumen corto en español.",
+  "details_en": "Optional longer explanation shown when the visitor clicks Show more.",
+  "details_es": "Explicación más larga opcional, mostrada al hacer clic en Ver más.",
   "tools": ["React", "Python"],
-  "links": [{ "label": "GitHub", "url": "https://..." }],
+  "links": [{ "label": "GitHub", "url": "https://github.com/you/my-project" }],
   "imageFolder": "my-project"
 }
 ```
 
-The `tools` array doubles as the skills source — every tool listed here
-shows up in the per-category skills row AND in the global Skills section
-at the end of the page (no manual upkeep).
+- **Add a project** — append a new object. Make sure:
+  - `id` is unique.
+  - `category` matches an existing category `id`.
+  - `imageFolder` matches a folder you create under `public/projects/`.
+- **Remove a project** — delete the object from the array. Also delete the corresponding folder under `public/projects/` if you no longer need the images.
+- **Bilingual fields** — every `_en` field needs a matching `_es` counterpart.
+- **`details_en` / `details_es`** are optional. If both are empty or omitted, the Show more button still expands the modal (revealing the image carousel, tools, description, and links) but no extra paragraphs render. Drop in long-form copy whenever you have it.
+- **`tools`** — each name automatically feeds the per-category skills row and the global Skills section. No manual upkeep.
+- **`links`** — each link is rendered as a glass button at the end of the description.
 
-### 4. Project images
+### 3.4 Project images
 
-Drop images into `public/projects/<imageFolder>/`:
+Drop image files into `public/projects/<imageFolder>/`:
 
 ```
-public/projects/my-project/01.jpg
-public/projects/my-project/02.webp
+public/projects/my-project/
+├── 01-hero.jpg
+├── 02-detail.webp
+└── 03-screenshot.png
 ```
 
-They are auto-discovered at build time and shown in the carousel sorted alphabetically.
-Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
+- **Folder name** must match the `imageFolder` field of the corresponding project.
+- **File names** can be anything. Images appear in the carousel sorted alphabetically — prefix with `01_`, `02_`, … to control the sequence.
+- **Supported formats:** `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
+- **Add an image** — drop the file in the folder. In dev mode it appears instantly; for production rebuild with `pnpm build`.
+- **Remove an image** — delete the file. The carousel updates automatically.
+- **Aspect ratio** — the carousel renders at 16:9 with `object-cover`, so wide screenshots and full-bleed shots look best. Anything narrower will be cropped.
 
-### 5. Skills section
+### 3.5 Skills section
 
-The Skills section at the end of the page is the full toolbox, split into
-buckets — Languages, Frontend, Backend, Data, AI / ML, DevOps, Cloud,
-Tools / Workflow — driven by three fields in `config/projects.json`:
+The Skills section at the end of the page groups every tool you mention across your projects, plus any extras you list manually.
 
-**`skillGroups`** — the buckets and their order. Add, rename, reorder or
-remove them freely; their labels are bilingual:
+Three fields in `config/projects.json` control it:
+
+**`skillGroups`** — the buckets and their order. Bilingual labels:
 
 ```json
 "skillGroups": [
@@ -109,8 +200,7 @@ remove them freely; their labels are bilingual:
 ]
 ```
 
-**`skillGroupOf`** — maps each skill name to its bucket id. Skills with
-no mapping land in an auto-generated "Other" bucket so nothing is lost:
+**`skillGroupOf`** — maps each skill name to its bucket id. Skills with no mapping fall into an auto-generated "Other" bucket so nothing is ever lost:
 
 ```json
 "skillGroupOf": {
@@ -120,30 +210,27 @@ no mapping land in an auto-generated "Other" bucket so nothing is lost:
 }
 ```
 
-**`skillsExtra`** — skills you have but haven't shipped a project around
-yet (Rust, Cursor, Figma, learning Elixir, etc.) They appear in their
-mapped bucket just like everything else:
+**`skillsExtra`** — skills you want to display but haven't shipped a project around yet:
 
 ```json
 "skillsExtra": ["Rust", "Cursor", "Figma"]
 ```
 
-Skills used in a project (`tools[]`) and skills in `skillsExtra` get
-deduped and merged automatically.
+Skills used in projects (`tools[]`) and skills in `skillsExtra` are deduplicated and merged automatically.
 
-### 6. Skill icons (optional)
+### 3.6 Skill icons (optional)
 
-Drop icons in `public/icons/` named after the slugified skill name to
-render them next to the label:
+Drop SVG (or PNG / WebP) icons into `public/icons/`, named after the slugified skill name:
 
 ```
 public/icons/react.svg
-public/icons/node-js.svg     ← "Node.js" slug
-public/icons/cpp.svg         ← "C++" slug
+public/icons/node-js.svg   ← "Node.js"
+public/icons/cpp.svg       ← "C++"
 ```
 
-Slug rules: lowercase, spaces / `.` / `/` → `-`, `++` → `pp`, `#` → `sharp`.
-If the natural slug is awkward, override it in `config/projects.json`:
+Slug rules: lowercase; spaces, `.` and `/` become `-`; `++` becomes `pp`; `#` becomes `sharp`.
+
+If the natural slug is awkward, add an override under `"skillIcons"` in `config/projects.json`:
 
 ```json
 "skillIcons": {
@@ -152,34 +239,74 @@ If the natural slug is awkward, override it in `config/projects.json`:
 }
 ```
 
-Skills without an icon file just render as text — nothing breaks.
+Skills with no icon file just render as text — nothing breaks.
 
-Source icons from [Devicon](https://devicon.dev/),
-[Simple Icons](https://simpleicons.org/), or anywhere else you like.
-See [`public/icons/README.md`](public/icons/README.md) for full details.
+Suggested sources: [Devicon](https://devicon.dev/) and [Simple Icons](https://simpleicons.org/). See [`public/icons/README.md`](public/icons/README.md) for the full details.
 
-### 7. Background music (optional)
+### 3.7 Background music (optional)
 
 1. Drop an audio file in `public/audio/`, e.g. `track.mp3`.
-2. Set `VITE_MUSIC_FILE=/audio/track.mp3` in `.env`.
-3. Set `VITE_MUSIC_ENABLED=true` to show the toggle in the navbar.
+2. In `.env`, set `VITE_MUSIC_FILE=/audio/track.mp3`.
+3. In `.env`, set `VITE_MUSIC_ENABLED=true` to show the toggle in the navbar.
 
-The audio starts paused; visitors enable it with the switch.
+The audio always starts paused; the visitor decides whether to enable it.
 
-### 8. Add a new language
+### 3.8 Add a new language
 
-1. Add `src/i18n/locales/<code>.json` (copy `en.json`).
+1. Create `src/i18n/locales/<code>.json` (copy `en.json` as a starting point).
 2. Register it in `src/i18n/index.ts` (`resources` and `supportedLngs`).
-3. Add matching `title_<code>`, `description_<code>`, `label_<code>` fields in `config/projects.json`.
-4. Update `localizedProject` and `visibleCategories` in `src/config/projects.ts`.
+3. For every entry in `config/projects.json`, add the matching `title_<code>`, `description_<code>`, `details_<code>`, `label_<code>` fields.
+4. Update `localizedProject` and `visibleCategories` in `src/config/projects.ts` to read the new fields.
 
 ---
 
-## Deploy to GitHub Pages
+## 4. Useful commands
+
+Every command assumes you have already run `pnpm install` (or `make install`).
+
+### Start the dev server
+
+- macOS / Linux: `pnpm dev`
+- Windows: `pnpm dev`
+- Make: `make dev`
+
+### Production build
+
+- macOS / Linux: `pnpm build`
+- Windows: `pnpm build`
+- Make: `make build`
+
+### Preview the production build locally
+
+- macOS / Linux: `pnpm preview`
+- Windows: `pnpm preview`
+- Make: `make preview`
+
+### Type-check only (no build output)
+
+- macOS / Linux: `pnpm exec tsc -b --noEmit`
+- Windows: `pnpm exec tsc -b --noEmit`
+- Make: `make typecheck`
+
+### Clean build artifacts
+
+- macOS / Linux: `rm -rf dist node_modules/.vite`
+- Windows (PowerShell): `Remove-Item -Recurse -Force dist, node_modules\.vite`
+- Make: `make clean`
+
+### Deploy to GitHub Pages
+
+- macOS / Linux: `pnpm run deploy`
+- Windows: `pnpm run deploy`
+- Make: `make deploy`
+
+---
+
+## 5. Deploy
 
 ### Option A — GitHub Actions (recommended)
 
-1. Push to `main`.
+1. Push your fork to `main`.
 2. In your repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 3. The workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and publishes on every push. It sets `VITE_BASE_PATH` to `/<repo-name>/` automatically.
 
@@ -187,28 +314,13 @@ Your site will be at `https://<username>.github.io/<repo-name>/`.
 
 ### Option B — Manual
 
-```bash
-pnpm run deploy
-```
+Run `pnpm run deploy` (or `make deploy`). This builds and pushes `dist/` to the `gh-pages` branch.
 
-This builds and pushes `dist/` to the `gh-pages` branch.
-
-> **Note:** if you deploy to a different base path than `/mimir/`, set `VITE_BASE_PATH` in `.env`.
+> If you deploy to a base path different from `/mimir/`, set `VITE_BASE_PATH` in `.env`.
 
 ---
 
-## Scripts
-
-| Command         | What it does                               |
-| --------------- | ------------------------------------------ |
-| `pnpm dev`      | Start Vite dev server with hot reload      |
-| `pnpm build`    | Type-check and build to `dist/`            |
-| `pnpm preview`  | Preview the production build locally       |
-| `pnpm run deploy` | Build and publish to the `gh-pages` branch |
-
----
-
-## Stack
+## 6. Stack
 
 - **Vite 5** + **React 18** + **TypeScript** — static build, small bundle
 - **Tailwind CSS** — utility classes, theme via CSS variables
@@ -216,29 +328,29 @@ This builds and pushes `dist/` to the `gh-pages` branch.
 - **embla-carousel-react** — accessible image carousel
 - **i18next** — internationalization
 
-Target bundle: ~150–200 KB gzip.
+Target bundle size: 150–200 KB gzip.
 
 ---
 
-## Project layout
+## 7. Project layout
 
 ```
 mimir/
 ├── .env.example           # template (copy to .env)
 ├── config/
-│   └── projects.json      # project metadata
+│   └── projects.json      # categories, projects, skills, icon mapping
 ├── public/
 │   ├── projects/          # project images, one folder per project
 │   ├── icons/             # skill icons (slug-based filenames)
 │   ├── audio/             # optional background music
 │   └── avatar.jpg         # your avatar
 ├── src/
-│   ├── config/            # env/theme/projects loaders
+│   ├── config/            # env / theme / projects loaders
 │   ├── components/        # ui (layout, sections, project, controls, glass)
-│   ├── hooks/             # useTheme, useAudio
+│   ├── hooks/             # useTheme, useAudio, etc.
 │   ├── i18n/              # translations
 │   └── styles/            # globals + liquid glass utilities
-└── .github/workflows/     # GitHub Pages deploy
+└── .github/workflows/     # GitHub Pages deploy workflow
 ```
 
 ---
