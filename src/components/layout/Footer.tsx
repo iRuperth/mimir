@@ -53,16 +53,14 @@ export const Footer = () => {
           {t('footer.made')}{' '}
           <span aria-hidden="true" className="text-accent">
             &#9829;
-          </span>{' '}
-          {t('footer.and')} React
+          </span>
         </motion.p>
       ) : (
         <p className="text-xs text-text-soft text-center">
           {t('footer.made')}{' '}
           <span aria-hidden="true" className="text-accent">
             &#9829;
-          </span>{' '}
-          {t('footer.and')} React
+          </span>
         </p>
       )}
 
