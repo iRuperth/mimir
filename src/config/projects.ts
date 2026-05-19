@@ -39,6 +39,8 @@ export interface ProjectDef {
   title_es: string;
   description_en: string;
   description_es: string;
+  details_en?: string;
+  details_es?: string;
   tools: string[];
   links: ProjectLink[];
   imageFolder: string;
@@ -124,6 +126,7 @@ export const localizedProject = (p: ProjectDef, lang: 'en' | 'es') => ({
   category: p.category,
   title: lang === 'es' ? p.title_es : p.title_en,
   description: lang === 'es' ? p.description_es : p.description_en,
+  details: (lang === 'es' ? p.details_es : p.details_en) ?? '',
   tools: p.tools,
   links: p.links,
   images: p.images,

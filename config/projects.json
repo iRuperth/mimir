@@ -43,8 +43,7 @@
       "description_es": "Sistema de búsqueda basado en vectores con recuperación híbrida y re-ranking, gestionando 10M+ documentos con latencia sub-200ms.",
       "tools": ["Python", "FastAPI", "Qdrant", "OpenAI", "Docker"],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/yourname/project-1" },
-        { "label": "Demo", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-1" }
       ],
       "imageFolder": "project-1"
     },
@@ -70,7 +69,7 @@
       "description_es": "Pipeline OCR con conciencia de layout que extrae datos estructurados de facturas y contratos, con reconstrucción de tablas y puntuación de confianza.",
       "tools": ["PyTorch", "LayoutLM", "Tesseract", "FastAPI"],
       "links": [
-        { "label": "Case Study", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-5" }
       ],
       "imageFolder": "project-5"
     },
@@ -96,7 +95,7 @@
       "description_es": "Plataforma de suscripciones con medición de uso, flujos de dunning y permisos por tenant sobre un esquema Postgres con row-level security.",
       "tools": ["Next.js", "Stripe", "Prisma", "Postgres", "tRPC"],
       "links": [
-        { "label": "Demo", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-6" }
       ],
       "imageFolder": "project-6"
     },
@@ -135,7 +134,7 @@
       "description_es": "Microservicio de gestión de pedidos sobre log de eventos append-only con proyecciones, handlers idempotentes y publicación con patrón outbox.",
       "tools": ["Kotlin", "Kafka", "Postgres", "Axon", "Kubernetes"],
       "links": [
-        { "label": "Architecture Doc", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-9" }
       ],
       "imageFolder": "project-9"
     },
@@ -148,7 +147,7 @@
       "description_es": "Pipeline ETL orientado a eventos procesando 500K eventos/min usando AWS Lambda, Kinesis y S3 con observabilidad completa.",
       "tools": ["AWS Lambda", "Kinesis", "Terraform", "Python", "Grafana"],
       "links": [
-        { "label": "Case Study", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-3" }
       ],
       "imageFolder": "project-3"
     },
@@ -174,7 +173,7 @@
       "description_es": "Lakehouse basado en Iceberg con almacenamiento por niveles, cómputo bajo demanda y un router de queries con conciencia de coste que redujo el gasto mensual un 62%.",
       "tools": ["Apache Iceberg", "Trino", "Airflow", "S3", "dbt"],
       "links": [
-        { "label": "Write-up", "url": "https://example.com" }
+        { "label": "GitHub", "url": "https://github.com/yourname/project-11" }
       ],
       "imageFolder": "project-11"
     }

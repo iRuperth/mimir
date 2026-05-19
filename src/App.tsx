@@ -24,6 +24,8 @@ const App = () => {
         <span className="blob-c" />
       </div>
 
+      <div className="top-fade" aria-hidden="true" />
+
       <Navbar
         mode={mode}
         onThemeToggle={toggle}
