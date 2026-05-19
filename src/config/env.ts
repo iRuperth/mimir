@@ -13,13 +13,26 @@ const num = (v: string | undefined, fallback: number): number => {
   return Number.isFinite(n) ? n : fallback;
 };
 
+/* Resolve a public asset path to a URL the browser can fetch. The dev
+   server (and the GitHub Pages build) live under a base path
+   (/mimir/), so a raw "/avatar.jpeg" in .env would 404. Prepend the
+   base so the user can write paths relative to public/ and have them
+   work in any deploy target. Absolute URLs (http/https) and data:
+   URIs are returned untouched. */
+const asset = (v: string | undefined): string => {
+  if (!v || v.length === 0) return '';
+  if (/^(https?:|data:)/i.test(v)) return v;
+  const base = (e.BASE_URL || '/').replace(/\/$/, '');
+  return base + (v.startsWith('/') ? v : `/${v}`);
+};
+
 export const config = {
   basePath: str(e.VITE_BASE_PATH, '/'),
 
   owner: {
     name: str(e.VITE_OWNER_NAME, 'Your Name'),
     title: str(e.VITE_OWNER_TITLE, 'Developer'),
-    avatar: str(e.VITE_OWNER_AVATAR, ''),
+    avatar: asset(e.VITE_OWNER_AVATAR),
     bio: {
       en: str(e.VITE_OWNER_BIO_EN, ''),
       es: str(e.VITE_OWNER_BIO_ES, ''),
@@ -65,12 +78,13 @@ export const config = {
     github: str(e.VITE_SOCIAL_GITHUB, ''),
     linkedin: str(e.VITE_SOCIAL_LINKEDIN, ''),
     email: str(e.VITE_SOCIAL_EMAIL, ''),
+    phone: str(e.VITE_SOCIAL_PHONE, ''),
     x: str(e.VITE_SOCIAL_X, ''),
     instagram: str(e.VITE_SOCIAL_INSTAGRAM, ''),
   },
 
   audio: {
-    file: str(e.VITE_MUSIC_FILE, ''),
+    file: asset(e.VITE_MUSIC_FILE),
     volume: Math.min(1, Math.max(0, num(e.VITE_MUSIC_VOLUME, 0.3))),
   },
 } as const;
