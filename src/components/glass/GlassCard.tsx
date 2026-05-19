@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { LiquidGlass } from './LiquidGlass';
+import { useGlassParams } from '@/hooks/useGlassTuning';
 
 interface Props {
   children: ReactNode;
@@ -12,20 +13,23 @@ interface Props {
 }
 
 export const GlassCard = forwardRef<HTMLElement, Props>(function GlassCard(
-  { children, strong, className = '', contentClassName = '', style, radius = 24 },
+  { children, strong, className = '', contentClassName = '', style, radius },
   ref
 ) {
+  const p = useGlassParams();
+  const k = strong ? 1.3 : 1;
+
   return (
     <LiquidGlass
       ref={ref}
-      radius={radius}
-      refractionHeight={strong ? 130 : 100}
-      refractionAmount={strong ? 140 : 110}
-      chromaticAberration={strong ? 32 : 22}
-      depthEffect={0.55}
-      blur={strong ? 4 : 3}
-      saturate={1.7}
-      brightness={1.12}
+      radius={radius ?? p.radius}
+      refractionHeight={p.refractionHeight * k}
+      refractionAmount={p.refractionAmount * k}
+      chromaticAberration={p.chromaticAberration * k}
+      depthEffect={strong ? 0.35 : 0.2}
+      blur={strong ? p.blur + 1 : p.blur}
+      saturate={p.saturate}
+      brightness={p.brightness}
       tone="transparent"
       className={`is-hover ${className}`}
       contentClassName={contentClassName}

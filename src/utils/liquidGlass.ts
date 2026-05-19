@@ -16,7 +16,7 @@ interface FilterOptions {
   depthEffect?: number;
 }
 
-const MAX_MAP_DIM = 480;
+const MAX_MAP_DIM = 1024;
 const mapCache = new Map<string, string>();
 const filterCache = new Map<string, string>();
 

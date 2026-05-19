@@ -111,7 +111,8 @@ export const LiquidGlass = forwardRef<HTMLElement, Props>(function LiquidGlass(
   const ra = refractionAmount ?? strength ?? 32;
 
   const filterStyle = useMemo<CSSProperties>(() => {
-    const base = `blur(${Math.max(6, blur + 4)}px) saturate(${saturate}) brightness(${brightness})`;
+    const blurPart = blur > 0.01 ? ` blur(${blur}px)` : '';
+    const base = `saturate(${saturate}) brightness(${brightness})${blur > 0.01 ? ` blur(${Math.max(1, blur)}px)` : ''}`;
     if (size.w === 0 || size.h === 0 || !canRefract) {
       return { backdropFilter: base, WebkitBackdropFilter: base };
     }
@@ -124,7 +125,7 @@ export const LiquidGlass = forwardRef<HTMLElement, Props>(function LiquidGlass(
       chromaticAberration,
       depthEffect,
     });
-    const chain = `blur(${blur / 2}px) url('${url}') blur(${blur}px) brightness(${brightness}) saturate(${saturate})`;
+    const chain = `saturate(${saturate}) brightness(${brightness})${blurPart} url('${url}')`;
     return { backdropFilter: chain, WebkitBackdropFilter: chain };
   }, [size.w, size.h, radius, rh, ra, chromaticAberration, depthEffect, blur, saturate, brightness, canRefract]);
 
