@@ -1,42 +1,64 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { config } from '@/config/env';
 import { GlassCard } from '@/components/glass/GlassCard';
-import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { SocialLinks } from '@/components/layout/SocialLinks';
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24, filter: 'blur(8px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export const Contact = () => {
   const { t } = useTranslation();
-  const email = config.socials.email;
   const animations = config.features.animations;
+  const ref = useRef<HTMLDivElement>(null);
+
+  /* Scroll-scrubbed wrapper so the section eases in as it approaches
+     the viewport. Apple-style: blur + lift + opacity, settled by the
+     time the user reads it. No fade-out — it's the last meaningful
+     section before the footer, so it stays visible once revealed. */
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'center center'],
+  });
+  const wrapperOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 1]);
+  const wrapperY = useTransform(scrollYProgress, [0, 0.6], [60, 0]);
+  const wrapperFilter = useTransform(
+    scrollYProgress,
+    [0, 0.6],
+    ['blur(12px)', 'blur(0px)'],
+  );
 
   const content = (
     <GlassCard className="p-8 md:p-12 text-center flex flex-col items-center gap-6">
-      <div className="flex flex-col gap-3 max-w-2xl">
-        <h2 className="text-4xl md:text-5xl font-bold">{t('contact.title')}</h2>
-        <p className="text-lg text-text-soft">{t('contact.subtitle')}</p>
-      </div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-15%' }}
+        className="flex flex-col items-center gap-6 w-full"
+      >
+        <motion.div variants={itemVariants} className="flex flex-col gap-3 max-w-2xl">
+          <h2 className="text-4xl md:text-5xl font-bold">{t('contact.title')}</h2>
+          <p className="text-lg text-text-soft">{t('contact.subtitle')}</p>
+        </motion.div>
 
-      {email.length > 0 && (
-        <LiquidGlass
-          as="a"
-          href={`mailto:${email}`}
-          radius={999}
-          refractionHeight={16}
-          refractionAmount={24}
-          chromaticAberration={7}
-          blur={1.5}
-          className="is-press px-6 py-3 text-base font-semibold inline-flex items-center gap-2"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="m3 7 9 6 9-6" />
-          </svg>
-          {email}
-        </LiquidGlass>
-      )}
-
-      <SocialLinks />
+        <motion.div variants={itemVariants}>
+          <SocialLinks />
+        </motion.div>
+      </motion.div>
     </GlassCard>
   );
 
@@ -44,10 +66,13 @@ export const Contact = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      ref={ref}
+      style={{
+        opacity: wrapperOpacity,
+        y: wrapperY,
+        filter: wrapperFilter,
+        willChange: 'opacity, transform, filter',
+      }}
     >
       {content}
     </motion.div>
