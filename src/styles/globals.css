@@ -187,6 +187,17 @@ body.modal-open .glass-tuner-root {
   background: rgb(var(--accent) / 0.7);
 }
 
+/* Hide scrollbar utility — scrolling still works, the track/thumb
+   just isn't painted. Used on overlays where a visible bar competes
+   with the floating card aesthetic. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
