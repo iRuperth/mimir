@@ -26,7 +26,7 @@ const Avatar = ({ src, name, className = '' }: { src: string; name: string; clas
   if (showFallback) {
     return (
       <div
-        className={`rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center text-5xl md:text-6xl font-bold text-white shadow-2xl transition-transform duration-500 ease-out hover:scale-110 ${className}`}
+        className={`rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center text-5xl md:text-6xl font-bold text-white shadow-2xl ${className}`}
         aria-label={name}
       >
         {name.charAt(0).toUpperCase()}
@@ -34,12 +34,12 @@ const Avatar = ({ src, name, className = '' }: { src: string; name: string; clas
     );
   }
   return (
-    <div className={`rounded-full overflow-hidden shadow-2xl group ${className}`}>
+    <div className={`rounded-full overflow-hidden shadow-2xl ${className}`}>
       <img
         src={src}
         alt={name}
         onError={() => setFailed(true)}
-        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+        className="w-full h-full object-cover"
       />
     </div>
   );
@@ -66,10 +66,12 @@ export const Hero = () => {
       <section
         ref={ref}
         id="home"
-        className="relative min-h-screen flex items-center justify-center px-6"
+        className="relative min-h-screen flex items-start justify-center px-6 pt-28 md:pt-36"
       >
         <div className="flex flex-col items-center gap-6 text-center max-w-4xl">
-          <Avatar src={avatar} name={name} className="w-32 h-32 md:w-40 md:h-40" />
+          <div className="transition-transform duration-500 ease-out hover:scale-110 motion-reduce:transform-none">
+            <Avatar src={avatar} name={name} className="w-44 h-44 md:w-56 md:h-56" />
+          </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">{name}</h1>
           <p className="text-xl md:text-2xl text-text-soft">{title}</p>
         </div>
@@ -85,29 +87,42 @@ export const Hero = () => {
     <section
       ref={ref}
       id="home"
-      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+      className="relative min-h-screen flex items-start justify-center px-6 pt-28 md:pt-36 overflow-hidden"
     >
       <motion.div
         style={{ opacity: textOpacity, y: textY }}
         className="relative z-10 flex flex-col items-center gap-6 text-center max-w-4xl"
       >
-        <motion.div style={{ scale: avatarScale }}>
-          <Avatar src={avatar} name={name} className="w-32 h-32 md:w-40 md:h-40" />
+        {/* Avatar entrance: scale from 0.7 + blur out as it settles,
+           matching the Apple-style ease used elsewhere. The outer
+           motion.div handles entrance, the inner motion.div applies
+           the scroll-driven scale, and the deepest div handles the
+           hover scale via CSS so all three compose cleanly. */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7, filter: 'blur(14px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <motion.div style={{ scale: avatarScale }}>
+            <div className="transition-transform duration-500 ease-out hover:scale-110 motion-reduce:transform-none">
+              <Avatar src={avatar} name={name} className="w-44 h-44 md:w-56 md:h-56" />
+            </div>
+          </motion.div>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: 32, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
           className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-text to-text-soft bg-clip-text"
         >
           {name}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.15 }}
+          initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
           className="text-xl md:text-2xl text-text-soft"
         >
           {title}
