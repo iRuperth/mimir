@@ -46,52 +46,90 @@ body {
 }
 
 .bg-layer .blob-a {
+  --blob-peak: 0.5;
   top: -22vh;
-  left: -12vw;
+  left: 0;
   width: 72vw;
   height: 72vw;
   background: rgb(var(--accent));
-  opacity: 0.5;
-  animation: blob-drift-a 26s ease-in-out infinite alternate;
+  animation: blob-pan-a 45s linear infinite;
+  animation-delay: 0s;
 }
 
 .bg-layer .blob-b {
+  --blob-peak: 0.42;
   bottom: -25vh;
-  right: -15vw;
+  left: 0;
   width: 66vw;
   height: 66vw;
   background: rgb(var(--accent-2));
-  opacity: 0.42;
-  animation: blob-drift-b 32s ease-in-out infinite alternate;
+  animation: blob-pan-b 60s linear infinite;
+  animation-delay: -22s;
 }
 
 .bg-layer .blob-c {
+  --blob-peak: 0.55;
   top: 28vh;
-  left: 32vw;
+  left: 0;
   width: 52vw;
   height: 52vw;
   background: rgb(var(--surface));
-  opacity: 0.55;
-  animation: blob-drift-c 38s ease-in-out infinite alternate;
+  animation: blob-pan-c 75s linear infinite;
+  animation-delay: -50s;
 }
 
-[data-theme="light"] .bg-layer .blob-a { opacity: 0.32; }
-[data-theme="light"] .bg-layer .blob-b { opacity: 0.28; }
-[data-theme="light"] .bg-layer .blob-c { opacity: 0.5; }
+[data-theme="light"] .bg-layer .blob-a { --blob-peak: 0.32; }
+[data-theme="light"] .bg-layer .blob-b { --blob-peak: 0.28; }
+[data-theme="light"] .bg-layer .blob-c { --blob-peak: 0.5; }
 
-@keyframes blob-drift-a {
-  0%   { transform: translate3d(-12vw, -2vh, 0) scale(1); }
-  100% { transform: translate3d(18vw, 4vh, 0) scale(1.12); }
+/* Continuous left-to-right pan. Path endpoints place the blob just
+   beyond the viewport (right edge at < 0 on entry, left edge at > 100vw
+   on exit), so the blob *slides* in and out instead of materializing
+   in place. Fade is short (3%) and lives entirely while the blob is
+   off-screen, so the wrap from 100% → 0% is imperceptible.
+   blob-a width 72vw → entry at translate -76vw, exit at +104vw
+   blob-b width 66vw → entry at translate -70vw, exit at +104vw
+   blob-c width 52vw → entry at translate -56vw, exit at +104vw */
+@keyframes blob-pan-a {
+  0%   { transform: translate3d(-76vw, -2vh, 0); opacity: 0; }
+  3%   { opacity: var(--blob-peak); }
+  50%  { transform: translate3d(14vw, 3vh, 0); }
+  97%  { opacity: var(--blob-peak); }
+  100% { transform: translate3d(104vw, -2vh, 0); opacity: 0; }
 }
 
-@keyframes blob-drift-b {
-  0%   { transform: translate3d(-20vw, 3vh, 0) scale(0.95); }
-  100% { transform: translate3d(10vw, -3vh, 0) scale(1.1); }
+@keyframes blob-pan-b {
+  0%   { transform: translate3d(-70vw, 4vh, 0); opacity: 0; }
+  3%   { opacity: var(--blob-peak); }
+  50%  { transform: translate3d(17vw, -2vh, 0); }
+  97%  { opacity: var(--blob-peak); }
+  100% { transform: translate3d(104vw, 4vh, 0); opacity: 0; }
 }
 
-@keyframes blob-drift-c {
-  0%   { transform: translate3d(-15vw, 0, 0) scale(0.9); }
-  100% { transform: translate3d(22vw, 5vh, 0) scale(1.15); }
+@keyframes blob-pan-c {
+  0%   { transform: translate3d(-56vw, 0, 0); opacity: 0; }
+  3%   { opacity: var(--blob-peak); }
+  50%  { transform: translate3d(24vw, 4vh, 0); }
+  97%  { opacity: var(--blob-peak); }
+  100% { transform: translate3d(104vw, 0, 0); opacity: 0; }
+}
+
+/* When a project modal is open, fade out the rest of the page
+   (sections, footer, side nav, glass tuner) so only the navbar and
+   the modal card stay visible — but keep the neural canvas and the
+   drifting blobs rendering underneath. */
+main,
+footer,
+aside,
+.glass-tuner-root {
+  transition: opacity 250ms ease, filter 250ms ease;
+}
+body.modal-open main,
+body.modal-open footer,
+body.modal-open aside,
+body.modal-open .glass-tuner-root {
+  opacity: 0;
+  pointer-events: none;
 }
 
 ::selection {
