@@ -1,9 +1,37 @@
 {
   "categories": [
-    { "id": "ai", "label_en": "AI Development", "label_es": "Desarrollo IA" },
-    { "id": "fullstack", "label_en": "Full Stack", "label_es": "Full Stack" },
-    { "id": "backend", "label_en": "Backend", "label_es": "Backend" },
-    { "id": "cloud", "label_en": "Cloud", "label_es": "Cloud" }
+    {
+      "id": "ai",
+      "enabled": true,
+      "label_en": "AI Development",
+      "label_es": "Desarrollo IA",
+      "description_en": "Designing and shipping AI-powered systems end to end — from ingestion and embeddings to retrieval, evaluation, and production inference. The focus is real-world reliability: latency budgets, cost controls, and human-in-the-loop guardrails over flashy demos.",
+      "description_es": "Diseño y despliegue de sistemas con IA de principio a fin — desde la ingesta y embeddings hasta recuperación, evaluación e inferencia en producción. El foco es la fiabilidad real: presupuestos de latencia, control de costes y guardrails con persona-en-el-loop por encima de demos vistosas."
+    },
+    {
+      "id": "fullstack",
+      "enabled": true,
+      "label_en": "Full Stack",
+      "label_es": "Full Stack",
+      "description_en": "Bridging front end and back end with a single mental model: accessible UI, state management, API design, database schemas, and deploy pipelines. Owning the feature from the user's click all the way to the persisted byte.",
+      "description_es": "Puente entre front y back con un único modelo mental: UI accesible, gestión de estado, diseño de API, esquemas de base de datos y pipelines de despliegue. Sostener la feature desde el clic del usuario hasta el byte persistido."
+    },
+    {
+      "id": "backend",
+      "enabled": true,
+      "label_en": "Backend",
+      "label_es": "Backend",
+      "description_en": "Service architecture, data modeling, and the boring-but-load-bearing work that keeps a product alive under load: async pipelines, idempotency, observability, and the decisions you only appreciate when something almost breaks.",
+      "description_es": "Arquitectura de servicios, modelado de datos y el trabajo aburrido pero portante que mantiene un producto vivo bajo carga: pipelines asíncronos, idempotencia, observabilidad y las decisiones que solo se aprecian cuando algo casi se rompe."
+    },
+    {
+      "id": "cloud",
+      "enabled": true,
+      "label_en": "Cloud",
+      "label_es": "Cloud",
+      "description_en": "Infrastructure as code, container orchestration, and platform reliability. Treating ops as a product: cost-aware, observable, repeatable. Paved paths so feature teams ship safely without reinventing the wheel for each service.",
+      "description_es": "Infraestructura como código, orquestación de contenedores y fiabilidad de plataforma. Las ops como producto: con conciencia de coste, observables, repetibles. Caminos pavimentados para que los equipos de features lancen seguro sin reinventar la rueda por cada servicio."
+    }
   ],
   "projects": [
     {
@@ -21,6 +49,32 @@
       "imageFolder": "project-1"
     },
     {
+      "id": "project-4",
+      "category": "ai",
+      "title_en": "LLM Code Review Assistant",
+      "title_es": "Asistente de Revisión de Código LLM",
+      "description_en": "GitHub bot that reviews pull requests with context-aware suggestions, integrating tree-sitter parsing and repository-level retrieval.",
+      "description_es": "Bot de GitHub que revisa pull requests con sugerencias contextuales, integrando parsing tree-sitter y recuperación a nivel repositorio.",
+      "tools": ["TypeScript", "Anthropic", "tree-sitter", "GitHub Actions"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-4" }
+      ],
+      "imageFolder": "project-4"
+    },
+    {
+      "id": "project-5",
+      "category": "ai",
+      "title_en": "Document Vision Pipeline",
+      "title_es": "Pipeline de Visión Documental",
+      "description_en": "Layout-aware OCR pipeline extracting structured data from invoices and contracts with table reconstruction and confidence scoring.",
+      "description_es": "Pipeline OCR con conciencia de layout que extrae datos estructurados de facturas y contratos, con reconstrucción de tablas y puntuación de confianza.",
+      "tools": ["PyTorch", "LayoutLM", "Tesseract", "FastAPI"],
+      "links": [
+        { "label": "Case Study", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-5"
+    },
+    {
       "id": "project-2",
       "category": "fullstack",
       "title_en": "Real-time Collaboration App",
@@ -34,6 +88,58 @@
       "imageFolder": "project-2"
     },
     {
+      "id": "project-6",
+      "category": "fullstack",
+      "title_en": "Multi-tenant SaaS Billing",
+      "title_es": "Facturación SaaS Multi-tenant",
+      "description_en": "Subscription platform with usage metering, dunning workflows, and tenant-scoped permissions over a row-level-secured Postgres schema.",
+      "description_es": "Plataforma de suscripciones con medición de uso, flujos de dunning y permisos por tenant sobre un esquema Postgres con row-level security.",
+      "tools": ["Next.js", "Stripe", "Prisma", "Postgres", "tRPC"],
+      "links": [
+        { "label": "Demo", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-6"
+    },
+    {
+      "id": "project-7",
+      "category": "fullstack",
+      "title_en": "Realtime Auction Marketplace",
+      "title_es": "Marketplace de Subastas en Vivo",
+      "description_en": "Marketplace with live bidding, anti-sniping extensions, and a settlement worker that posts winners to chain-of-custody storage.",
+      "description_es": "Marketplace con pujas en vivo, extensión anti-sniping y un worker de liquidación que persiste ganadores en almacenamiento de cadena de custodia.",
+      "tools": ["SvelteKit", "Redis Streams", "Postgres", "WebRTC", "Fastify"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-7" }
+      ],
+      "imageFolder": "project-7"
+    },
+    {
+      "id": "project-8",
+      "category": "backend",
+      "title_en": "GraphQL API Gateway",
+      "title_es": "Gateway GraphQL",
+      "description_en": "Federated gateway with per-field caching, persisted queries, and adaptive rate-limiting, serving 40K req/s with p99 under 90ms.",
+      "description_es": "Gateway federado con cacheo por campo, queries persistidas y rate-limiting adaptativo, sirviendo 40K req/s con p99 bajo 90ms.",
+      "tools": ["Go", "Apollo Federation", "Redis", "OpenTelemetry"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-8" }
+      ],
+      "imageFolder": "project-8"
+    },
+    {
+      "id": "project-9",
+      "category": "backend",
+      "title_en": "Event-sourced Order Service",
+      "title_es": "Servicio de Pedidos Event-sourced",
+      "description_en": "Order management microservice on an append-only event log with projections, idempotent handlers, and outbox-pattern publishing.",
+      "description_es": "Microservicio de gestión de pedidos sobre log de eventos append-only con proyecciones, handlers idempotentes y publicación con patrón outbox.",
+      "tools": ["Kotlin", "Kafka", "Postgres", "Axon", "Kubernetes"],
+      "links": [
+        { "label": "Architecture Doc", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-9"
+    },
+    {
       "id": "project-3",
       "category": "cloud",
       "title_en": "Serverless Data Pipeline",
@@ -45,6 +151,105 @@
         { "label": "Case Study", "url": "https://example.com" }
       ],
       "imageFolder": "project-3"
+    },
+    {
+      "id": "project-10",
+      "category": "cloud",
+      "title_en": "Multi-region Kubernetes Platform",
+      "title_es": "Plataforma Kubernetes Multi-región",
+      "description_en": "GitOps-driven multi-region cluster fleet with progressive delivery, secret rotation, and cross-region failover under 30s.",
+      "description_es": "Flota de clústeres multi-región gobernada por GitOps con entrega progresiva, rotación de secretos y failover cross-región bajo 30s.",
+      "tools": ["Kubernetes", "ArgoCD", "Istio", "Vault", "Terraform"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/yourname/project-10" }
+      ],
+      "imageFolder": "project-10"
+    },
+    {
+      "id": "project-11",
+      "category": "cloud",
+      "title_en": "Cost-optimized Data Lake",
+      "title_es": "Data Lake con Optimización de Costes",
+      "description_en": "Iceberg-based lakehouse with tiered storage, on-demand compute, and a cost-aware query router that cut monthly spend by 62%.",
+      "description_es": "Lakehouse basado en Iceberg con almacenamiento por niveles, cómputo bajo demanda y un router de queries con conciencia de coste que redujo el gasto mensual un 62%.",
+      "tools": ["Apache Iceberg", "Trino", "Airflow", "S3", "dbt"],
+      "links": [
+        { "label": "Write-up", "url": "https://example.com" }
+      ],
+      "imageFolder": "project-11"
     }
-  ]
+  ],
+  "skillGroups": [
+    { "id": "languages", "label_en": "Languages", "label_es": "Lenguajes" },
+    { "id": "frontend", "label_en": "Frontend", "label_es": "Frontend" },
+    { "id": "backend", "label_en": "Backend", "label_es": "Backend" },
+    { "id": "data", "label_en": "Data", "label_es": "Datos" },
+    { "id": "ai", "label_en": "AI / ML", "label_es": "IA / ML" },
+    { "id": "devops", "label_en": "DevOps", "label_es": "DevOps" },
+    { "id": "cloud", "label_en": "Cloud", "label_es": "Cloud" },
+    { "id": "tools", "label_en": "Tools / Workflow", "label_es": "Herramientas / Workflow" }
+  ],
+  "skillGroupOf": {
+    "Python": "languages",
+    "TypeScript": "languages",
+    "Go": "languages",
+    "Kotlin": "languages",
+    "React": "frontend",
+    "Next.js": "frontend",
+    "SvelteKit": "frontend",
+    "Yjs": "frontend",
+    "WebRTC": "frontend",
+    "FastAPI": "backend",
+    "Node.js": "backend",
+    "Fastify": "backend",
+    "tRPC": "backend",
+    "WebSockets": "backend",
+    "Apollo Federation": "backend",
+    "Axon": "backend",
+    "Stripe": "backend",
+    "Prisma": "data",
+    "Postgres": "data",
+    "PostgreSQL": "data",
+    "Redis": "data",
+    "Redis Streams": "data",
+    "Kafka": "data",
+    "Apache Iceberg": "data",
+    "Trino": "data",
+    "Airflow": "data",
+    "dbt": "data",
+    "Qdrant": "ai",
+    "OpenAI": "ai",
+    "Anthropic": "ai",
+    "PyTorch": "ai",
+    "LayoutLM": "ai",
+    "Tesseract": "ai",
+    "tree-sitter": "ai",
+    "Docker": "devops",
+    "Kubernetes": "devops",
+    "Terraform": "devops",
+    "GitHub Actions": "devops",
+    "ArgoCD": "devops",
+    "Istio": "devops",
+    "Vault": "devops",
+    "OpenTelemetry": "devops",
+    "Grafana": "devops",
+    "AWS Lambda": "cloud",
+    "Kinesis": "cloud",
+    "S3": "cloud",
+    "Cursor": "tools",
+    "Figma": "tools",
+    "Linear": "tools",
+    "Claude Code": "tools"
+  },
+  "skillIcons": {
+    "Node.js": "nodejs",
+    "C++": "cpp",
+    "C#": "csharp",
+    "tree-sitter": "tree-sitter",
+    "AWS Lambda": "aws",
+    "Apache Iceberg": "iceberg",
+    "Apollo Federation": "apollo",
+    "GitHub Actions": "githubactions"
+  },
+  "skillsExtra": ["Cursor", "Claude Code", "Figma", "Linear"]
 }
