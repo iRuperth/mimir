@@ -1,134 +1,109 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { useMotionValueEvent, useScroll } from 'framer-motion';
 import { config } from '@/config/env';
 import { categories, projects } from '@/config/projects';
-import { Categories } from './Categories';
+import { CategorySection } from './CategorySection';
 import { ProjectCard } from '@/components/project/ProjectCard';
-import type { ProjectDef } from '@/config/projects';
-
-type CategoryId = string | 'all';
+import { LiquidGlass } from '@/components/glass/LiquidGlass';
+import { scrollToElementInstant } from '@/utils/scroll';
+import type { CategoryDef, ProjectDef } from '@/config/projects';
 
 interface CategoryGroup {
-  id: string;
+  category: CategoryDef;
   label: string;
   items: ProjectDef[];
 }
 
-interface EmergingProps {
-  project: ProjectDef;
-  index: number;
-  total: number;
-  phase: MotionValue<number>;
-}
-
-const EmergingProject = ({ project, index, total, phase }: EmergingProps) => {
-  const delay = 0.1 + (index / Math.max(1, total)) * 0.18;
-  const opacity = useTransform(phase, [delay, delay + 0.12, 0.85, 1], [0, 1, 1, 0]);
-  const y = useTransform(phase, [delay, delay + 0.2], [60, 0]);
-
-  return (
-    <motion.div style={{ opacity, y }}>
-      <ProjectCard project={project} compact />
-    </motion.div>
-  );
-};
-
-interface SceneProps {
-  group: CategoryGroup;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-}
-
-const CategoryScene = ({ group, index, total, progress }: SceneProps) => {
-  const start = index / total;
-  const end = (index + 1) / total;
-  const phase = useTransform(progress, [start, end], [0, 1]);
-  const sceneOpacity = useTransform(
-    progress,
-    [start, start + 0.04, end - 0.04, end],
-    [0, 1, 1, 0],
-  );
-
-  return (
-    <motion.div
-      style={{ opacity: sceneOpacity }}
-      className="absolute inset-0 flex items-center justify-center px-6"
-    >
-      <div
-        className="grid w-full max-w-6xl mx-auto gap-6"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(760px, 1100px))', justifyContent: 'center' }}
-      >
-        {group.items.map((p, i) => (
-          <EmergingProject
-            key={p.id}
-            project={p}
-            index={i}
-            total={group.items.length}
-            phase={phase}
-          />
-        ))}
-      </div>
-    </motion.div>
-  );
-};
-
-interface CategoryScenesProps {
+interface SideNavProps {
   groups: CategoryGroup[];
 }
 
-const CategoryScenes = ({ groups }: CategoryScenesProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+const SideNav = ({ groups }: SideNavProps) => {
+  const targetRef = useRef<HTMLElement | null>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [show, setShow] = useState(false);
+
+  /* Track scroll within the wrapping #projects section so the side nav
+     only appears once the user is in the projects area, and so it can
+     highlight whichever category section currently dominates the viewport. */
+  useEffect(() => {
+    targetRef.current = document.getElementById('projects');
+  }, []);
+
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: targetRef,
     offset: ['start start', 'end end'],
   });
 
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    setShow(v > 0 && v < 1);
+  });
+
+  useEffect(() => {
+    const els = groups
+      .map((g) => document.getElementById(`category-${g.category.id}`))
+      .filter((el): el is HTMLElement => el !== null);
+    if (els.length === 0) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length === 0) return;
+        const id = visible[0].target.id.replace(/^category-/, '');
+        const idx = groups.findIndex((g) => g.category.id === id);
+        if (idx >= 0) setActiveIdx(idx);
+      },
+      { rootMargin: '-40% 0px -40% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [groups]);
+
+  if (groups.length <= 1) return null;
+
   return (
-    <div
-      ref={ref}
-      className="relative"
-      style={{ height: `${groups.length * 180}vh` }}
+    <aside
+      aria-label="Project categories"
+      className={`hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2 transition-opacity duration-300 ${
+        show ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
     >
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        {groups.map((g, i) => (
-          <CategoryScene
-            key={g.id}
-            group={g}
-            index={i}
-            total={groups.length}
-            progress={scrollYProgress}
-          />
-        ))}
-      </div>
-    </div>
+      {groups.map((g, i) => (
+        <LiquidGlass
+          key={g.category.id}
+          as="button"
+          type="button"
+          radius={999}
+          refractionHeight={14}
+          refractionAmount={22}
+          chromaticAberration={6}
+          blur={1}
+          onClick={() => scrollToElementInstant(`category-${g.category.id}`, -80)}
+          className={`is-press inline-flex items-center justify-start px-4 py-2 text-xs font-medium min-w-[140px] ${
+            i === activeIdx
+              ? 'is-active text-text'
+              : 'text-text-soft hover:text-text'
+          }`}
+          ariaLabel={`Go to ${g.label}`}
+          ariaCurrent={i === activeIdx ? 'true' : 'false'}
+        >
+          {g.label}
+        </LiquidGlass>
+      ))}
+    </aside>
   );
 };
 
 export const Projects = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage?.startsWith('es') ? 'es' : 'en';
-  const [active, setActive] = useState<CategoryId>('all');
   const animations = config.features.animations;
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const ce = e as CustomEvent<CategoryId>;
-      if (ce.detail) setActive(ce.detail);
-    };
-    window.addEventListener('mimir:filter', handler);
-    return () => window.removeEventListener('mimir:filter', handler);
-  }, []);
-
-  const filtered = useMemo(
-    () => (active === 'all' ? projects : projects.filter((p) => p.category === active)),
-    [active],
-  );
 
   const groups: CategoryGroup[] = useMemo(() => {
     const byCat = new Map<string, ProjectDef[]>();
-    for (const p of filtered) {
+    for (const p of projects) {
       const arr = byCat.get(p.category) ?? [];
       arr.push(p);
       byCat.set(p.category, arr);
@@ -136,41 +111,50 @@ export const Projects = () => {
     return categories
       .filter((c) => byCat.has(c.id))
       .map((c) => ({
-        id: c.id,
+        category: c,
         label: lang === 'es' ? c.label_es : c.label_en,
         items: byCat.get(c.id) ?? [],
       }));
-  }, [filtered, lang]);
+  }, [lang]);
+
+  if (groups.length === 0) {
+    return <p className="text-text-soft italic">{t('projects.empty')}</p>;
+  }
+
+  if (!animations) {
+    return (
+      <div className="flex flex-col gap-16">
+        {groups.map((g) => (
+          <div key={g.category.id} className="flex flex-col gap-6">
+            <h2 className="text-3xl font-bold">{g.label}</h2>
+            <ul
+              className="grid gap-6"
+              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
+            >
+              {g.items.map((p) => (
+                <li key={p.id}>
+                  <ProjectCard project={p} compact />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
-        <h2 className="text-4xl md:text-5xl font-bold">{t('projects.title')}</h2>
-        <Categories active={active} onChange={setActive} />
+    <>
+      <div className="flex flex-col">
+        {groups.map((g) => (
+          <CategorySection
+            key={g.category.id}
+            category={g.category}
+            projects={g.items}
+          />
+        ))}
       </div>
-
-      {groups.length === 0 && (
-        <p className="text-text-soft italic">{t('projects.empty')}</p>
-      )}
-
-      {groups.length > 0 && animations && <CategoryScenes groups={groups} />}
-
-      {groups.length > 0 && !animations && (
-        <div className="flex flex-col gap-12">
-          {groups.map((g) => (
-            <div key={g.id} className="flex flex-col gap-6">
-              <h3 className="text-2xl font-bold">{g.label}</h3>
-              <ul className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-                {g.items.map((p) => (
-                  <li key={p.id}>
-                    <ProjectCard project={p} compact />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+      <SideNav groups={groups} />
+    </>
   );
 };
