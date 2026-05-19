@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { GlassCard } from '@/components/glass/GlassCard';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
@@ -37,6 +37,9 @@ export const ProjectModal = ({ project, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage?.startsWith('es') ? 'es' : 'en';
   const p = localizedProject(project, lang);
+  const [expanded, setExpanded] = useState(false);
+  const detailParagraphs = p.details ? p.details.split(/\n\s*\n/).filter(Boolean) : [];
+  const hasDetails = detailParagraphs.length > 0;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -74,7 +77,7 @@ export const ProjectModal = ({ project, onClose }: Props) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 pointer-events-none"
+        className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-28 pb-8 pointer-events-none"
         role="dialog"
         aria-modal="true"
         aria-label={p.title}
@@ -82,11 +85,24 @@ export const ProjectModal = ({ project, onClose }: Props) => {
         <motion.div
           layoutId={`project-card-${project.id}`}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-[28px] pointer-events-auto"
+          className="relative w-full max-w-6xl max-h-[96vh] overflow-hidden rounded-[28px] pointer-events-auto"
           transition={{ type: 'spring', stiffness: 220, damping: 28 }}
         >
         <GlassCard radius={28} className="!overflow-hidden">
-          <div className="relative overflow-y-auto max-h-[90vh]">
+          <div className="relative overflow-y-auto max-h-[96vh] no-scrollbar">
+            {expanded && (
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="absolute top-4 right-16 z-10 w-9 h-9 rounded-full flex items-center justify-center text-text bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 transition-colors"
+                aria-label={t('projects.showLess')}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m18 15-6-6-6 6" />
+                </svg>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={onClose}
@@ -103,63 +119,103 @@ export const ProjectModal = ({ project, onClose }: Props) => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="grid md:grid-cols-2 gap-6 p-6 md:p-8"
+              className="flex flex-col gap-5 p-5 md:p-6"
             >
-              <div className="w-full">
+              <h3 className="text-xl md:text-3xl font-bold tracking-tight pr-12">
+                {p.title}
+              </h3>
+
+              <div className="w-full max-w-5xl mx-auto">
                 <ImageCarousel images={p.images} alt={p.title} />
               </div>
 
-              <div className="flex flex-col gap-4">
-                <h3 className="text-2xl md:text-3xl font-bold tracking-tight">{p.title}</h3>
-                <p className="text-text-soft leading-relaxed">{p.description}</p>
+              <AnimatePresence initial={false}>
+                {expanded && (
+                  <motion.div
+                    key="expand"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-col gap-5 pt-1">
+                      {p.tools.length > 0 && (
+                        <ul className="flex flex-wrap gap-2 justify-center">
+                          {p.tools.map((tool) => (
+                            <LiquidGlass
+                              key={tool}
+                              as="li"
+                              radius={999}
+                              refractionHeight={10}
+                              refractionAmount={14}
+                              chromaticAberration={4}
+                              blur={1}
+                              className="px-3 py-1 text-xs font-medium"
+                            >
+                              {tool}
+                            </LiquidGlass>
+                          ))}
+                        </ul>
+                      )}
 
-                {p.tools.length > 0 && (
-                  <div className="flex flex-col gap-2 mt-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-text-soft">
-                      {t('projects.tools')}
-                    </span>
-                    <ul className="flex flex-wrap gap-2">
-                      {p.tools.map((tool) => (
-                        <LiquidGlass
-                          key={tool}
-                          as="li"
-                          radius={999}
-                          refractionHeight={10}
-                          refractionAmount={14}
-                          chromaticAberration={4}
-                          blur={1}
-                          className="px-3 py-1 text-xs font-medium"
-                        >
-                          {tool}
-                        </LiquidGlass>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                      <div className="relative rounded-2xl bg-white/5 border border-white/10 p-5 md:p-6">
+                        <p className="text-text-soft leading-relaxed md:text-lg">
+                          {p.description}
+                        </p>
 
-                {p.links.length > 0 && (
-                  <ul className="flex flex-wrap gap-2 mt-2">
-                    {p.links.map((link) => (
-                      <li key={link.url + link.label}>
-                        <LiquidGlass
-                          as="a"
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          radius={999}
-                          refractionHeight={14}
-                          refractionAmount={22}
-                          chromaticAberration={6}
-                          blur={1}
-                          className="is-press px-4 py-2 text-sm font-medium inline-flex items-center gap-1.5"
-                        >
-                          {link.label}
-                          <ExternalIcon />
-                        </LiquidGlass>
-                      </li>
-                    ))}
-                  </ul>
+                        {hasDetails && (
+                          <div className="flex flex-col gap-3 pt-4 text-text-soft leading-relaxed">
+                            {detailParagraphs.map((para, i) => (
+                              <p key={i}>{para}</p>
+                            ))}
+                          </div>
+                        )}
+
+                        {p.links.length > 0 && (
+                          <ul className="flex flex-wrap gap-2 mt-4">
+                            {p.links.map((link) => (
+                              <li key={link.url + link.label}>
+                                <LiquidGlass
+                                  as="a"
+                                  href={link.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  radius={999}
+                                  refractionHeight={14}
+                                  refractionAmount={22}
+                                  chromaticAberration={6}
+                                  blur={1}
+                                  className="is-press px-4 py-2 text-sm font-medium inline-flex items-center gap-1.5 whitespace-nowrap"
+                                >
+                                  {link.label}
+                                  <ExternalIcon />
+                                </LiquidGlass>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
                 )}
+              </AnimatePresence>
+
+              <div className="flex justify-end">
+                <LiquidGlass
+                  as="button"
+                  type="button"
+                  onClick={() => setExpanded((v) => !v)}
+                  aria-expanded={expanded}
+                  radius={999}
+                  refractionHeight={14}
+                  refractionAmount={22}
+                  chromaticAberration={6}
+                  blur={1}
+                  className="is-press px-6 py-3 text-base font-semibold"
+                >
+                  {expanded ? t('projects.showLess') : t('projects.showMore')}
+                </LiquidGlass>
               </div>
             </motion.div>
           </div>

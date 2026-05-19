@@ -24,6 +24,8 @@
     "skills": "Skills",
     "view": "View project",
     "close": "Close",
+    "showMore": "Show more",
+    "showLess": "Show less",
     "empty": "No projects in this category yet."
   },
   "contact": {

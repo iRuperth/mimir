@@ -24,6 +24,8 @@
     "skills": "Habilidades",
     "view": "Ver proyecto",
     "close": "Cerrar",
+    "showMore": "Ver más",
+    "showLess": "Ver menos",
     "empty": "Aún no hay proyectos en esta categoría."
   },
   "contact": {
