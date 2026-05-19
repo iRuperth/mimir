@@ -3,7 +3,13 @@
     "home": "Inicio",
     "about": "Sobre mí",
     "projects": "Proyectos",
+    "skills": "Habilidades",
     "contact": "Contacto"
+  },
+  "skills": {
+    "title": "Habilidades",
+    "subtitle": "La caja de herramientas completa — agrupadas según dónde vive cada pieza en el stack.",
+    "usedIn": "Usado en"
   },
   "hero": {
     "scroll": "Desplázate para explorar"
@@ -15,6 +21,9 @@
     "title": "Proyectos",
     "all": "Todos",
     "tools": "Herramientas",
+    "skills": "Habilidades",
+    "view": "Ver proyecto",
+    "close": "Cerrar",
     "empty": "Aún no hay proyectos en esta categoría."
   },
   "contact": {
@@ -26,12 +35,21 @@
     "and": "y",
     "rights": "Todos los derechos reservados."
   },
+  "socials": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Correo",
+    "phone": "Teléfono",
+    "x": "X",
+    "instagram": "Instagram"
+  },
   "controls": {
     "theme_light": "Modo claro",
     "theme_dark": "Modo oscuro",
     "language": "Idioma",
     "colorblind": "Modo daltónico",
     "music_on": "Reproducir música",
-    "music_off": "Pausar música"
+    "music_off": "Pausar música",
+    "volume": "Volumen"
   }
 }

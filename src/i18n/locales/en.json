@@ -3,7 +3,13 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
+    "skills": "Skills",
     "contact": "Contact"
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "The full toolbox — grouped by where each piece lives in the stack.",
+    "usedIn": "Used in"
   },
   "hero": {
     "scroll": "Scroll to explore"
@@ -15,6 +21,9 @@
     "title": "Projects",
     "all": "All",
     "tools": "Tools",
+    "skills": "Skills",
+    "view": "View project",
+    "close": "Close",
     "empty": "No projects in this category yet."
   },
   "contact": {
@@ -26,12 +35,21 @@
     "and": "and",
     "rights": "All rights reserved."
   },
+  "socials": {
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "Email",
+    "phone": "Phone",
+    "x": "X",
+    "instagram": "Instagram"
+  },
   "controls": {
     "theme_light": "Light mode",
     "theme_dark": "Dark mode",
     "language": "Language",
     "colorblind": "Colorblind mode",
     "music_on": "Play music",
-    "music_off": "Pause music"
+    "music_off": "Pause music",
+    "volume": "Volume"
   }
 }
