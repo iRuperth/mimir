@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { config } from '@/config/env';
 
 const ScrollChevron = () => (
@@ -43,6 +43,23 @@ const Avatar = ({ src, name, className = '' }: { src: string; name: string; clas
       />
     </div>
   );
+};
+
+/* Word-by-word entrance: each word fades up from the left so the line
+   reads in left-to-right, matching the Apple-style ease used elsewhere. */
+const wordContainer = (delayChildren: number, staggerChildren = 0.09): Variants => ({
+  hidden: {},
+  visible: { transition: { delayChildren, staggerChildren } },
+});
+
+const wordChild: Variants = {
+  hidden: { opacity: 0, x: -22, filter: 'blur(8px)' },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
 export const Hero = () => {
@@ -93,15 +110,15 @@ export const Hero = () => {
         style={{ opacity: textOpacity, y: textY }}
         className="relative z-10 flex flex-col items-center gap-6 text-center max-w-4xl"
       >
-        {/* Avatar entrance: scale from 0.7 + blur out as it settles,
-           matching the Apple-style ease used elsewhere. The outer
-           motion.div handles entrance, the inner motion.div applies
-           the scroll-driven scale, and the deepest div handles the
-           hover scale via CSS so all three compose cleanly. */}
+        {/* Avatar entrance: a plain soft fade-in — no movement, no
+           scale — matching the Apple-style ease used elsewhere. The
+           outer motion.div handles entrance, the inner motion.div
+           applies the scroll-driven scale, and the deepest div handles
+           the hover scale via CSS so all three compose cleanly. */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.7, filter: 'blur(14px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div style={{ scale: avatarScale }}>
             <div className="transition-transform duration-500 ease-out hover:scale-110 motion-reduce:transform-none">
@@ -111,21 +128,29 @@ export const Hero = () => {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 32, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-          className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-text to-text-soft bg-clip-text"
+          variants={wordContainer(0.3)}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-x-[0.28em] text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-text to-text-soft bg-clip-text"
         >
-          {name}
+          {name.split(' ').map((word, i) => (
+            <motion.span key={`${word}-${i}`} variants={wordChild} className="inline-block">
+              {word}
+            </motion.span>
+          ))}
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-          className="text-xl md:text-2xl text-text-soft"
+          variants={wordContainer(0.6, 0.08)}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap justify-center gap-x-[0.3em] text-xl md:text-2xl text-text-soft"
         >
-          {title}
+          {title.split(' ').map((word, i) => (
+            <motion.span key={`${word}-${i}`} variants={wordChild} className="inline-block">
+              {word}
+            </motion.span>
+          ))}
         </motion.p>
       </motion.div>
 
