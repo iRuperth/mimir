@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { config } from '@/config/env';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { SocialLinks } from './SocialLinks';
+import { scrollToElementInstant } from '@/utils/scroll';
 
 const containerVariants = {
   hidden: {},
@@ -19,10 +20,33 @@ const itemVariants = {
   },
 };
 
+const NAV_OFFSET = -80;
+
 export const Footer = () => {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
   const animations = config.features.animations;
+  const tagline = config.footer.tagline;
+  const guestbookEnabled = config.guestbook.enabled;
+
+  const middle = (
+    <div className="flex flex-col items-center gap-1.5 text-center">
+      {guestbookEnabled && (
+        <button
+          type="button"
+          onClick={() => scrollToElementInstant('guestbook', NAV_OFFSET)}
+          className="text-sm font-medium text-text hover:text-accent transition-colors"
+        >
+          {t('footer.leave_note')}
+        </button>
+      )}
+      {tagline && (
+        <p className="text-xs uppercase tracking-[0.18em] text-text-soft">
+          {tagline}
+        </p>
+      )}
+    </div>
+  );
 
   const inner = (
     <LiquidGlass
@@ -49,19 +73,9 @@ export const Footer = () => {
       )}
 
       {animations ? (
-        <motion.p variants={itemVariants} className="text-xs text-text-soft text-center">
-          {t('footer.made')}{' '}
-          <span aria-hidden="true" className="text-accent">
-            &#9829;
-          </span>
-        </motion.p>
+        <motion.div variants={itemVariants}>{middle}</motion.div>
       ) : (
-        <p className="text-xs text-text-soft text-center">
-          {t('footer.made')}{' '}
-          <span aria-hidden="true" className="text-accent">
-            &#9829;
-          </span>
-        </p>
+        middle
       )}
 
       {animations ? (
