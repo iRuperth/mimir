@@ -27,11 +27,11 @@ export const ProjectGridCard = ({ project, onSelect }: Props) => {
       layoutId={`project-card-${project.id}`}
       whileHover={{ y: -4 }}
       transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-      className="text-left w-full block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-[24px]"
+      className="text-left w-full h-full block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-[24px]"
       aria-label={`${t('projects.view')}: ${p.title}`}
     >
-      <GlassCard radius={24} className="overflow-hidden">
-        <div className="flex flex-col">
+      <GlassCard radius={24} className="overflow-hidden h-full">
+        <div className="flex flex-col h-full">
           <div className="aspect-[16/10] w-full overflow-hidden">
             {cover ? (
               <img
@@ -44,13 +44,13 @@ export const ProjectGridCard = ({ project, onSelect }: Props) => {
               <div className="w-full h-full bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
             )}
           </div>
-          <div className="flex flex-col gap-2 p-5">
+          <div className="flex flex-col gap-2 p-5 flex-1">
             <h4 className="text-lg font-semibold tracking-tight">{p.title}</h4>
             <p className="text-sm text-text-soft leading-relaxed line-clamp-3">
               {p.description}
             </p>
             {p.tools.length > 0 && (
-              <ul className="flex flex-wrap gap-1.5 mt-2">
+              <ul className="flex flex-wrap gap-1.5 mt-auto pt-2">
                 {p.tools.slice(0, 4).map((tool) => (
                   <li
                     key={tool}
