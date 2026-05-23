@@ -4,6 +4,7 @@
     "about": "About",
     "projects": "Projects",
     "skills": "Skills",
+    "guestbook": "Guestbook",
     "contact": "Contact"
   },
   "skills": {
@@ -32,10 +33,33 @@
     "title": "Let's connect",
     "subtitle": "I'm always open to interesting conversations and new opportunities."
   },
+  "guestbook": {
+    "title": "Leave a note",
+    "subtitle": "Drop a line. It will be visible to anyone who visits.",
+    "disabled": "The guestbook has not been configured.",
+    "form": {
+      "email": "Email",
+      "email_help": "Not shown publicly.",
+      "full_name": "Full name",
+      "role": "Role (optional)",
+      "comment": "Comment",
+      "char_count": "{{count}}/{{max}}",
+      "submit": "Post note",
+      "submitting": "Posting...",
+      "success": "Thanks for your note.",
+      "error": "Could not save the note. Please try again.",
+      "incomplete": "Fill in a valid email, your name and a comment."
+    },
+    "list": {
+      "title": "Recent notes",
+      "loading": "Loading notes...",
+      "load_error": "Could not load notes.",
+      "empty": "No notes yet. Be the first."
+    }
+  },
   "footer": {
-    "made": "Made with",
-    "and": "and",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "leave_note": "Leave a note"
   },
   "socials": {
     "github": "GitHub",

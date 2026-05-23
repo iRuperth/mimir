@@ -4,6 +4,7 @@
     "about": "Sobre mí",
     "projects": "Proyectos",
     "skills": "Habilidades",
+    "guestbook": "Mensajes",
     "contact": "Contacto"
   },
   "skills": {
@@ -32,10 +33,33 @@
     "title": "Conectemos",
     "subtitle": "Siempre estoy abierto a conversaciones interesantes y nuevas oportunidades."
   },
+  "guestbook": {
+    "title": "Dejar una nota",
+    "subtitle": "Escribe unas líneas. Será visible para cualquiera que visite.",
+    "disabled": "El libro de visitas no está configurado.",
+    "form": {
+      "email": "Correo",
+      "email_help": "No se muestra públicamente.",
+      "full_name": "Nombre completo",
+      "role": "Cargo (opcional)",
+      "comment": "Comentario",
+      "char_count": "{{count}}/{{max}}",
+      "submit": "Publicar nota",
+      "submitting": "Publicando...",
+      "success": "Gracias por tu nota.",
+      "error": "No se pudo guardar la nota. Inténtalo de nuevo.",
+      "incomplete": "Rellena un correo válido, tu nombre y un comentario."
+    },
+    "list": {
+      "title": "Notas recientes",
+      "loading": "Cargando notas...",
+      "load_error": "No se pudieron cargar las notas.",
+      "empty": "Aún no hay notas. Sé el primero."
+    }
+  },
   "footer": {
-    "made": "Hecho con",
-    "and": "y",
-    "rights": "Todos los derechos reservados."
+    "rights": "Todos los derechos reservados.",
+    "leave_note": "Dejar una nota"
   },
   "socials": {
     "github": "GitHub",

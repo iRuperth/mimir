@@ -41,6 +41,19 @@ interface ImportMetaEnv {
   readonly VITE_MUSIC_ENABLED?: string;
   readonly VITE_MUSIC_FILE?: string;
   readonly VITE_MUSIC_VOLUME?: string;
+
+  readonly VITE_FOOTER_TAGLINE?: string;
+
+  readonly VITE_GUESTBOOK_ENABLED?: string;
+  readonly VITE_SUPABASE_URL?: string;
+  readonly VITE_SUPABASE_ANON_KEY?: string;
+  readonly VITE_GUESTBOOK_TABLE?: string;
+  readonly VITE_GUESTBOOK_PUBLIC_VIEW?: string;
+  readonly VITE_GUESTBOOK_NAME_MAX?: string;
+  readonly VITE_GUESTBOOK_ROLE_MAX?: string;
+  readonly VITE_GUESTBOOK_COMMENT_MAX?: string;
+  readonly VITE_GUESTBOOK_EMAIL_MAX?: string;
+  readonly VITE_GUESTBOOK_LIST_LIMIT?: string;
 }
 
 interface ImportMeta {

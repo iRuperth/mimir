@@ -87,6 +87,28 @@ export const config = {
     file: asset(e.VITE_MUSIC_FILE),
     volume: Math.min(1, Math.max(0, num(e.VITE_MUSIC_VOLUME, 0.3))),
   },
+
+  footer: {
+    tagline: str(e.VITE_FOOTER_TAGLINE, ''),
+  },
+
+  guestbook: {
+    enabled:
+      bool(e.VITE_GUESTBOOK_ENABLED, false) &&
+      (e.VITE_SUPABASE_URL ?? '').length > 0 &&
+      (e.VITE_SUPABASE_ANON_KEY ?? '').length > 0,
+    supabaseUrl: str(e.VITE_SUPABASE_URL, ''),
+    supabaseAnonKey: str(e.VITE_SUPABASE_ANON_KEY, ''),
+    table: str(e.VITE_GUESTBOOK_TABLE, 'guestbook'),
+    publicView: str(e.VITE_GUESTBOOK_PUBLIC_VIEW, 'guestbook_public'),
+    limits: {
+      email: Math.max(3, num(e.VITE_GUESTBOOK_EMAIL_MAX, 254)),
+      name: Math.max(1, num(e.VITE_GUESTBOOK_NAME_MAX, 80)),
+      role: Math.max(1, num(e.VITE_GUESTBOOK_ROLE_MAX, 80)),
+      comment: Math.max(1, num(e.VITE_GUESTBOOK_COMMENT_MAX, 500)),
+    },
+    listLimit: Math.max(1, num(e.VITE_GUESTBOOK_LIST_LIMIT, 50)),
+  },
 } as const;
 
 export type AppConfig = typeof config;

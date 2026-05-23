@@ -11,6 +11,7 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.1",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^11.11.0",
     "i18next": "^23.15.1",
