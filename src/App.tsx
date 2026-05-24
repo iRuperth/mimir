@@ -9,6 +9,7 @@ import { Projects } from '@/components/sections/Projects';
 import { Skills } from '@/components/sections/Skills';
 import { Guestbook } from '@/components/sections/Guestbook';
 import { GlassTuner } from '@/components/glass/GlassTuner';
+import { ScrollFade } from '@/components/motion/ScrollFade';
 import { config } from '@/config/env';
 
 const containerClass = 'mx-auto w-full max-w-[1480px] px-6 md:px-12 py-24 md:py-32 scroll-mt-24';
@@ -37,17 +38,23 @@ const App = () => {
       <main>
         <Hero />
         <section id="about" className={containerClass}>
-          <About />
+          <ScrollFade>
+            <About />
+          </ScrollFade>
         </section>
         <section id="projects" className={containerClass}>
           <Projects />
         </section>
         <section id="skills" className={containerClass}>
-          <Skills />
+          <ScrollFade>
+            <Skills />
+          </ScrollFade>
         </section>
         {config.guestbook.enabled && (
           <section id="guestbook" className={containerClass}>
-            <Guestbook />
+            <ScrollFade>
+              <Guestbook />
+            </ScrollFade>
           </section>
         )}
       </main>
