@@ -42,7 +42,7 @@ export const Footer = () => {
       chromaticAberration={10}
       depthEffect={0.3}
       blur={2}
-      className="mx-auto w-full max-w-[1480px] px-6 md:px-10 py-6"
+      className="mx-auto w-[80%] max-w-[1600px] px-6 md:px-10 py-6"
       contentClassName="flex flex-col gap-4 md:grid md:grid-cols-3 md:items-center"
     >
       {animations ? (
