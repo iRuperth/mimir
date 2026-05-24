@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import useEmblaCarousel from 'embla-carousel-react';
+import AutoScroll from 'embla-carousel-auto-scroll';
 import { config } from '@/config/env';
 import { GlassCard } from '@/components/glass/GlassCard';
 import { useGuestbook, type GuestbookEntry } from '@/hooks/useGuestbook';
@@ -22,7 +23,6 @@ const itemVariants = {
 };
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-const CAROUSEL_AUTOPLAY_MS = 5000;
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -41,15 +41,69 @@ const formatDate = (iso: string, lang: string): string => {
 interface EntryCardProps {
   entry: GuestbookEntry;
   lang: string;
+  expanded: boolean;
+  onExpand: () => void;
+  onCollapse: () => void;
 }
 
-const EntryCard = ({ entry, lang }: EntryCardProps) => (
-  <GlassCard className="p-6 h-full">
-    <div className="flex flex-col gap-3 h-full">
-      <p className="text-sm leading-relaxed whitespace-pre-wrap flex-1">
+const CLAMP_LINES = 3;
+
+const EntryCard = ({ entry, lang, expanded, onExpand, onCollapse }: EntryCardProps) => {
+  const { t } = useTranslation();
+  const textRef = useRef<HTMLParagraphElement | null>(null);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useEffect(() => {
+    const measure = () => {
+      const el = textRef.current;
+      if (!el) return;
+      const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+      const maxHeight = lineHeight * CLAMP_LINES;
+      setOverflowing(el.scrollHeight > maxHeight + 1);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [entry.comment]);
+
+  const handleToggle = () => {
+    if (expanded) onCollapse();
+    else onExpand();
+  };
+
+  return (
+    <div
+      className="entry-card p-6 h-full rounded-2xl flex flex-col gap-3 transition-transform duration-500 ease-out hover:scale-[1.04]"
+    >
+      <p
+        ref={textRef}
+        className={`text-sm leading-relaxed whitespace-pre-wrap flex-1 ${
+          expanded ? '' : 'line-clamp-3'
+        }`}
+      >
         {entry.comment}
       </p>
-      <div className="flex flex-col gap-0.5 pt-3 border-t border-white/10">
+
+      {overflowing && (
+        <button
+          type="button"
+          onClick={handleToggle}
+          aria-expanded={expanded}
+          className="liquid-glass is-press relative inline-flex self-start items-center justify-center px-3 py-1 text-xs font-semibold text-text rounded-full overflow-hidden"
+        >
+          <span
+            aria-hidden="true"
+            className="lg-highlight absolute inset-0 pointer-events-none rounded-full"
+          />
+          <span className="relative z-[1]">
+            {expanded
+              ? t('guestbook.actions.read_less')
+              : t('guestbook.actions.see_more')}
+          </span>
+        </button>
+      )}
+
+      <div className="flex flex-col gap-0.5 pt-3 border-t border-white/15">
         <h4 className="text-sm font-semibold tracking-tight">{entry.full_name}</h4>
         <div className="flex items-baseline justify-between gap-3">
           {entry.role ? (
@@ -66,8 +120,8 @@ const EntryCard = ({ entry, lang }: EntryCardProps) => (
         </div>
       </div>
     </div>
-  </GlassCard>
-);
+  );
+};
 
 interface CarouselProps {
   entries: GuestbookEntry[];
@@ -76,73 +130,66 @@ interface CarouselProps {
 
 const EntriesCarousel = ({ entries, lang }: CarouselProps) => {
   const canLoop = entries.length > 1;
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: canLoop,
-    align: 'start',
-    skipSnaps: false,
-  });
-  const [paused, setPaused] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-    return () => {
-      emblaApi.off('select', onSelect);
-      emblaApi.off('reInit', onSelect);
-    };
-  }, [emblaApi, onSelect]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: canLoop,
+      align: 'start',
+      skipSnaps: false,
+      dragFree: true,
+    },
+    canLoop
+      ? [
+          AutoScroll({
+            speed: 0.6,
+            startDelay: 0,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+            stopOnFocusIn: true,
+          }),
+        ]
+      : [],
+  );
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!emblaApi || paused || !canLoop) return;
-    const id = window.setInterval(() => emblaApi.scrollNext(), CAROUSEL_AUTOPLAY_MS);
-    return () => window.clearInterval(id);
-  }, [emblaApi, paused, canLoop]);
+    if (!emblaApi || !canLoop) return;
+    const auto = emblaApi.plugins().autoScroll;
+    if (!auto) return;
+    if (expandedId !== null) auto.stop();
+    else auto.play();
+  }, [emblaApi, canLoop, expandedId]);
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex -ml-4">
+    <div className="relative">
+      <div
+        className="overflow-hidden"
+        ref={emblaRef}
+        style={{
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+          maskImage:
+            'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+        }}
+      >
+        <div className="flex -ml-6 py-6">
           {entries.map((entry) => (
             <div
               key={entry.id}
-              className="pl-4 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0"
+              className="pl-6 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0"
             >
-              <EntryCard entry={entry} lang={lang} />
+              <EntryCard
+                entry={entry}
+                lang={lang}
+                expanded={expandedId === entry.id}
+                onExpand={() => setExpandedId(entry.id)}
+                onCollapse={() =>
+                  setExpandedId((id) => (id === entry.id ? null : id))
+                }
+              />
             </div>
           ))}
         </div>
       </div>
-
-      {canLoop && (
-        <div className="flex justify-center gap-1.5 mt-5">
-          {entries.map((entry, i) => (
-            <button
-              key={entry.id}
-              type="button"
-              onClick={() => emblaApi?.scrollTo(i)}
-              aria-label={`Go to note ${i + 1}`}
-              aria-current={i === selectedIndex}
-              className={`h-1.5 rounded-full transition-all ${
-                i === selectedIndex ? 'w-5 bg-accent' : 'w-1.5 bg-white/30 hover:bg-white/55'
-              }`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -150,8 +197,6 @@ const EntriesCarousel = ({ entries, lang }: CarouselProps) => {
 export const Guestbook = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage?.startsWith('es') ? 'es' : 'en';
-  const animations = config.features.animations;
-  const ref = useRef<HTMLDivElement>(null);
   const { entries, loading, loadError, submit } = useGuestbook();
   const limits = config.guestbook.limits;
 
@@ -161,18 +206,7 @@ export const Guestbook = () => {
   const [comment, setComment] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [errorMsg, setErrorMsg] = useState('');
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'center center'],
-  });
-  const wrapperOpacity = useTransform(scrollYProgress, [0, 0.6], [0, 1]);
-  const wrapperY = useTransform(scrollYProgress, [0, 0.6], [60, 0]);
-  const wrapperFilter = useTransform(
-    scrollYProgress,
-    [0, 0.6],
-    ['blur(12px)', 'blur(0px)'],
-  );
+  const [formOpen, setFormOpen] = useState(false);
 
   const valid = useMemo(() => {
     if (email.trim().length === 0 || !EMAIL_RE.test(email.trim())) return false;
@@ -205,6 +239,7 @@ export const Guestbook = () => {
       setRole('');
       setComment('');
       setStatus('success');
+      setFormOpen(false);
     } else {
       setErrorMsg(result.reason);
       setStatus('error');
@@ -327,10 +362,10 @@ export const Guestbook = () => {
   );
 
   const list = (
-    <div className="flex flex-col gap-4">
-      <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-text-soft">
+    <div className="flex flex-col gap-6">
+      <h2 className="text-4xl md:text-5xl font-bold">
         {t('guestbook.list.title')}
-      </h3>
+      </h2>
       {loading && (
         <p className="text-sm text-text-soft">{t('guestbook.list.loading')}</p>
       )}
@@ -346,7 +381,7 @@ export const Guestbook = () => {
     </div>
   );
 
-  const content = (
+  return (
     <div className="flex flex-col gap-10">
       <motion.div
         variants={containerVariants}
@@ -355,33 +390,31 @@ export const Guestbook = () => {
         viewport={{ once: true, margin: '-15%' }}
         className="flex flex-col gap-6"
       >
-        <motion.div variants={itemVariants} className="flex flex-col gap-3 max-w-2xl">
-          <h2 className="text-4xl md:text-5xl font-bold">{t('guestbook.title')}</h2>
-          <p className="text-lg text-text-soft">{t('guestbook.subtitle')}</p>
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <GlassCard className="p-6 md:p-8">{form}</GlassCard>
-        </motion.div>
-
         <motion.div variants={itemVariants}>{list}</motion.div>
+
+        <motion.div variants={itemVariants} className="flex flex-col gap-4 items-start">
+          <button
+            type="button"
+            onClick={() => setFormOpen((v) => !v)}
+            aria-expanded={formOpen}
+            className="liquid-glass is-press is-active relative inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-text rounded-full overflow-hidden"
+          >
+            <span
+              aria-hidden="true"
+              className="lg-highlight absolute inset-0 pointer-events-none rounded-full"
+            />
+            <span className="relative z-[1]">
+              {formOpen ? t('guestbook.actions.close') : t('guestbook.actions.open')}
+            </span>
+          </button>
+
+          {formOpen && (
+            <div className="w-full">
+              <GlassCard className="p-6 md:p-8">{form}</GlassCard>
+            </div>
+          )}
+        </motion.div>
       </motion.div>
     </div>
-  );
-
-  if (!animations) return content;
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{
-        opacity: wrapperOpacity,
-        y: wrapperY,
-        filter: wrapperFilter,
-        willChange: 'opacity, transform, filter',
-      }}
-    >
-      {content}
-    </motion.div>
   );
 };

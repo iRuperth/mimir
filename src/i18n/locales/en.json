@@ -51,10 +51,16 @@
       "incomplete": "Fill in a valid email, your name and a comment."
     },
     "list": {
-      "title": "Recent notes",
+      "title": "What they say",
       "loading": "Loading notes...",
       "load_error": "Could not load notes.",
       "empty": "No notes yet. Be the first."
+    },
+    "actions": {
+      "open": "Leave a note",
+      "close": "Cancel",
+      "see_more": "See more",
+      "read_less": "See less"
     }
   },
   "footer": {

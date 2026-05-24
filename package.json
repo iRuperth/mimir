@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.1",
+    "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^11.11.0",
     "i18next": "^23.15.1",
