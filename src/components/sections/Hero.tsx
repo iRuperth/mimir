@@ -83,7 +83,7 @@ export const Hero = () => {
       <section
         ref={ref}
         id="home"
-        className="relative min-h-screen flex items-start justify-center px-6 pt-28 md:pt-36"
+        className="relative min-h-screen flex items-center justify-center px-6 pt-24 md:pt-28 pb-[30vh]"
       >
         <div className="flex flex-col items-center gap-6 text-center max-w-4xl">
           <div className="transition-transform duration-500 ease-out hover:scale-110 motion-reduce:transform-none">
@@ -104,7 +104,7 @@ export const Hero = () => {
     <section
       ref={ref}
       id="home"
-      className="relative min-h-screen flex items-start justify-center px-6 pt-28 md:pt-36 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center px-6 pt-24 md:pt-28 pb-[30vh] overflow-hidden"
     >
       <motion.div
         style={{ opacity: textOpacity, y: textY }}
