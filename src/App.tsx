@@ -7,7 +7,6 @@ import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { Projects } from '@/components/sections/Projects';
 import { Skills } from '@/components/sections/Skills';
-import { Contact } from '@/components/sections/Contact';
 import { Guestbook } from '@/components/sections/Guestbook';
 import { GlassTuner } from '@/components/glass/GlassTuner';
 import { config } from '@/config/env';
@@ -51,9 +50,6 @@ const App = () => {
             <Guestbook />
           </section>
         )}
-        <section id="contact" className={containerClass}>
-          <Contact />
-        </section>
       </main>
 
       <Footer />
