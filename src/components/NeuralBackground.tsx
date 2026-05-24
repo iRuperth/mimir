@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { config } from '@/config/env';
 
 interface Neuron {
   x: number;
@@ -11,7 +12,6 @@ interface Neuron {
   pulseSpeed: number;
 }
 
-const NEURON_COUNT = 130;
 const MAX_DIST = 190;
 const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
 
@@ -61,7 +61,7 @@ export const NeuralBackground = () => {
 
     const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
 
-    const neurons: Neuron[] = Array.from({ length: NEURON_COUNT }, () => ({
+    const neurons: Neuron[] = Array.from({ length: config.background.neuronCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.2,

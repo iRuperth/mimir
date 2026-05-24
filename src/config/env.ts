@@ -92,6 +92,10 @@ export const config = {
     tagline: str(e.VITE_FOOTER_TAGLINE, ''),
   },
 
+  background: {
+    neuronCount: Math.max(0, Math.round(num(e.VITE_BACKGROUND_NEURONS, 130))),
+  },
+
   guestbook: {
     enabled:
       bool(e.VITE_GUESTBOOK_ENABLED, false) &&
