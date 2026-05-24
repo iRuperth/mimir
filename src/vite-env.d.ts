@@ -46,6 +46,8 @@ interface ImportMetaEnv {
 
   readonly VITE_BACKGROUND_NEURONS?: string;
 
+  readonly VITE_DEV_GLASS_TUNER?: string;
+
   readonly VITE_GUESTBOOK_ENABLED?: string;
   readonly VITE_SUPABASE_URL?: string;
   readonly VITE_SUPABASE_ANON_KEY?: string;

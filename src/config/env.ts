@@ -96,6 +96,10 @@ export const config = {
     neuronCount: Math.max(0, Math.round(num(e.VITE_BACKGROUND_NEURONS, 130))),
   },
 
+  devTools: {
+    glassTuner: bool(e.VITE_DEV_GLASS_TUNER, false),
+  },
+
   guestbook: {
     enabled:
       bool(e.VITE_GUESTBOOK_ENABLED, false) &&

@@ -53,7 +53,7 @@ const App = () => {
       </main>
 
       <Footer />
-      <GlassTuner />
+      {config.devTools.glassTuner && <GlassTuner />}
     </GlassTuningProvider>
   );
 };
