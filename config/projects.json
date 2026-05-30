@@ -130,7 +130,7 @@
       "title_es": "SADAR",
       "description_en": "Smart Anomaly Detection for Aviation Routes. A one-class system that learns what a normal approach and departure looks like over Madrid-Barajas from ~20,000 real ADS-B trajectories, then flags any flight that drifts from the pattern: route deviations, inconsistent altitudes, transponder freezes, emergency-like maneuvers. Four detectors (Isolation Forest, LSTM Autoencoder, Transformer Autoencoder and a VAE-LSTM) are trained on normal flights only and compared by PR-AUC on a strict time-split hold-out, with a 24,000-case synthetic anomaly bench. A FastAPI backend serves inference to a React dashboard that emulates a real control-tower scope, with live radar, a controlled anomaly injector, and a model-comparison panel.",
       "description_es": "Smart Anomaly Detection for Aviation Routes. Un sistema one-class que aprende cómo es una aproximación y salida normal sobre Madrid-Barajas a partir de ~20.000 trayectorias ADS-B reales, y luego marca cualquier vuelo que se aparte del patrón: desvíos de ruta, altitudes inconsistentes, cortes de transpondedor, maniobras compatibles con emergencias. Cuatro detectores (Isolation Forest, LSTM Autoencoder, Transformer Autoencoder y un VAE-LSTM) se entrenan solo con vuelos normales y se comparan por PR-AUC sobre un held-out con split temporal estricto, con un banco sintético de 24.000 casos de anomalía. Un backend FastAPI sirve la inferencia a un dashboard en React que emula una consola de torre de control real, con radar en vivo, un inyector de anomalías controladas y un panel de comparación de modelos.",
-      "tools": ["Python", "PyTorch", "scikit-learn", "Optuna", "MLflow", "pandas", "NumPy", "FastAPI", "Hydra", "React", "TypeScript", "Vite", "Tailwind"],
+      "tools": ["Python", "PyTorch", "scikit-learn", "Optuna", "MLflow", "pandas", "NumPy", "pyproj", "FastAPI", "Hydra", "React", "TypeScript", "Vite", "Tailwind", "Framer Motion"],
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/SADAR" }
       ],
@@ -165,6 +165,7 @@
     "Tailwind": "frontend",
     "Bootstrap": "frontend",
     "Vite": "frontend",
+    "Framer Motion": "frontend",
     "Webpack": "frontend",
     "Yjs": "frontend",
     "WebRTC": "frontend",
@@ -203,6 +204,7 @@
     "Airflow": "data",
     "dbt": "data",
     "pandas": "data",
+    "pyproj": "data",
     "Alembic": "data",
     "ChromaDB": "data",
     "Qdrant": "ai",
