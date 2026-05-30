@@ -64,7 +64,7 @@ export const ProjectCard = ({ project, compact }: Props) => {
                     refractionAmount={22}
                     chromaticAberration={6}
                     blur={1}
-                    className="is-press px-4 py-2 text-sm font-medium inline-flex items-center gap-1.5"
+                    className="is-press px-4 py-2 text-sm font-medium inline-flex items-center gap-1.5 whitespace-nowrap"
                   >
                     {link.label}
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -76,7 +76,7 @@ export const ProjectCard = ({ project, compact }: Props) => {
               ))}
               {p.isPrivate && (
                 <li>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-text-soft">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-text-soft whitespace-nowrap">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />

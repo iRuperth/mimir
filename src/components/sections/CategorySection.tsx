@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 import { useTranslation } from 'react-i18next';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { ProjectGridCard } from '@/components/project/ProjectGridCard';
+import { ProjectCarousel } from '@/components/project/ProjectCarousel';
 import { ProjectModal } from '@/components/project/ProjectModal';
 import { localizedCategory, skillsForCategory } from '@/config/projects';
 import type { CategoryDef, ProjectDef } from '@/config/projects';
@@ -180,37 +181,12 @@ export const CategorySection = ({ category, projects: items }: Props) => {
           {t('projects.title')}
         </motion.h3>
         {/* Up to 4 projects: a left-aligned flex-wrap grid (4/3/2/1 per row
-            by breakpoint). More than 4: switch to a single-line auto-scrolling
-            marquee so the row never wraps. The track holds two copies of the
-            cards for a seamless -50% loop; it pauses on hover so cards stay
-            clickable. */}
+            by breakpoint). More than 4: a continuous auto-scrolling carousel
+            the visitor can drag to scrub faster or step through with the
+            prev/next arrows. */}
         {items.length > 4 ? (
-          <motion.div
-            variants={itemVariants}
-            className="skill-marquee"
-            style={{ ['--marquee-duration' as string]: `${Math.max(30, items.length * 9)}s` }}
-          >
-            <div className="skill-marquee-track">
-              {[0, 1].map((copy) => (
-                <div
-                  key={copy}
-                  aria-hidden={copy === 1}
-                  className="flex flex-nowrap gap-6 pr-6"
-                >
-                  {items.map((p) => (
-                    <div
-                      key={`${copy}-${p.id}`}
-                      className="shrink-0 w-[300px] md:w-[340px]"
-                    >
-                      <ProjectGridCard
-                        project={p}
-                        onSelect={() => setSelected(p)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+          <motion.div variants={itemVariants}>
+            <ProjectCarousel items={items} onSelect={setSelected} />
           </motion.div>
         ) : (
           <motion.div
