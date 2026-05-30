@@ -66,7 +66,7 @@ const SideNav = ({ groups }: SideNavProps) => {
   return (
     <aside
       aria-label="Project categories"
-      className={`hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2 transition-opacity duration-300 ${
+      className={`hidden md:flex fixed left-6 lg:left-8 top-1/2 -translate-y-1/2 z-40 flex-col gap-2 transition-opacity duration-300 ${
         show ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
     >

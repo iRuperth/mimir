@@ -27,8 +27,12 @@ export interface SkillGroupResult {
   skills: SkillEntry[];
 }
 
+/* A link's label can be a single plain string (same in every language) or a
+   per-language pair. localizedProject() resolves it to the active language. */
 export interface ProjectLink {
-  label: string;
+  label?: string;
+  label_en?: string;
+  label_es?: string;
   url: string;
 }
 
@@ -43,6 +47,9 @@ export interface ProjectDef {
   details_es?: string;
   tools: string[];
   links: ProjectLink[];
+  /* When true, the project's source is a private repo — the card shows a
+     "Private repository" badge instead of a (broken) link to it. */
+  private?: boolean;
   imageFolder: string;
   images: string[];
 }
@@ -128,7 +135,11 @@ export const localizedProject = (p: ProjectDef, lang: 'en' | 'es') => ({
   description: lang === 'es' ? p.description_es : p.description_en,
   details: (lang === 'es' ? p.details_es : p.details_en) ?? '',
   tools: p.tools,
-  links: p.links,
+  links: p.links.map((link) => ({
+    url: link.url,
+    label: (lang === 'es' ? link.label_es : link.label_en) ?? link.label ?? link.url,
+  })),
+  isPrivate: p.private === true,
   images: p.images,
 });
 

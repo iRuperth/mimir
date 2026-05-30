@@ -42,7 +42,10 @@ const App = () => {
             <About />
           </ScrollFade>
         </section>
-        <section id="projects" className={containerClass}>
+        <section
+          id="projects"
+          className={`${containerClass} md:px-44 lg:px-52 xl:px-56`}
+        >
           <Projects />
         </section>
         <section id="skills" className={containerClass}>
