@@ -44,7 +44,7 @@ const App = () => {
         </section>
         <section
           id="projects"
-          className={`${containerClass} md:px-44 lg:px-52 xl:px-56`}
+          className={`relative ${containerClass} md:px-44 lg:px-52 xl:px-56`}
         >
           <Projects />
         </section>

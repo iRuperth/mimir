@@ -55,6 +55,7 @@ export const CategorySection = ({ category, projects: items }: Props) => {
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
+    layoutEffect: false,
   });
   const sectionOpacity = useTransform(
     scrollYProgress,
@@ -82,7 +83,7 @@ export const CategorySection = ({ category, projects: items }: Props) => {
         y: sectionY,
         willChange: 'opacity, filter, transform',
       }}
-      className="scroll-mt-24 min-h-screen pt-16 pb-44 md:pt-20 md:pb-56 flex flex-col gap-10"
+      className="relative scroll-mt-24 min-h-screen pt-16 pb-44 md:pt-20 md:pb-56 flex flex-col gap-10"
     >
       <motion.header
         variants={containerVariants}

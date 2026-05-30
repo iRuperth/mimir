@@ -70,6 +70,7 @@ export const Hero = () => {
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
+    layoutEffect: false,
   });
 
   const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
