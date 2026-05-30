@@ -198,6 +198,45 @@ body.modal-open .glass-tuner-root {
   display: none;
 }
 
+/* Single-line auto-scrolling skill carousel (marquee). The track holds
+   two identical copies of the chips; translating it by -50% lands the
+   second copy exactly where the first started, so the loop is seamless.
+   Fade masks on both edges soften where chips enter and leave. */
+.skill-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+}
+.skill-marquee-track {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: skill-marquee var(--marquee-duration, 40s) linear infinite;
+}
+.skill-marquee:hover .skill-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes skill-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
