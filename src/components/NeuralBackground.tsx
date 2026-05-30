@@ -15,6 +15,22 @@ interface Neuron {
 const MAX_DIST = 190;
 const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
 
+/* Cap on click-spawned neurons. The connection pass is O(n²), so we keep
+   user-added nodes bounded; once exceeded, the oldest spawned one is
+   dropped. The initial field is never touched by this. */
+const MAX_SPAWNED = 50;
+
+const makeNeuron = (x: number, y: number): Neuron => ({
+  x,
+  y,
+  vx: (Math.random() - 0.5) * 0.2,
+  vy: (Math.random() - 0.5) * 0.2,
+  r: 1.6 + Math.random() * 2.6,
+  baseAlpha: 0.5 + Math.random() * 0.4,
+  pulsePhase: Math.random() * Math.PI * 2,
+  pulseSpeed: 0.008 + Math.random() * 0.018,
+});
+
 const readRgbVar = (name: string): [number, number, number] => {
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const parts = raw.split(/[\s,]+/).map(Number).filter((n) => !Number.isNaN(n));
@@ -61,16 +77,38 @@ export const NeuralBackground = () => {
 
     const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
 
-    const neurons: Neuron[] = Array.from({ length: config.background.neuronCount }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.2,
-      vy: (Math.random() - 0.5) * 0.2,
-      r: 1.6 + Math.random() * 2.6,
-      baseAlpha: 0.5 + Math.random() * 0.4,
-      pulsePhase: Math.random() * Math.PI * 2,
-      pulseSpeed: 0.008 + Math.random() * 0.018,
-    }));
+    const neurons: Neuron[] = Array.from({ length: config.background.neuronCount }, () =>
+      makeNeuron(Math.random() * width, Math.random() * height),
+    );
+
+    /* Spawn a neuron on click. The canvas itself is pointer-events:none and
+       sits behind everything, so we listen on the window instead. Clicks on
+       interactive elements (buttons, links, inputs…) are ignored so the
+       effect never competes with real controls. Spawned neurons are tracked
+       in a FIFO queue capped at MAX_SPAWNED. */
+    const spawned: Neuron[] = [];
+    const isInteractive = (el: EventTarget | null): boolean => {
+      let node = el as HTMLElement | null;
+      while (node && node !== document.body) {
+        if (node.closest?.('a, button, input, textarea, select, label, [role="button"], [contenteditable="true"]')) {
+          return true;
+        }
+        node = node.parentElement;
+      }
+      return false;
+    };
+    const onClick = (e: MouseEvent) => {
+      if (isInteractive(e.target)) return;
+      const n = makeNeuron(e.clientX, e.clientY);
+      neurons.push(n);
+      spawned.push(n);
+      if (spawned.length > MAX_SPAWNED) {
+        const oldest = spawned.shift();
+        const idx = neurons.indexOf(oldest!);
+        if (idx !== -1) neurons.splice(idx, 1);
+      }
+    };
+    window.addEventListener('click', onClick);
 
     let raf = 0;
     let paused = document.hidden;
@@ -144,6 +182,7 @@ export const NeuralBackground = () => {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('click', onClick);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       themeObserver.disconnect();
     };
