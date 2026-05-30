@@ -33,6 +33,9 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
   const dragStartX = useRef(0);
   const dragStartScroll = useRef(0);
   const movedRef = useRef(false);
+  /* Last scrollLeft the rAF loop wrote, rounded. Lets onScroll tell apart
+     our own programmatic scroll from a native trackpad/wheel scroll. */
+  const lastWrittenRef = useRef(-1);
   /* cardStep getter shared between the rAF loop and the arrow handlers. */
   const stepRef = useRef<() => number>(() => 0);
 
@@ -41,43 +44,67 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     const el = scrollerRef.current;
     if (!el) return;
 
-    const copyWidth = () => el.scrollWidth / 3;
+    const n = items.length;
+    /* Exact width of one copy: the distance between the start of the middle
+       copy (child index n) and the start of the last copy (child index 2n).
+       Using offsetLeft includes the inter-card gaps precisely, so wrapping
+       by this amount lands seamlessly with no leftover gap. scrollWidth/3
+       would be wrong because the gap between copies isn't evenly divisible. */
+    const copyWidth = () => {
+      const children = el.children;
+      const mid = children[n] as HTMLElement | undefined;
+      const last = children[2 * n] as HTMLElement | undefined;
+      if (!mid || !last) return 0;
+      return last.offsetLeft - mid.offsetLeft;
+    };
     const cardStep = () => {
       const card = el.firstElementChild as HTMLElement | null;
       return (card ? card.offsetWidth : el.clientWidth / 4) + GAP;
     };
 
-    /* Wrap both the live scroll and the target by one copy width so the
-       carousel never reaches an edge. Applied to scrollLeft AND target
-       together so easing never fights the wrap. */
+    /* Keep target inside the middle copy [start, start + w). The live
+       scrollLeft is shifted by the same whole-copy amount so the eased
+       follow never has to cross a wrap boundary. target is the source of
+       truth; scrollLeft tracks it. start is the offsetLeft of the middle
+       copy's first card, w its exact width (gaps included). */
     const wrap = () => {
       const w = copyWidth();
       if (w === 0) return;
-      if (el.scrollLeft < w * 0.5) {
-        el.scrollLeft += w;
+      const mid = el.children[n] as HTMLElement | undefined;
+      const start = mid ? mid.offsetLeft : w;
+      let shifted = 0;
+      while (targetRef.current < start) {
         targetRef.current += w;
-      } else if (el.scrollLeft > w * 1.5) {
-        el.scrollLeft -= w;
-        targetRef.current -= w;
+        shifted += w;
       }
+      while (targetRef.current >= start + w) {
+        targetRef.current -= w;
+        shifted -= w;
+      }
+      if (shifted !== 0) el.scrollLeft += shifted;
     };
 
     const tick = () => {
       const w = copyWidth();
       if (!readyRef.current && w > 0) {
-        el.scrollLeft = w;
-        targetRef.current = w;
+        // Start exactly at the first card of the middle copy.
+        const mid = el.children[n] as HTMLElement | undefined;
+        const start = mid ? mid.offsetLeft : w;
+        targetRef.current = start;
+        el.scrollLeft = start;
         readyRef.current = true;
       }
       if (readyRef.current) {
         if (!pausedRef.current && !draggingRef.current && !reducedMotion.current) {
           targetRef.current += AUTO_SPEED;
         }
-        if (!draggingRef.current) {
-          // Ease the real position toward the target.
-          el.scrollLeft += (targetRef.current - el.scrollLeft) * EASE;
-        }
+        // Wrap first so target stays in range, then ease toward it.
         wrap();
+        if (!draggingRef.current) {
+          const next = el.scrollLeft + (targetRef.current - el.scrollLeft) * EASE;
+          el.scrollLeft = next;
+          lastWrittenRef.current = Math.round(el.scrollLeft);
+        }
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -96,7 +123,10 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     movedRef.current = false;
     dragStartX.current = e.clientX;
     dragStartScroll.current = el.scrollLeft;
-    el.setPointerCapture(e.pointerId);
+    // NOTE: do NOT capture the pointer here. Capturing on press would
+    // redirect the resulting click to this container, so a plain click on
+    // a card would never reach it and the modal wouldn't open. We only
+    // capture once an actual drag starts (see onPointerMove).
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -104,7 +134,13 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     const el = scrollerRef.current;
     if (!el) return;
     const dx = e.clientX - dragStartX.current;
-    if (Math.abs(dx) > 4) movedRef.current = true;
+    if (Math.abs(dx) > 4 && !movedRef.current) {
+      movedRef.current = true;
+      // A real drag has begun — capture the pointer now so the scrub
+      // tracks smoothly even if the cursor leaves the element.
+      el.setPointerCapture(e.pointerId);
+    }
+    if (!movedRef.current) return;
     el.scrollLeft = dragStartScroll.current - dx;
     targetRef.current = el.scrollLeft;
   };
@@ -112,7 +148,9 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
   const endDrag = (e: React.PointerEvent) => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
-    scrollerRef.current?.releasePointerCapture(e.pointerId);
+    if (scrollerRef.current?.hasPointerCapture(e.pointerId)) {
+      scrollerRef.current.releasePointerCapture(e.pointerId);
+    }
   };
 
   const onClickCapture = (e: React.MouseEvent) => {
@@ -120,6 +158,18 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
       e.stopPropagation();
       e.preventDefault();
       movedRef.current = false;
+    }
+  };
+
+  /* Native scroll (trackpad / shift+wheel) moves scrollLeft directly. If
+     the new value isn't the one the rAF loop just wrote, the user scrolled
+     manually, so snap the target to it instead of letting the easing fight
+     back. */
+  const onScroll = () => {
+    const el = scrollerRef.current;
+    if (!el || draggingRef.current) return;
+    if (Math.round(el.scrollLeft) !== lastWrittenRef.current) {
+      targetRef.current = el.scrollLeft;
     }
   };
 
@@ -145,8 +195,9 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
+        onScroll={onScroll}
         onClickCapture={onClickCapture}
-        className="flex gap-6 overflow-x-hidden cursor-grab active:cursor-grabbing select-none"
+        className="flex gap-6 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none"
         style={{
           maskImage:
             'linear-gradient(to right, transparent, #000 4%, #000 96%, transparent)',
