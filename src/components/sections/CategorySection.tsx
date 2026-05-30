@@ -89,7 +89,7 @@ export const CategorySection = ({ category, projects: items }: Props) => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-15%' }}
-        className="flex flex-col gap-5 max-w-3xl"
+        className="flex flex-col gap-5 max-w-5xl"
       >
         <motion.h2
           variants={itemVariants}
@@ -119,31 +119,49 @@ export const CategorySection = ({ category, projects: items }: Props) => {
           >
             {t('projects.skills')}
           </motion.h3>
-          <motion.ul variants={containerVariants} className="flex flex-wrap gap-2">
-            {skills.map((s) => (
-              <motion.li key={s.name} variants={itemVariants}>
-                <LiquidGlass
-                  as="div"
-                  radius={999}
-                  refractionHeight={10}
-                  refractionAmount={14}
-                  chromaticAberration={4}
-                  blur={1}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium"
+          {/* Single-line auto-scrolling marquee. The chip list is rendered
+              twice inside the track so the -50% loop is seamless; aria-hidden
+              hides the duplicate from assistive tech. Speed scales with the
+              chip count so the visual pace stays constant across categories. */}
+          <motion.div
+            variants={itemVariants}
+            className="skill-marquee"
+            style={{ ['--marquee-duration' as string]: `${Math.max(20, skills.length * 3)}s` }}
+          >
+            <div className="skill-marquee-track">
+              {[0, 1].map((copy) => (
+                <ul
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="flex flex-nowrap gap-2 pr-2"
                 >
-                  {s.icon && (
-                    <img
-                      src={s.icon}
-                      alt=""
-                      aria-hidden="true"
-                      className="w-3.5 h-3.5 object-contain"
-                    />
-                  )}
-                  <span>{s.name}</span>
-                </LiquidGlass>
-              </motion.li>
-            ))}
-          </motion.ul>
+                  {skills.map((s) => (
+                    <li key={`${copy}-${s.name}`} className="shrink-0">
+                      <LiquidGlass
+                        as="div"
+                        radius={999}
+                        refractionHeight={10}
+                        refractionAmount={14}
+                        chromaticAberration={4}
+                        blur={1}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium whitespace-nowrap"
+                      >
+                        {s.icon && (
+                          <img
+                            src={s.icon}
+                            alt=""
+                            aria-hidden="true"
+                            className="w-3.5 h-3.5 object-contain"
+                          />
+                        )}
+                        <span>{s.name}</span>
+                      </LiquidGlass>
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       )}
 
@@ -160,23 +178,55 @@ export const CategorySection = ({ category, projects: items }: Props) => {
         >
           {t('projects.title')}
         </motion.h3>
-        {/* Flex-wrap with explicit per-breakpoint widths. Left-aligned
-            so partial rows stay flush with the left edge. Up to 4 per
-            row on xl, dropping to 3 / 2 / 1 on smaller widths. */}
-        <motion.div
-          variants={containerVariants}
-          className="flex flex-wrap justify-start gap-6"
-        >
-          {items.map((p) => (
-            <motion.div
-              key={p.id}
-              variants={itemVariants}
-              className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
-            >
-              <ProjectGridCard project={p} onSelect={() => setSelected(p)} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Up to 4 projects: a left-aligned flex-wrap grid (4/3/2/1 per row
+            by breakpoint). More than 4: switch to a single-line auto-scrolling
+            marquee so the row never wraps. The track holds two copies of the
+            cards for a seamless -50% loop; it pauses on hover so cards stay
+            clickable. */}
+        {items.length > 4 ? (
+          <motion.div
+            variants={itemVariants}
+            className="skill-marquee"
+            style={{ ['--marquee-duration' as string]: `${Math.max(30, items.length * 9)}s` }}
+          >
+            <div className="skill-marquee-track">
+              {[0, 1].map((copy) => (
+                <div
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="flex flex-nowrap gap-6 pr-6"
+                >
+                  {items.map((p) => (
+                    <div
+                      key={`${copy}-${p.id}`}
+                      className="shrink-0 w-[300px] md:w-[340px]"
+                    >
+                      <ProjectGridCard
+                        project={p}
+                        onSelect={() => setSelected(p)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            className="flex flex-wrap justify-start gap-6"
+          >
+            {items.map((p) => (
+              <motion.div
+                key={p.id}
+                variants={itemVariants}
+                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
+              >
+                <ProjectGridCard project={p} onSelect={() => setSelected(p)} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </motion.div>
 
       <AnimatePresence>
