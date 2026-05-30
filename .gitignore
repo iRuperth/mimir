@@ -4,9 +4,10 @@ dist-ssr
 *.local
 *.tsbuildinfo
 
-# .env is committed on purpose: it holds public portfolio config
-# (name, links, theme) with no secrets. Local-only overrides go in
-# .env.local, which stays ignored.
+# .env is ignored — copy .env.example to .env and fill in your own
+# portfolio config (name, links, theme). It holds no secrets, but each
+# deploy provides its own identity, so it is not committed.
+.env
 .env.local
 .env.*.local
 
