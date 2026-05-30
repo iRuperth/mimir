@@ -50,8 +50,8 @@ export const ProjectCard = ({ project, compact }: Props) => {
             </div>
           )}
 
-          {p.links.length > 0 && (
-            <ul className="flex flex-wrap gap-2 mt-2">
+          {(p.links.length > 0 || p.isPrivate) && (
+            <ul className="flex flex-wrap items-center gap-2 mt-2">
               {p.links.map((link) => (
                 <li key={link.url + link.label}>
                   <LiquidGlass
@@ -74,6 +74,17 @@ export const ProjectCard = ({ project, compact }: Props) => {
                   </LiquidGlass>
                 </li>
               ))}
+              {p.isPrivate && (
+                <li>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-text-soft">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    {t('projects.private')}
+                  </span>
+                </li>
+              )}
             </ul>
           )}
         </div>
