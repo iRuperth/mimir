@@ -13,9 +13,9 @@ export const About = () => {
     <GlassCard className="p-8 md:p-12">
       <h2 className="text-4xl md:text-5xl font-bold mb-6">{t('about.title')}</h2>
       {bio.length > 0 ? (
-        <p className="text-lg leading-relaxed text-text-soft whitespace-pre-line">{bio}</p>
+        <p className="text-lg leading-relaxed text-text whitespace-pre-line indent-8">{bio}</p>
       ) : (
-        <p className="text-lg leading-relaxed text-text-soft italic">—</p>
+        <p className="text-lg leading-relaxed text-text italic">—</p>
       )}
     </GlassCard>
   );
