@@ -5,8 +5,8 @@
       "enabled": true,
       "label_en": "AI Development",
       "label_es": "Desarrollo IA",
-      "description_en": "Designing and shipping AI-powered systems end to end — from ingestion and embeddings to retrieval, evaluation, and production inference. The focus is real-world reliability: latency budgets, cost controls, and human-in-the-loop guardrails over flashy demos.",
-      "description_es": "Diseño y despliegue de sistemas con IA de principio a fin — desde la ingesta y embeddings hasta recuperación, evaluación e inferencia en producción. El foco es la fiabilidad real: presupuestos de latencia, control de costes y guardrails con persona-en-el-loop por encima de demos vistosas."
+      "description_en": "Designing and shipping AI-powered systems end to end, from training my own models (classic ML and deep learning) to ingestion, embeddings, retrieval, evaluation, and production inference.",
+      "description_es": "Diseño y despliegue de sistemas con IA de principio a fin, desde entrenar mis propios modelos (ML clásico y deep learning) hasta la ingesta, embeddings, recuperación, evaluación e inferencia en producción."
     },
     {
       "id": "fullstack",
@@ -39,8 +39,8 @@
       "category": "ai",
       "title_en": "Offerly",
       "title_es": "Offerly",
-      "description_en": "Multi-agent Chain-of-Thought system that turns a one-paragraph merchant pitch into a ready-to-publish promotional campaign. Six CrewAI agents collaborate over a shared Pydantic state — structuring intent, recommending pricing, writing copy, running a Monte Carlo demand simulation, and validating against platform policies with RAG over a ChromaDB index. Runs on a local LLM via LiteLLM + Ollama, served by FastAPI with live SSE progress and a Next.js frontend.",
-      "description_es": "Sistema multi-agente con Chain-of-Thought que convierte un pitch de comercio de un párrafo en una campaña promocional lista para publicar. Seis agentes CrewAI colaboran sobre un estado compartido en Pydantic — estructurando la intención, recomendando precios, redactando el texto, ejecutando una simulación Monte Carlo de demanda y validando contra las políticas de la plataforma con RAG sobre un índice ChromaDB. Funciona con un LLM local vía LiteLLM + Ollama, servido por FastAPI con progreso en vivo por SSE y un frontend en Next.js.",
+      "description_en": "Multi-agent Chain-of-Thought system that turns a one-paragraph merchant pitch into a ready-to-publish promotional campaign. Six CrewAI agents collaborate over a shared Pydantic state, structuring intent, recommending pricing, writing copy, running a Monte Carlo demand simulation, and validating against platform policies with RAG over a ChromaDB index. Runs on a local LLM via LiteLLM + Ollama, served by FastAPI with live SSE progress and a Next.js frontend.",
+      "description_es": "Sistema multi-agente con Chain-of-Thought que convierte un pitch de comercio de un párrafo en una campaña promocional lista para publicar. Seis agentes CrewAI colaboran sobre un estado compartido en Pydantic, estructurando la intención, recomendando precios, redactando el texto, ejecutando una simulación Monte Carlo de demanda y validando contra las políticas de la plataforma con RAG sobre un índice ChromaDB. Funciona con un LLM local vía LiteLLM + Ollama, servido por FastAPI con progreso en vivo por SSE y un frontend en Next.js.",
       "tools": ["Python", "CrewAI", "LiteLLM", "Ollama", "LangChain", "ChromaDB", "Pydantic", "FastAPI", "Uvicorn", "Next.js", "React", "TypeScript", "Tailwind", "Docker"],
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/Multi-Agent-Chain-of-Thought" }
@@ -52,8 +52,8 @@
       "category": "ai",
       "title_en": "SignalMod",
       "title_es": "SignalMod",
-      "description_en": "Intelligent moderation assistant for YouTube comments. A hybrid meta-stacking model — frozen Toxic-BERT embeddings fused with metadata features and a logistic-regression meta-learner (F1 = 0.805) — classifies each comment as safe or toxic, tags toxicity categories, and persists every prediction in Supabase. Served as a FastAPI API behind a React SPA that mirrors the YouTube watch experience.",
-      "description_es": "Asistente de moderación inteligente para comentarios de YouTube. Un modelo híbrido de meta-stacking — embeddings de Toxic-BERT congelado fusionados con características de metadatos y un meta-clasificador de regresión logística (F1 = 0.805) — clasifica cada comentario como seguro o tóxico, etiqueta las categorías de toxicidad y guarda cada predicción en Supabase. Servido como API FastAPI tras una SPA en React que reproduce la experiencia de visualización de YouTube.",
+      "description_en": "Intelligent moderation assistant for YouTube comments. A hybrid meta-stacking model, frozen Toxic-BERT embeddings fused with metadata features and a logistic-regression meta-learner (F1 = 0.805), classifies each comment as safe or toxic, tags toxicity categories, and persists every prediction in Supabase. Served as a FastAPI API behind a React SPA that mirrors the YouTube watch experience.",
+      "description_es": "Asistente de moderación inteligente para comentarios de YouTube. Un modelo híbrido de meta-stacking, embeddings de Toxic-BERT congelado fusionados con características de metadatos y un meta-clasificador de regresión logística (F1 = 0.805), clasifica cada comentario como seguro o tóxico, etiqueta las categorías de toxicidad y guarda cada predicción en Supabase. Servido como API FastAPI tras una SPA en React que reproduce la experiencia de visualización de YouTube.",
       "tools": ["Python", "PyTorch", "Transformers", "scikit-learn", "spaCy", "NLTK", "MLflow", "Optuna", "pandas", "FastAPI", "React", "TypeScript", "Vite", "Supabase", "Docker"],
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/SignalMod" }
@@ -65,8 +65,8 @@
       "category": "ai",
       "title_en": "Synapse Core",
       "title_es": "Synapse Core",
-      "description_en": "End-to-end automated video pipeline for AI storytelling. It picks a topic, writes a script with Claude or Cerebras, narrates it with neural TTS, aligns subtitles with Whisper, generates per-scene images, assembles a vertical video with MoviePy, and publishes to YouTube, TikTok, and Instagram — scheduled across many accounts, each with its own niche, voice, and brand. A React dashboard manages accounts, runs, logs, and the publish schedule.",
-      "description_es": "Pipeline de vídeo automatizado de principio a fin para narrativa con IA. Elige un tema, escribe el guion con Claude o Cerebras, lo narra con TTS neuronal, alinea subtítulos con Whisper, genera imágenes por escena, monta un vídeo vertical con MoviePy y lo publica en YouTube, TikTok e Instagram — programado para múltiples cuentas, cada una con su propio nicho, voz y marca. Un panel en React gestiona cuentas, ejecuciones, logs y el calendario de publicación.",
+      "description_en": "End-to-end automated video pipeline for AI storytelling. It picks a topic, writes a script with Claude or Cerebras, narrates it with neural TTS, aligns subtitles with Whisper, generates per-scene images, assembles a vertical video with MoviePy, and publishes to YouTube, TikTok, and Instagram, scheduled across many accounts, each with its own niche, voice, and brand. A React dashboard manages accounts, runs, logs, and the publish schedule.",
+      "description_es": "Pipeline de vídeo automatizado de principio a fin para narrativa con IA. Elige un tema, escribe el guion con Claude o Cerebras, lo narra con TTS neuronal, alinea subtítulos con Whisper, genera imágenes por escena, monta un vídeo vertical con MoviePy y lo publica en YouTube, TikTok e Instagram, programado para múltiples cuentas, cada una con su propio nicho, voz y marca. Un panel en React gestiona cuentas, ejecuciones, logs y el calendario de publicación.",
       "tools": ["Python", "Flask", "Anthropic", "Cerebras", "Whisper", "Edge TTS", "ElevenLabs", "MoviePy", "FFmpeg", "Pillow", "React", "TypeScript", "Vite", "Tailwind", "Docker"],
       "links": [],
       "private": true,
@@ -115,8 +115,8 @@
       "category": "backend",
       "title_en": "Talent Vault",
       "title_es": "Talent Vault",
-      "description_en": "Real-time HR data pipeline that consumes a continuous stream of employee fragments from Apache Kafka, persists raw events in MongoDB, and unifies each person across five source systems — joining bank, professional, location, and network data by passport and fuzzy name matching. A Redis buffer assembles complete records on the fly while a 60-second batch aggregator acts as the safety net, landing a normalized dataset in PostgreSQL exposed via a FastAPI service, a React CRM, and Prometheus metrics.",
-      "description_es": "Pipeline de datos de RR. HH. en tiempo real que consume un flujo continuo de fragmentos de empleados desde Apache Kafka, persiste los eventos en bruto en MongoDB y unifica a cada persona a partir de cinco sistemas de origen — uniendo datos bancarios, profesionales, de ubicación y de red por pasaporte y coincidencia difusa de nombres. Un búfer en Redis ensambla los registros completos al vuelo mientras un agregador por lotes de 60 segundos actúa como red de seguridad, depositando un dataset normalizado en PostgreSQL expuesto mediante un servicio FastAPI, un CRM en React y métricas de Prometheus.",
+      "description_en": "Real-time HR data pipeline that consumes a continuous stream of employee fragments from Apache Kafka, persists raw events in MongoDB, and unifies each person across five source systems, joining bank, professional, location, and network data by passport and fuzzy name matching. A Redis buffer assembles complete records on the fly while a 60-second batch aggregator acts as the safety net, landing a normalized dataset in PostgreSQL exposed via a FastAPI service, a React CRM, and Prometheus metrics.",
+      "description_es": "Pipeline de datos de RR. HH. en tiempo real que consume un flujo continuo de fragmentos de empleados desde Apache Kafka, persiste los eventos en bruto en MongoDB y unifica a cada persona a partir de cinco sistemas de origen, uniendo datos bancarios, profesionales, de ubicación y de red por pasaporte y coincidencia difusa de nombres. Un búfer en Redis ensambla los registros completos al vuelo mientras un agregador por lotes de 60 segundos actúa como red de seguridad, depositando un dataset normalizado en PostgreSQL expuesto mediante un servicio FastAPI, un CRM en React y métricas de Prometheus.",
       "tools": ["Python", "Apache Kafka", "MongoDB", "PostgreSQL", "Redis", "SQLAlchemy", "FastAPI", "Uvicorn", "Prometheus", "React", "Vite", "Tailwind", "Docker", "Nginx"],
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/Talent-Vault" }
