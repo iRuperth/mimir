@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMotionValueEvent, useScroll } from 'framer-motion';
 import { config } from '@/config/env';
 import { categories, projects } from '@/config/projects';
 import { CategorySection } from './CategorySection';
@@ -20,25 +19,23 @@ interface SideNavProps {
 }
 
 const SideNav = ({ groups }: SideNavProps) => {
-  const targetRef = useRef<HTMLElement | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const [show, setShow] = useState(false);
 
-  /* Track scroll within the wrapping #projects section so the side nav
-     only appears once the user is in the projects area, and so it can
-     highlight whichever category section currently dominates the viewport. */
+  /* Show the side nav only while the projects area is on screen. An
+     IntersectionObserver on #projects is enough for this and avoids
+     useScroll's ref/position requirements (which warned because the
+     target is resolved by id, not a hydrated ref). */
   useEffect(() => {
-    targetRef.current = document.getElementById('projects');
+    const projects = document.getElementById('projects');
+    if (!projects) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setShow(entry.isIntersecting),
+      { rootMargin: '-10% 0px -10% 0px' },
+    );
+    obs.observe(projects);
+    return () => obs.disconnect();
   }, []);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ['start start', 'end end'],
-  });
-
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    setShow(v > 0 && v < 1);
-  });
 
   useEffect(() => {
     const els = groups
