@@ -12,7 +12,8 @@ import { GlassTuner } from '@/components/glass/GlassTuner';
 import { ScrollFade } from '@/components/motion/ScrollFade';
 import { config } from '@/config/env';
 
-const containerClass = 'mx-auto w-[92%] max-w-[1800px] py-24 md:py-32 scroll-mt-24';
+const containerClass =
+  'mx-auto w-[92%] max-w-[1800px] py-24 md:py-32 scroll-mt-24 md:px-44 lg:px-52 xl:px-56';
 
 const App = () => {
   const { mode, toggle, colorblind, toggleColorblind } = useTheme();
@@ -42,10 +43,7 @@ const App = () => {
             <About />
           </ScrollFade>
         </section>
-        <section
-          id="projects"
-          className={`relative ${containerClass} md:px-44 lg:px-52 xl:px-56`}
-        >
+        <section id="projects" className={`relative ${containerClass}`}>
           <Projects />
         </section>
         <section id="skills" className={containerClass}>
