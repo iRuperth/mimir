@@ -1,24 +1,107 @@
-# Mimir — Portfolio Template
+<div align="center">
 
-A reusable, lightweight portfolio template with liquid glass styling, scroll-driven animations, project carousels by category, light / dark / colorblind modes, optional background music, and full English / Spanish localization. Nothing is hardcoded — fork it, edit `.env` and `config/projects.json`, and deploy.
+<img src="docs/mimirLOGO.png" alt="Mimir logo" width="180" />
 
-Named after **Mímir**, the Norse god of knowledge and wisdom.
+# $\color{#A78BFA}{\textsf{Mimir}}$
 
-> 🇪🇸 Spanish version: [`README.es.md`](README.es.md)
+**An open-source portfolio template — fork it, fill it, ship it.**
+
+[![English](https://img.shields.io/badge/English-1a1a1a?style=for-the-badge)](README.md) **·** [![Español](https://img.shields.io/badge/Espa%C3%B1ol-1a1a1a?style=for-the-badge)](README.es.md)
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-1a1a1a?style=flat&logo=typescript&logoColor=white&labelColor=1a1a1a)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-1a1a1a?style=flat&logo=vite&logoColor=white&labelColor=1a1a1a)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/React-18-1a1a1a?style=flat&logo=react&logoColor=white&labelColor=1a1a1a)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-1a1a1a?style=flat&logo=tailwindcss&logoColor=white&labelColor=1a1a1a)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-11-1a1a1a?style=flat&logo=framer&logoColor=white&labelColor=1a1a1a)](https://www.framer.com/motion/)
+[![Embla Carousel](https://img.shields.io/badge/Embla-Carousel-1a1a1a?style=flat&labelColor=1a1a1a)](https://www.embla-carousel.com/)
+[![i18next](https://img.shields.io/badge/i18next-23.x-1a1a1a?style=flat&logo=i18next&logoColor=white&labelColor=1a1a1a)](https://www.i18next.com/)
+[![pnpm](https://img.shields.io/badge/pnpm-package%20mgr-1a1a1a?style=flat&logo=pnpm&logoColor=white&labelColor=1a1a1a)](https://pnpm.io/)
+[![Supabase](https://img.shields.io/badge/Supabase-optional-1a1a1a?style=flat&logo=supabase&logoColor=white&labelColor=1a1a1a)](https://supabase.com/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-deploy-1a1a1a?style=flat&logo=github&logoColor=white&labelColor=1a1a1a)](https://pages.github.com/)
+[![GNU Make](https://img.shields.io/badge/GNU%20Make-shortcuts-1a1a1a?style=flat&logo=gnu&logoColor=white&labelColor=1a1a1a)](https://www.gnu.org/software/make/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1a1a1a?style=flat&labelColor=1a1a1a)](LICENSE)
+
+</div>
+
+---
+
+## What is Mimir?
+
+**Mimir** is a free, open-source portfolio template built for developers, designers, researchers and students who want a clean, fast, bilingual personal site **without writing any source code**.
+
+You clone the repo, edit two files (`.env` and `config/projects.json`), drop your images into a folder, and you have a deployable site. The whole thing is built on top of Vite + React + TypeScript with a "liquid glass" visual style, scroll-driven animations, project carousels per category, light / dark / colorblind themes, optional background music and full **English / Spanish** support out of the box.
+
+It is named after **Mímir**, the Norse god of knowledge and wisdom.
+
+### Why open source?
+
+The goal of Mimir is to give the community a portfolio that is:
+
+- **Free to use** — MIT licensed, no attribution required.
+- **Easy to fork** — content lives in config files, not in the React tree.
+- **Easy to extend** — well-documented architecture, small surface area, no hidden magic.
+- **Community-driven** — issues, pull requests and discussions are welcome. If you add a feature, fix a bug, translate it into a new language or build a new theme, please contribute it back.
+
+> If you build something on top of Mimir, open an issue or PR and tell us about it. The more variations the community ships, the better the template gets.
+
+---
+
+## Languages and tools used
+
+The default production bundle is around **150–200 KB gzip**. Here's why each piece is in the stack:
+
+| Layer            | Tool                                                                  | Why                                                |
+| ---------------- | --------------------------------------------------------------------- | -------------------------------------------------- |
+| Language         | **TypeScript 5**                                                      | Type-safe React, autocomplete in config loaders    |
+| Bundler          | **Vite 5**                                                            | Fast dev server, small static build                |
+| UI               | **React 18**                                                          | Component model, hooks, suspense                   |
+| Styles           | **Tailwind CSS 3** + custom liquid-glass utilities                    | Utility classes, theme via CSS variables           |
+| Animations       | **Framer Motion 11**                                                  | Scroll-driven reveals, springs, gestures           |
+| Carousel         | **embla-carousel-react** + `embla-carousel-auto-scroll`               | Accessible image carousel with auto-scroll         |
+| i18n             | **i18next** + `react-i18next` + `i18next-browser-languagedetector`    | Drop-in EN / ES, browser detection                 |
+| Optional backend | **Supabase** (`@supabase/supabase-js`)                                | Only used if you wire up forms / analytics         |
+| Deploy           | **GitHub Pages** via `gh-pages` and GitHub Actions                    | One-click public hosting                           |
+| Package manager  | **pnpm** (via Corepack)                                               | Fast installs, strict node_modules                 |
+| Task runner      | **GNU Make**                                                          | Cross-OS shortcuts (`make dev`, `make build`, …)   |
+
+---
+
+## Bilingual by design
+
+Every visible string in Mimir exists twice — once in English, once in Spanish — and the visitor can switch between them with a single click in the navbar.
+
+- The default language comes from `DEFAULT_LANGUAGE` in `.env`.
+- The visitor's browser locale wins if it matches a supported language.
+- Project titles, descriptions, details and category labels use paired `_en` / `_es` fields in `config/projects.json`.
+- UI strings (buttons, section headers, tooltips) live in `src/i18n/locales/en.json` and `src/i18n/locales/es.json`.
+- Adding a third language is a four-step process — see [Section 3.8](#38-add-a-new-language).
+
+---
+
+## Table of contents
+
+1. [Requirements](#1-requirements)
+2. [Start the project](#2-start-the-project)
+3. [Customize the site](#3-customize-the-site)
+4. [Useful commands](#4-useful-commands)
+5. [Deploy](#5-deploy)
+6. [Architecture](#6-architecture)
+7. [Contributing](#7-contributing)
+8. [License](#8-license)
 
 ---
 
 ## 1. Requirements
 
-You need:
+You need three things installed on your machine. If you already have them, skip to [Section 2](#2-start-the-project).
 
 - **Node.js 20 or newer** — download from <https://nodejs.org>
-- **pnpm** — installed via Corepack (two commands, see below)
+- **pnpm** — installed once via Corepack (see below)
 - **Git** — download from <https://git-scm.com>
 
 ### Install pnpm (one time, any OS)
 
-Run these two commands once. They work on macOS, Linux, and Windows:
+Run these two commands once. They work on macOS, Linux and Windows:
 
 - `corepack enable`
 - `corepack prepare pnpm@latest --activate`
@@ -31,7 +114,7 @@ Verify the installation:
 
 ## 2. Start the project
 
-Pick the section that matches your OS.
+Pick the section that matches your OS. **Every command goes on its own line** — copy them one by one.
 
 ### macOS
 
@@ -83,7 +166,7 @@ Then open <http://localhost:5173> in your browser.
 
 Then open <http://localhost:5173> in your browser.
 
-> **Note:** the dev server hot-reloads. Edits to `.env` require a server restart; edits to `config/projects.json`, images, and source files apply instantly.
+> **Note:** the dev server hot-reloads. Edits to `.env` require a server restart; edits to `config/projects.json`, images and source files apply instantly.
 
 ---
 
@@ -98,7 +181,7 @@ You never need to touch source code to change content.
 
 ### 3.1 Personal info — edit `.env`
 
-1. Copy the template (you already did this in section 2 with `cp` / `Copy-Item` / `copy`).
+1. Copy the template (you already did this in Section 2).
 2. Open `.env` in your editor.
 3. Fill in your values.
 
@@ -117,7 +200,7 @@ Restart the dev server after editing `.env`.
 
 ### 3.2 Categories — edit `config/projects.json`
 
-Each category becomes its own page section, with a heading, a short description, an auto-derived skills row, and a project grid below.
+Each category becomes its own page section, with a heading, a short description, an auto-derived skills row and a project grid below.
 
 Categories live in the `"categories"` array at the top of `config/projects.json`. Each entry looks like this:
 
@@ -163,7 +246,7 @@ Each project lives in the `"projects"` array. Each entry looks like this:
   - `imageFolder` matches a folder you create under `public/projects/`.
 - **Remove a project** — delete the object from the array. Also delete the corresponding folder under `public/projects/` if you no longer need the images.
 - **Bilingual fields** — every `_en` field needs a matching `_es` counterpart.
-- **`details_en` / `details_es`** are optional. If both are empty or omitted, the Show more button still expands the modal (revealing the image carousel, tools, description, and links) but no extra paragraphs render. Drop in long-form copy whenever you have it.
+- **`details_en` / `details_es`** are optional. If both are empty or omitted, the Show more button still expands the modal (revealing the image carousel, tools, description and links) but no extra paragraphs render. Drop in long-form copy whenever you have it.
 - **`tools`** — each name automatically feeds the per-category skills row and the global Skills section. No manual upkeep.
 - **`links`** — each link is rendered as a glass button at the end of the description.
 
@@ -262,43 +345,51 @@ The audio always starts paused; the visitor decides whether to enable it.
 
 ## 4. Useful commands
 
-Every command assumes you have already run `pnpm install` (or `make install`).
+Every command assumes you have already run `pnpm install` (or `make install`). Each command is on its own line — copy them one by one.
 
 ### Start the dev server
 
-- macOS / Linux: `pnpm dev`
-- Windows: `pnpm dev`
-- Make: `make dev`
+- `pnpm dev`
+- `make dev`
+
+Opens the site at <http://localhost:5173> with hot reload.
 
 ### Production build
 
-- macOS / Linux: `pnpm build`
-- Windows: `pnpm build`
-- Make: `make build`
+- `pnpm build`
+- `make build`
+
+Outputs an optimized static site to `dist/`.
 
 ### Preview the production build locally
 
-- macOS / Linux: `pnpm preview`
-- Windows: `pnpm preview`
-- Make: `make preview`
+- `pnpm preview`
+- `make preview`
+
+Serves whatever is in `dist/` so you can sanity-check before deploying.
 
 ### Type-check only (no build output)
 
-- macOS / Linux: `pnpm exec tsc -b --noEmit`
-- Windows: `pnpm exec tsc -b --noEmit`
-- Make: `make typecheck`
+- `pnpm exec tsc -b --noEmit`
+- `make typecheck`
+
+Useful in CI or as a pre-commit check.
 
 ### Clean build artifacts
 
-- macOS / Linux: `rm -rf dist node_modules/.vite`
-- Windows (PowerShell): `Remove-Item -Recurse -Force dist, node_modules\.vite`
-- Make: `make clean`
+- `rm -rf dist node_modules/.vite` (macOS / Linux)
+- `Remove-Item -Recurse -Force dist, node_modules\.vite` (Windows PowerShell)
+- `make clean`
 
-### Deploy to GitHub Pages
+### Reinstall dependencies from scratch
 
-- macOS / Linux: `pnpm run deploy`
-- Windows: `pnpm run deploy`
-- Make: `make deploy`
+- `rm -rf node_modules pnpm-lock.yaml && pnpm install` (macOS / Linux)
+- `Remove-Item -Recurse -Force node_modules, pnpm-lock.yaml; pnpm install` (Windows PowerShell)
+
+### Deploy to GitHub Pages (manual)
+
+- `pnpm run deploy`
+- `make deploy`
 
 ---
 
@@ -318,43 +409,136 @@ Run `pnpm run deploy` (or `make deploy`). This builds and pushes `dist/` to the 
 
 > If you deploy to a base path different from `/mimir/`, set `VITE_BASE_PATH` in `.env`.
 
----
+### Option C — Any static host
 
-## 6. Stack
-
-- **Vite 5** + **React 18** + **TypeScript** — static build, small bundle
-- **Tailwind CSS** — utility classes, theme via CSS variables
-- **Framer Motion** — scroll-driven animations
-- **embla-carousel-react** — accessible image carousel
-- **i18next** — internationalization
-
-Target bundle size: 150–200 KB gzip.
+Run `pnpm build` and upload the contents of `dist/` to Netlify, Vercel, Cloudflare Pages, S3, or any static host.
 
 ---
 
-## 7. Project layout
+## 6. Architecture
+
+Mimir is a **static site**. There is no server, no database (unless you opt in to Supabase). Everything you see on the page comes from three sources read at build time:
+
+1. **Environment variables** (`.env`) → loaded by Vite and exposed under `import.meta.env.VITE_*`.
+2. **`config/projects.json`** → imported as plain JSON and normalized by `src/config/projects.ts`.
+3. **`public/`** → served verbatim (images, icons, audio, avatar).
+
+### 6.1 Top-level layout
 
 ```
 mimir/
-├── .env.example           # template (copy to .env)
+├── .env.example           # template — copy to .env
+├── Makefile               # cross-OS shortcuts for install / dev / build / deploy
+├── README.md              # this file (English)
+├── README.es.md           # Spanish version
+├── index.html             # Vite entry HTML
+├── package.json           # scripts and dependencies
+├── pnpm-lock.yaml         # locked dependency tree (commit this)
+├── tailwind.config.ts     # theme tokens, CSS variable bridges
+├── vite.config.ts         # Vite + base path config
+├── tsconfig*.json         # TypeScript projects (app + node)
 ├── config/
-│   └── projects.json      # categories, projects, skills, icon mapping
-├── public/
-│   ├── projects/          # project images, one folder per project
-│   ├── icons/             # skill icons (slug-based filenames)
-│   ├── audio/             # optional background music
-│   └── avatar.jpg         # your avatar
-├── src/
-│   ├── config/            # env / theme / projects loaders
-│   ├── components/        # ui (layout, sections, project, controls, glass)
-│   ├── hooks/             # useTheme, useAudio, etc.
-│   ├── i18n/              # translations
-│   └── styles/            # globals + liquid glass utilities
+│   └── projects.json      # categories, projects, skills, icon overrides
+├── docs/                  # logo, screenshots, written assets
+├── public/                # static files served as-is
+├── src/                   # application source
+├── supabase/              # optional backend (forms, analytics) — safe to delete
 └── .github/workflows/     # GitHub Pages deploy workflow
 ```
 
+### 6.2 `public/` — static assets
+
+```
+public/
+├── projects/              # one folder per project, name = imageFolder
+│   └── <imageFolder>/
+│       ├── 01-hero.jpg
+│       └── 02-detail.webp
+├── icons/                 # skill icons (slug-based filenames)
+├── audio/                 # optional background music
+└── avatar.jpg             # your avatar (referenced from .env)
+```
+
+Anything in `public/` is copied straight to the build output. Use absolute paths (e.g. `/avatar.jpg`) to reference these files from `.env`.
+
+### 6.3 `src/` — application code
+
+```
+src/
+├── main.tsx               # React entry, mounts <App /> and i18n
+├── App.tsx                # top-level layout, section composition
+├── vite-env.d.ts          # typed import.meta.env
+├── config/                # config loaders — read .env and projects.json
+├── components/            # React components, grouped by purpose
+│   ├── layout/            # navbar, footer, page chrome
+│   ├── sections/          # hero, categories, skills, contact
+│   ├── project/           # project card, modal, carousel
+│   ├── controls/          # theme, language, music, colorblind toggles
+│   ├── glass/             # reusable liquid-glass primitives
+│   ├── motion/            # framer-motion wrappers (reveal, parallax)
+│   └── NeuralBackground.tsx  # animated WebGL/SVG backdrop
+├── hooks/                 # useTheme, useAudio, useMediaQuery, …
+├── i18n/                  # i18next setup + locales/ (en.json, es.json)
+├── lib/                   # framework-agnostic helpers (supabase, fetch)
+├── styles/                # globals.css + liquid-glass utilities
+└── utils/                 # pure functions (slugify, sort, image helpers)
+```
+
+#### Where to add things
+
+| You want to…                            | Edit…                                              |
+| --------------------------------------- | -------------------------------------------------- |
+| Add a project or category               | `config/projects.json`                             |
+| Change colors, name, social links       | `.env`                                             |
+| Add a new UI string                     | `src/i18n/locales/en.json` and `es.json`           |
+| Add a new section to the page          | new file in `src/components/sections/` + mount it in `src/App.tsx` |
+| Add a new control (e.g. font-size)      | new file in `src/components/controls/`             |
+| Add a new theme or visual variant       | extend tokens in `tailwind.config.ts` + `src/styles/` |
+| Add a new animation                     | wrap with helpers in `src/components/motion/`      |
+| Add a new language                      | follow [Section 3.8](#38-add-a-new-language)       |
+| Wire a contact form                     | `src/lib/` (Supabase helpers) + new section        |
+
+### 6.4 Data flow
+
+```
+   .env  ──┐
+           ├──►  src/config/  ──►  React components  ──►  rendered HTML
+projects.json ──┘                       │
+                                        ├──►  i18next (UI strings)
+                                        └──►  Tailwind + CSS vars (theme)
+```
+
+- `src/config/env.ts` parses `import.meta.env.VITE_*` into a typed object.
+- `src/config/projects.ts` imports `config/projects.json`, validates it, and exposes helpers like `localizedProject(p, lang)` and `visibleCategories(lang)` so components never deal with raw bilingual fields.
+- `src/config/theme.ts` writes CSS variables (`--bg`, `--fg`, `--accent`, …) from `.env` so Tailwind utilities resolve to the right color in every theme.
+
+### 6.5 Adding a new visible section — example
+
+Say you want a "Talks" section:
+
+1. Create `src/components/sections/Talks.tsx`.
+2. Add UI strings (heading, empty state) to `src/i18n/locales/en.json` and `es.json`.
+3. Mount `<Talks />` in `src/App.tsx` between two existing sections.
+4. (Optional) If the section is data-driven, add a new array to `config/projects.json` and read it via a helper in `src/config/projects.ts`.
+
+No router, no lazy loading, no global state library. One page, one render tree.
+
 ---
 
-## License
+## 7. Contributing
 
-MIT — fork it, make it yours.
+Mimir is open source and contributions are welcome.
+
+- **Bugs and feature requests** — open an issue with a clear repro and your OS / browser.
+- **Pull requests** — fork, branch off `main`, run `pnpm exec tsc -b --noEmit` before pushing.
+- **Translations** — adding a third language is the highest-leverage contribution. Follow [Section 3.8](#38-add-a-new-language) and open a PR.
+- **Themes** — drop a `themes/<name>.env` preset and we'll add it to the docs.
+- **Discussions** — proposals for new sections, layouts or integrations go in GitHub Discussions.
+
+By contributing you agree that your contribution is released under the project's MIT license.
+
+---
+
+## 8. License
+
+**MIT** — fork it, make it yours. No attribution required, but a star on the repo is always appreciated.
