@@ -203,7 +203,8 @@ export const ProjectModal = ({ project, onClose }: Props) => {
                                   refractionAmount={22}
                                   chromaticAberration={6}
                                   blur={1}
-                                  className="is-press px-4 py-2 text-sm font-medium inline-flex items-center gap-1.5 whitespace-nowrap"
+                                  className="is-press inline-flex items-center px-4 py-2 text-sm font-medium whitespace-nowrap"
+                                  contentClassName="!inline-flex !w-auto !h-auto items-center gap-1.5"
                                 >
                                   {link.label}
                                   <ExternalIcon />
