@@ -7,13 +7,17 @@ import type { ProjectDef } from '@/config/projects';
 interface Props {
   project: ProjectDef;
   onSelect: () => void;
+  /* Carousel renders three copies of each project for seamless wrap;
+     only one may own the shared layoutId or the modal close animation
+     can't decide which card to morph back into. */
+  shareLayout?: boolean;
 }
 
 /* Small clickable preview that doubles as the source of the shared-layout
    animation. The `layoutId` matches the one on ProjectModal — when the
    modal mounts framer-motion morphs this element into the modal's larger
    container. */
-export const ProjectGridCard = ({ project, onSelect }: Props) => {
+export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage?.startsWith('es') ? 'es' : 'en';
   const p = localizedProject(project, lang);
@@ -24,7 +28,7 @@ export const ProjectGridCard = ({ project, onSelect }: Props) => {
     <motion.button
       type="button"
       onClick={onSelect}
-      layoutId={`project-card-${project.id}`}
+      layoutId={shareLayout ? `project-card-${project.id}` : undefined}
       whileHover={{ y: -4 }}
       transition={{ type: 'spring', stiffness: 280, damping: 26 }}
       className="text-left w-full h-full block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-[24px]"

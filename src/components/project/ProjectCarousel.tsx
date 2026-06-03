@@ -249,7 +249,11 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
               className="shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
               aria-hidden={copy !== 1}
             >
-              <ProjectGridCard project={p} onSelect={() => onSelect(p)} />
+              <ProjectGridCard
+                project={p}
+                onSelect={() => onSelect(p)}
+                shareLayout={copy === 1}
+              />
             </div>
           )),
         )}
