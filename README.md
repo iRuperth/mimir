@@ -399,9 +399,24 @@ Useful in CI or as a pre-commit check.
 
 1. Push your fork to `main`.
 2. In your repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. The workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and publishes on every push. It sets `VITE_BASE_PATH` to `/<repo-name>/` automatically.
+3. Add your `.env` to repository secrets so the build sees your real values (see below).
+4. The workflow in [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and publishes on every push to `main`. It sets `VITE_BASE_PATH` to `/<repo-name>/` automatically.
 
 Your site will be at `https://<username>.github.io/<repo-name>/`.
+
+#### Provide your `.env` to the workflow
+
+`.env` is gitignored (good — it may hold Supabase keys, social links, etc.), so the workflow can't see it at build time. To inject it:
+
+1. Open <https://github.com/`<your-user>`/`<your-repo>`/settings/secrets/actions>.
+2. Click **New repository secret**.
+3. **Name:** `ENV_FILE_MIMIR`.
+4. **Secret:** paste the **full contents** of your local `.env` file (every `VITE_*=...` line).
+5. Save.
+
+The workflow writes that secret to `.env` at the start of every build. If the secret isn't set, it falls back to `.env.example` so the build doesn't break — but the site will show placeholder content.
+
+**You only need to update the secret when you change `.env`.** Adding a project, image, skill or editing source code does **not** require touching the secret — those changes are read from `config/projects.json`, `public/`, and the source tree, which are committed and pushed normally.
 
 ### Option B — Manual
 
