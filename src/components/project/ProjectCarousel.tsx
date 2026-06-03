@@ -84,16 +84,25 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
       if (shifted !== 0) el.scrollLeft += shifted;
     };
 
-    const tick = () => {
+    /* Anchor the scroller at the first card of the middle copy. Until a
+       real card has a real width (parent filters, fonts, images, etc. can
+       all delay layout) we keep retrying — otherwise scrollLeft snaps to
+       a half-measured position and one lone card ends up parked at the
+       right edge with nothing else on screen. */
+    const anchor = () => {
+      const card = el.firstElementChild as HTMLElement | null;
       const w = copyWidth();
-      if (!readyRef.current && w > 0) {
-        // Start exactly at the first card of the middle copy.
-        const mid = el.children[n] as HTMLElement | undefined;
-        const start = mid ? mid.offsetLeft : w;
-        targetRef.current = start;
-        el.scrollLeft = start;
-        readyRef.current = true;
-      }
+      if (!card || card.offsetWidth === 0 || w === 0) return false;
+      const mid = el.children[n] as HTMLElement | undefined;
+      const start = mid ? mid.offsetLeft : w;
+      targetRef.current = start;
+      el.scrollLeft = start;
+      readyRef.current = true;
+      return true;
+    };
+
+    const tick = () => {
+      if (!readyRef.current) anchor();
       if (readyRef.current) {
         if (!pausedRef.current && !draggingRef.current && !reducedMotion.current) {
           targetRef.current += AUTO_SPEED;
@@ -110,10 +119,23 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     };
     rafRef.current = requestAnimationFrame(tick);
 
+    /* Re-anchor whenever the first card's box changes size: viewport resize,
+       sidebar appears, parent un-blurs, fonts settle, etc. */
+    const ro = new ResizeObserver(() => {
+      if (draggingRef.current) return;
+      readyRef.current = false;
+    });
+    const firstCard = el.firstElementChild as HTMLElement | null;
+    if (firstCard) ro.observe(firstCard);
+    ro.observe(el);
+
     // Expose helpers for the arrow handlers via the element dataset-free refs.
     stepRef.current = cardStep;
 
-    return () => cancelAnimationFrame(rafRef.current);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      ro.disconnect();
+    };
   }, [items.length]);
 
   const onPointerDown = (e: React.PointerEvent) => {
