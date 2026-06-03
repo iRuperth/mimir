@@ -129,12 +129,27 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     if (firstCard) ro.observe(firstCard);
     ro.observe(el);
 
+    /* Re-anchor when the carousel re-enters the viewport. The parent's
+       scroll-driven blur/opacity can leave scrollLeft in a weird state
+       after the section scrolls off and back; treating each re-entry as
+       a fresh mount guarantees the first visible frame is centered. */
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !draggingRef.current) {
+          readyRef.current = false;
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(el);
+
     // Expose helpers for the arrow handlers via the element dataset-free refs.
     stepRef.current = cardStep;
 
     return () => {
       cancelAnimationFrame(rafRef.current);
       ro.disconnect();
+      io.disconnect();
     };
   }, [items.length]);
 
