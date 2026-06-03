@@ -98,6 +98,19 @@
       "imageFolder": "project-6"
     },
     {
+      "id": "looping",
+      "category": "fullstack",
+      "title_en": "Looping Marketplace",
+      "title_es": "Looping Marketplace",
+      "description_en": "Full web marketplace for buying and selling products with a complete CRUD system and role-based accounts. Visitors register as buyers and unlock the seller role with a one-time fee, then list and manage their own catalog. Stripe handles payments, Supabase-hosted PostgreSQL stores users, products and orders, and a responsive Bootstrap UI sits on top of a Django backend packaged as a Docker image and runnable with a single command.",
+      "description_es": "Marketplace web completo para comprar y vender productos con sistema CRUD completo y cuentas por rol. Los visitantes se registran como compradores y desbloquean el rol de vendedor con un pago único, tras lo cual publican y gestionan su propio catálogo. Stripe procesa los pagos, una base de datos PostgreSQL en Supabase guarda usuarios, productos y pedidos, y una UI responsive en Bootstrap se apoya en un backend Django empaquetado como imagen Docker y ejecutable con un solo comando.",
+      "tools": ["Python", "Django", "PostgreSQL", "Supabase", "Stripe", "Bootstrap", "HTML", "CSS", "JavaScript", "Docker"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/iRuperth/Looping" }
+      ],
+      "imageFolder": "looping"
+    },
+    {
       "id": "project-5",
       "category": "ai",
       "title_en": "HydraWarden",
