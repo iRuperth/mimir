@@ -31,8 +31,25 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Materialize the .env the build needs. Priority:
+      #   1. ENV_FILE_MIMIR secret — full contents of your local .env
+      #   2. .env.example committed to the repo — safe placeholder fallback
+      # The build step below sets VITE_BASE_PATH from the repo name so
+      # assets resolve at https://<user>.github.io/<repo>/.
+      - name: Prepare .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE_MIMIR }}
+        run: |
+          if [ -n "$ENV_FILE" ]; then
+            printf '%s\n' "$ENV_FILE" > .env
+          else
+            cp .env.example .env
+          fi
+
       - name: Build
         run: pnpm build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
 
       - uses: actions/configure-pages@v5
 
