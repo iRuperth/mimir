@@ -61,6 +61,19 @@
       "imageFolder": "project-4"
     },
     {
+      "id": "oopsbin",
+      "category": "ai",
+      "title_en": "OopsBin",
+      "title_es": "OopsBin",
+      "description_en": "Multiclass waste classification system powered by deep learning. Upload an image or use the live camera and OopsBin tells you which bin the item belongs in across seven categories with 93.3% test accuracy. Four CNN backbones were trained and benchmarked, ResNet50, two EfficientNetB0 variants and MobileNetV2, and any of them can be selected at inference time from the web UI. A Flask app serves the models behind a trilingual interface (EN / ES / KO), Supabase stores predictions and feedback, and the whole pipeline ships as a Docker image with uv-locked dependencies.",
+      "description_es": "Sistema de clasificación de residuos multiclase con deep learning. Sube una imagen o usa la cámara en vivo y OopsBin te dice a qué contenedor pertenece el objeto entre siete categorías con un 93.3% de accuracy en test. Se entrenaron y compararon cuatro backbones CNN, ResNet50, dos variantes de EfficientNetB0 y MobileNetV2, y cualquiera puede seleccionarse en inferencia desde la UI web. Una app Flask sirve los modelos tras una interfaz trilingüe (EN / ES / KO), Supabase guarda predicciones y feedback, y todo el pipeline se distribuye como imagen Docker con dependencias bloqueadas con uv.",
+      "tools": ["Python", "TensorFlow", "Keras", "scikit-learn", "NumPy", "pandas", "Pillow", "Flask", "Supabase", "Jupyter", "uv", "Docker", "Git LFS"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/iRuperth/OopsBin" }
+      ],
+      "imageFolder": "oopsbin"
+    },
+    {
       "id": "project-2",
       "category": "ai",
       "title_en": "Synapse Core",
