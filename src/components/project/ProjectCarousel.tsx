@@ -199,10 +199,13 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
         onClickCapture={onClickCapture}
         className="flex gap-6 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none"
         style={{
+          /* Soft fade on the left/right edges so the peeking cards melt
+             into the background instead of being cut off in a hard line.
+             A short fade band keeps the partial cards mostly visible. */
           maskImage:
-            'linear-gradient(to right, transparent, #000 4%, #000 96%, transparent)',
+            'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
           WebkitMaskImage:
-            'linear-gradient(to right, transparent, #000 4%, #000 96%, transparent)',
+            'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
         }}
       >
         {[0, 1, 2].map((copy) =>
