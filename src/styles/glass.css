@@ -109,6 +109,27 @@
   transform: translateY(-3px);
 }
 
+/* Project cards drop the outer black drop shadow. In the carousel two
+   cards sit a gap apart, and their large soft shadows overlapped in that
+   gap, pooling into a darker rectangle behind the row. We keep only the
+   inset white highlights (the glass-thickness illusion) so the surface
+   still reads as glass, but nothing dark spills between cards. */
+.liquid-glass.project-card {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.75),
+    inset 0 0 0 1px rgb(255 255 255 / 0.08),
+    inset 0 0 1.5px 1.5px rgb(255 255 255 / 0.06),
+    inset 0 -1px 1px rgb(0 0 0 / 0.18);
+}
+
+[data-theme="light"] .liquid-glass.project-card {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 1),
+    inset 0 0 0 1px rgb(255 255 255 / 0.4),
+    inset 0 0 1.5px 1.5px rgb(255 255 255 / 0.18),
+    inset 0 -1px 1px rgb(0 0 0 / 0.08);
+}
+
 /* Guestbook review cards — borrow the same rim/shadow language as
    .liquid-glass so the frame reads at the same weight in both themes,
    but stay flat (no displacement filter) for performance and clarity. */
