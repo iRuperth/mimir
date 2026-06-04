@@ -84,6 +84,7 @@
     "colorblind": "Modo daltónico",
     "music_on": "Reproducir música",
     "music_off": "Pausar música",
-    "volume": "Volumen"
+    "volume": "Volumen",
+    "settings": "Ajustes"
   }
 }

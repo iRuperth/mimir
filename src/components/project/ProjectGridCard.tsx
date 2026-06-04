@@ -34,7 +34,7 @@ export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props
       className="text-left w-full h-full block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-[24px]"
       aria-label={`${t('projects.view')}: ${p.title}`}
     >
-      <GlassCard radius={24} className="overflow-hidden h-full">
+      <GlassCard radius={24} className="project-card overflow-hidden h-full">
         <div className="flex flex-col h-full">
           <div className="aspect-[16/10] w-full overflow-hidden">
             {cover ? (

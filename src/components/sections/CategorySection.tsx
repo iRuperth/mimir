@@ -180,29 +180,37 @@ export const CategorySection = ({ category, projects: items }: Props) => {
         >
           {t('projects.title')}
         </motion.h3>
-        {/* Up to 4 projects: a left-aligned flex-wrap grid (4/3/2/1 per row
-            by breakpoint). More than 4: a continuous auto-scrolling carousel
-            the visitor can drag to scrub faster or step through with the
-            prev/next arrows. */}
+        {/* On mobile every category scrolls horizontally so cards never
+            stack one-under-another. On desktop (md+) the original rule holds:
+            up to 4 projects use a left-aligned flex-wrap grid (4/3/2/1 per
+            row by breakpoint); more than 4 use the continuous auto-scrolling
+            carousel the visitor can drag or step through with the arrows. */}
         {items.length > 4 ? (
           <motion.div variants={itemVariants}>
             <ProjectCarousel items={items} onSelect={setSelected} />
           </motion.div>
         ) : (
-          <motion.div
-            variants={containerVariants}
-            className="flex flex-wrap justify-start gap-6"
-          >
-            {items.map((p) => (
-              <motion.div
-                key={p.id}
-                variants={itemVariants}
-                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
-              >
-                <ProjectGridCard project={p} onSelect={() => setSelected(p)} />
-              </motion.div>
-            ))}
-          </motion.div>
+          <>
+            {/* Mobile: horizontal carousel. */}
+            <motion.div variants={itemVariants} className="md:hidden">
+              <ProjectCarousel items={items} onSelect={setSelected} />
+            </motion.div>
+            {/* Desktop: flex-wrap grid. */}
+            <motion.div
+              variants={containerVariants}
+              className="hidden md:flex flex-wrap justify-start gap-6"
+            >
+              {items.map((p) => (
+                <motion.div
+                  key={p.id}
+                  variants={itemVariants}
+                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
+                >
+                  <ProjectGridCard project={p} onSelect={() => setSelected(p)} />
+                </motion.div>
+              ))}
+            </motion.div>
+          </>
         )}
       </motion.div>
 
