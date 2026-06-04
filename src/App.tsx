@@ -1,5 +1,6 @@
 import { useTheme } from '@/hooks/useTheme';
 import { GlassTuningProvider } from '@/hooks/useGlassTuning';
+import { AudioProvider } from '@/hooks/useAudio';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -20,48 +21,50 @@ const App = () => {
 
   return (
     <GlassTuningProvider>
-      <NeuralBackground />
-      <div className="bg-layer" aria-hidden="true">
-        <span className="blob-a" />
-        <span className="blob-b" />
-        <span className="blob-c" />
-      </div>
+      <AudioProvider>
+        <NeuralBackground />
+        <div className="bg-layer" aria-hidden="true">
+          <span className="blob-a" />
+          <span className="blob-b" />
+          <span className="blob-c" />
+        </div>
 
-      <div className="top-fade" aria-hidden="true" />
+        <div className="top-fade" aria-hidden="true" />
 
-      <Navbar
-        mode={mode}
-        onThemeToggle={toggle}
-        colorblind={colorblind}
-        onColorblindToggle={toggleColorblind}
-      />
+        <Navbar
+          mode={mode}
+          onThemeToggle={toggle}
+          colorblind={colorblind}
+          onColorblindToggle={toggleColorblind}
+        />
 
-      <main>
-        <Hero />
-        <section id="about" className={containerClass}>
-          <ScrollFade>
-            <About />
-          </ScrollFade>
-        </section>
-        <section id="projects" className={`relative ${containerClass}`}>
-          <Projects />
-        </section>
-        <section id="skills" className={containerClass}>
-          <ScrollFade>
-            <Skills />
-          </ScrollFade>
-        </section>
-        {config.guestbook.enabled && (
-          <section id="guestbook" className={containerClass}>
+        <main>
+          <Hero />
+          <section id="about" className={containerClass}>
             <ScrollFade>
-              <Guestbook />
+              <About />
             </ScrollFade>
           </section>
-        )}
-      </main>
+          <section id="projects" className={`relative ${containerClass}`}>
+            <Projects />
+          </section>
+          <section id="skills" className={containerClass}>
+            <ScrollFade>
+              <Skills />
+            </ScrollFade>
+          </section>
+          {config.guestbook.enabled && (
+            <section id="guestbook" className={containerClass}>
+              <ScrollFade>
+                <Guestbook />
+              </ScrollFade>
+            </section>
+          )}
+        </main>
 
-      <Footer />
-      {config.devTools.glassTuner && <GlassTuner />}
+        <Footer />
+        {config.devTools.glassTuner && <GlassTuner />}
+      </AudioProvider>
     </GlassTuningProvider>
   );
 };
