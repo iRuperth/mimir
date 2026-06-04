@@ -236,13 +236,17 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
         onClickCapture={onClickCapture}
         className="flex gap-6 overflow-x-auto no-scrollbar cursor-grab active:cursor-grabbing select-none"
         style={{
-          /* Soft fade on the left/right edges so the peeking cards melt
-             into the background instead of being cut off in a hard line.
-             A short fade band keeps the partial cards mostly visible. */
+          /* Fade only a thin fixed band at the very left/right edges of the
+             scroller so a peeking card melts into the background instead of
+             ending in a hard vertical line. A FIXED 24px band (not a % of
+             the card) is key: on mobile a card is full-width, so a
+             percentage fade would eat into its rounded corners and make the
+             whole card look square. 24px stays in the gutter and leaves the
+             card's rounded corners untouched. */
           maskImage:
-            'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
+            'linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%)',
           WebkitMaskImage:
-            'linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%)',
+            'linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%)',
         }}
       >
         {[0, 1, 2].map((copy) =>
