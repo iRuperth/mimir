@@ -36,16 +36,23 @@ export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props
     >
       <GlassCard radius={24} className="project-card overflow-hidden h-full">
         <div className="flex flex-col h-full">
-          <div className="aspect-[16/10] w-full overflow-hidden">
+          {/* The cover clips its own top corners (rounded-t-[24px]) instead
+              of relying on the GlassCard ancestor's overflow:hidden. On iOS
+              Safari that ancestor clip fails because .liquid-glass runs a
+              backdrop-filter, which spawns a compositing layer that ignores
+              the rounded overflow — so the square image corners spilled past
+              the card border on mobile. Rounding the image's own wrapper
+              (and the media itself) keeps the clip local and bug-proof. */}
+          <div className="aspect-[16/10] w-full overflow-hidden rounded-t-[24px]">
             {cover ? (
               <img
                 src={cover}
                 alt=""
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                className="w-full h-full object-cover rounded-t-[24px] transition-transform duration-700 ease-out hover:scale-105"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
+              <div className="w-full h-full rounded-t-[24px] bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
             )}
           </div>
           <div className="flex flex-col gap-2 p-5 flex-1">
