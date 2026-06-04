@@ -177,12 +177,12 @@ export const ProjectModal = ({ project, onClose }: Props) => {
                       )}
 
                       <div className="relative rounded-2xl bg-white/5 border border-white/10 p-5 md:p-6">
-                        <p className="text-text-soft leading-relaxed md:text-lg">
+                        <p className="text-text-soft leading-relaxed md:text-lg text-justify md:text-left">
                           {p.description}
                         </p>
 
                         {hasDetails && (
-                          <div className="flex flex-col gap-3 pt-4 text-text-soft leading-relaxed">
+                          <div className="flex flex-col gap-3 pt-4 text-text-soft leading-relaxed text-justify md:text-left">
                             {detailParagraphs.map((para, i) => (
                               <p key={i}>{para}</p>
                             ))}
