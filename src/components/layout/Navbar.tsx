@@ -195,7 +195,7 @@ export const Navbar = ({ mode, onThemeToggle, colorblind, onColorblindToggle }: 
         className={`w-full max-w-6xl px-4 md:px-6 transition-all duration-300 ${
           scrolled ? 'py-2' : 'py-3'
         }`}
-        contentClassName="grid grid-cols-[1fr_auto_1fr] items-center gap-4"
+        contentClassName="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-4"
         ariaLabel="Main navigation"
       >
         <div className="flex items-center justify-start">
