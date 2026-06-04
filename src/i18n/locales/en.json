@@ -84,6 +84,7 @@
     "colorblind": "Colorblind mode",
     "music_on": "Play music",
     "music_off": "Pause music",
-    "volume": "Volume"
+    "volume": "Volume",
+    "settings": "Settings"
   }
 }

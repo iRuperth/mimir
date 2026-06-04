@@ -3,10 +3,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/config/env';
 import { groupedSkills, visibleCategories } from '@/config/projects';
-import { LangToggle } from '@/components/controls/LangToggle';
-import { ThemeToggle } from '@/components/controls/ThemeToggle';
-import { ColorblindToggle } from '@/components/controls/ColorblindToggle';
-import { MusicToggle } from '@/components/controls/MusicToggle';
+import { SettingsMenu } from '@/components/controls/SettingsMenu';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { scrollToElementInstant, scrollToYInstant } from '@/utils/scroll';
 import { broadcastTooltipOpen, onTooltipOpen } from '@/utils/tooltipBus';
@@ -205,7 +202,7 @@ export const Navbar = ({ mode, onThemeToggle, colorblind, onColorblindToggle }: 
           <button
             type="button"
             onClick={scrollToTop}
-            className="font-bold text-base md:text-lg tracking-tight hover:scale-105 active:scale-95 transition-transform"
+            className="font-bold text-base md:text-lg tracking-tight whitespace-nowrap hover:scale-105 active:scale-95 transition-transform"
             aria-label={t('nav.home')}
           >
             {config.owner.name}
@@ -264,10 +261,12 @@ export const Navbar = ({ mode, onThemeToggle, colorblind, onColorblindToggle }: 
         </ul>
 
         <div className="flex items-center justify-end gap-2">
-          <LangToggle />
-          <ThemeToggle mode={mode} onToggle={onThemeToggle} />
-          <ColorblindToggle active={colorblind} onToggle={onColorblindToggle} />
-          <MusicToggle />
+          <SettingsMenu
+            mode={mode}
+            onThemeToggle={onThemeToggle}
+            colorblind={colorblind}
+            onColorblindToggle={onColorblindToggle}
+          />
         </div>
       </LiquidGlass>
 
