@@ -50,7 +50,7 @@ export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props
           </div>
           <div className="flex flex-col gap-2 p-5 flex-1">
             <h4 className="text-lg font-semibold tracking-tight">{p.title}</h4>
-            <p className="text-sm text-text-soft leading-relaxed line-clamp-3">
+            <p className="text-sm text-text-soft leading-relaxed line-clamp-3 text-justify md:text-left">
               {p.description}
             </p>
             {p.tools.length > 0 && (
