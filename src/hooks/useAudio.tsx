@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { config } from '@/config/env';
 
 /* Storage key is versioned. Bumping it discards any prior saved
@@ -19,7 +27,25 @@ const readStoredVolume = (): number | null => {
   }
 };
 
-export const useAudio = () => {
+interface AudioApi {
+  playing: boolean;
+  toggle: () => void;
+  available: boolean;
+  volume: number;
+  setVolume: (v: number) => void;
+}
+
+const AudioContext = createContext<AudioApi | null>(null);
+
+/* The audio engine lives once at the app root, NOT inside any control
+   component. MusicToggle now renders inside a popover that mounts/unmounts
+   as the gear menu opens and closes; if the Audio element were created in
+   that component's effect, every unmount would pause playback and every
+   mount would spin up a fresh element + a fresh "About" autoplay observer.
+   Hoisting it into this provider keeps a single, stable Audio element alive
+   for the whole session so playback survives the popover toggling and the
+   autoplay trigger fires exactly once. */
+export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   /* Once the user takes manual control (presses the music button), the
      autoplay fallback must stop trying to start playback on later
@@ -130,5 +156,17 @@ export const useAudio = () => {
     setVolumeState(Math.min(1, Math.max(0, v)));
   }, []);
 
-  return { playing, toggle, available, volume, setVolume };
+  return (
+    <AudioContext.Provider value={{ playing, toggle, available, volume, setVolume }}>
+      {children}
+    </AudioContext.Provider>
+  );
+};
+
+export const useAudio = (): AudioApi => {
+  const ctx = useContext(AudioContext);
+  if (!ctx) {
+    throw new Error('useAudio must be used within an AudioProvider');
+  }
+  return ctx;
 };
