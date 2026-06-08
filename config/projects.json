@@ -35,6 +35,19 @@
   ],
   "projects": [
     {
+      "id": "beatsense",
+      "category": "ai",
+      "title_en": "BeatSense",
+      "title_es": "BeatSense",
+      "description_en": "Cardiovascular risk intelligence platform built as if it had to live at a real hospital nurses station, not a notebook demo. Around a scikit-learn model trained on 918 patients and twelve clinical features, it ships three coordinated surfaces: a FastAPI service that exposes the model and persists every assessment, a Next.js 16 clinical workstation with sidebar navigation, dark mode, English and Spanish, and a result rendered as a printable thermal-style ticket ready to clip to the patient record, plus a legacy Streamlit dashboard for quick demos. The production model is a Logistic Regression with a custom 0.4 decision threshold, chosen because in cardiology a false negative is far more dangerous than a false positive, an interpretable choice that recovers 94% of true positives.",
+      "description_es": "Plataforma de inteligencia de riesgo cardiovascular construida como si tuviera que vivir en el puesto de enfermería de un hospital real, no en la demo de un notebook. En torno a un modelo scikit-learn entrenado sobre 918 pacientes y doce variables clínicas, ofrece tres superficies coordinadas: un servicio FastAPI que expone el modelo y persiste cada evaluación, una estación clínica en Next.js 16 con navegación lateral, modo oscuro, inglés y español, y un resultado renderizado como un tique de impresora térmica imprimible listo para adjuntar a la historia del paciente, además de un dashboard Streamlit heredado para demos rápidas. El modelo de producción es una Regresión Logística con un umbral de decisión personalizado de 0.4, elegido porque en cardiología un falso negativo es mucho más peligroso que un falso positivo, una elección interpretable que recupera el 94% de los positivos reales.",
+      "tools": ["Python", "scikit-learn", "XGBoost", "Optuna", "pandas", "NumPy", "FastAPI", "Uvicorn", "Streamlit", "Next.js", "React", "TypeScript", "Tailwind", "Docker", "uv"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/iRuperth/BeatSense" }
+      ],
+      "imageFolder": "beatsense"
+    },
+    {
       "id": "project-1",
       "category": "ai",
       "title_en": "Offerly",
@@ -241,6 +254,7 @@
     "Keras": "ai",
     "Transformers": "ai",
     "scikit-learn": "ai",
+    "XGBoost": "ai",
     "ONNX Runtime": "ai",
     "CrewAI": "ai",
     "LiteLLM": "ai",
@@ -251,6 +265,7 @@
     "Edge TTS": "ai",
     "ElevenLabs": "ai",
     "MoviePy": "ai",
+    "Streamlit": "ai",
     "MLflow": "ai",
     "Optuna": "ai",
     "spaCy": "ai",
