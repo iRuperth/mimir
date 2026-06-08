@@ -6,6 +6,10 @@ interface Props {
   images: string[];
   alt: string;
   autoplayMs?: number;
+  /* "cover" (default) crops images to fill a 16:9 frame — used on the
+     compact card. "contain" shows the whole image without cropping on a
+     neutral backdrop — used in the modal where detail matters. */
+  fit?: 'cover' | 'contain';
 }
 
 const ChevronLeft = () => (
@@ -40,8 +44,16 @@ const ChevronRight = () => (
   </svg>
 );
 
-export const ImageCarousel = ({ images, alt, autoplayMs = 2000 }: Props) => {
+export const ImageCarousel = ({ images, alt, autoplayMs = 2000, fit = 'cover' }: Props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  /* Project screenshots are ~2.2:1 ultrawide. "cover" crops them into a
+     16:9 thumbnail on the card; "contain" keeps the full frame in the
+     modal, with the frame matching the screenshots' real ratio so they
+     fill it edge-to-edge instead of sitting in side letterbox bars. */
+  const isContain = fit === 'contain';
+  const frameAspect = isContain ? 'aspect-[64/29]' : 'aspect-video';
+  const imgFit = isContain ? 'object-contain' : 'object-cover';
+  const hoverScale = isContain ? '' : 'group-hover:scale-105';
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -123,12 +135,18 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000 }: Props) => {
 
   if (images.length === 1) {
     return (
-      <div className="w-full aspect-video rounded-2xl overflow-hidden group">
+      <div
+        className={`w-full ${frameAspect} rounded-2xl overflow-hidden group ${
+          isContain ? 'bg-black/20' : ''
+        }`}
+      >
         <img
           src={images[0]}
           alt={alt}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          className={`w-full h-full ${imgFit} transition-transform duration-500 ease-out ${
+            isContain ? '' : 'group-hover:scale-110'
+          }`}
         />
       </div>
     );
@@ -136,11 +154,14 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000 }: Props) => {
 
   return (
     <div
-      className="relative w-full aspect-video"
+      className={`relative w-full ${frameAspect}`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="absolute inset-0 overflow-hidden rounded-2xl" ref={emblaRef}>
+      <div
+        className={`absolute inset-0 overflow-hidden rounded-2xl ${isContain ? 'bg-black/20' : ''}`}
+        ref={emblaRef}
+      >
         <div className="flex h-full">
           {images.map((src, i) => (
             <div className="flex-[0_0_100%] min-w-0 group h-full" key={src + i}>
@@ -149,7 +170,7 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000 }: Props) => {
                   src={src}
                   alt={`${alt} (${i + 1}/${images.length})`}
                   loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className={`w-full h-full ${imgFit} transition-transform duration-500 ease-out ${hoverScale}`}
                 />
               </div>
             </div>

@@ -6,9 +6,9 @@ Folder naming must match the `imageFolder` field of the matching entry in
 [`/config/projects.json`](../../config/projects.json), e.g.:
 
 ```
-public/projects/project-1/01.jpg
-public/projects/project-1/02.jpg
-public/projects/project-2/01.webp
+public/projects/offerly/01.jpg
+public/projects/offerly/02.jpg
+public/projects/synapse-core/01.webp
 ```
 
 Supported extensions: `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
