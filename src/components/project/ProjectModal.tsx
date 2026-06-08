@@ -143,7 +143,7 @@ export const ProjectModal = ({ project, onClose }: Props) => {
               </h3>
 
               <div className="w-full max-w-5xl mx-auto">
-                <ImageCarousel images={p.images} alt={p.title} />
+                <ImageCarousel images={p.images} alt={p.title} fit="contain" />
               </div>
 
               <AnimatePresence initial={false}>
