@@ -58,7 +58,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/Multi-Agent-Chain-of-Thought" }
       ],
-      "imageFolder": "project-1"
+      "imageFolder": "offerly"
     },
     {
       "id": "project-4",
@@ -71,7 +71,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/SignalMod" }
       ],
-      "imageFolder": "project-4"
+      "imageFolder": "signalmod"
     },
     {
       "id": "oopsbin",
@@ -96,7 +96,7 @@
       "tools": ["Python", "Flask", "Anthropic", "Cerebras", "Whisper", "Edge TTS", "ElevenLabs", "MoviePy", "FFmpeg", "Pillow", "React", "TypeScript", "Vite", "Tailwind", "Docker"],
       "links": [],
       "private": true,
-      "imageFolder": "project-2"
+      "imageFolder": "synapse-core"
     },
     {
       "id": "project-3",
@@ -108,7 +108,7 @@
       "tools": ["Next.js", "React", "TypeScript", "Tailwind", "Supabase", "Anthropic", "Google Cloud", "Resend", "Vitest", "Docker", "Railway"],
       "links": [],
       "private": true,
-      "imageFolder": "project-3"
+      "imageFolder": "mass-regularization-portal"
     },
     {
       "id": "project-6",
@@ -121,7 +121,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/learn-hub" }
       ],
-      "imageFolder": "project-6"
+      "imageFolder": "learn-hub"
     },
     {
       "id": "looping",
@@ -147,7 +147,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/hydra-warden" }
       ],
-      "imageFolder": "project-5"
+      "imageFolder": "hydrawarden"
     },
     {
       "id": "project-7",
@@ -160,7 +160,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/Talent-Vault" }
       ],
-      "imageFolder": "project-7"
+      "imageFolder": "talent-vault"
     },
     {
       "id": "project-8",
@@ -173,7 +173,7 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/iRuperth/SADAR" }
       ],
-      "imageFolder": "project-8"
+      "imageFolder": "sadar"
     }
   ],
   "skillGroups": [
