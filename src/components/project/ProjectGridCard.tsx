@@ -14,7 +14,7 @@ interface Props {
 }
 
 /* Small clickable preview that doubles as the source of the shared-layout
-   animation. The `layoutId` matches the one on ProjectModal — when the
+   animation. The `layoutId` matches the one on ProjectModal: when the
    modal mounts framer-motion morphs this element into the modal's larger
    container. */
 export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props) => {
@@ -23,6 +23,7 @@ export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props
   const p = localizedProject(project, lang);
 
   const cover = p.images[0];
+  const portrait = p.isPortrait;
 
   return (
     <motion.button
@@ -40,21 +41,43 @@ export const ProjectGridCard = ({ project, onSelect, shareLayout = true }: Props
               of relying on the GlassCard ancestor's overflow:hidden. On iOS
               Safari that ancestor clip fails because .liquid-glass runs a
               backdrop-filter, which spawns a compositing layer that ignores
-              the rounded overflow — so the square image corners spilled past
+              the rounded overflow, so the square image corners spilled past
               the card border on mobile. Rounding the image's own wrapper
               (and the media itself) keeps the clip local and bug-proof. */}
-          <div className="aspect-[16/10] w-full overflow-hidden rounded-t-[24px]">
-            {cover ? (
-              <img
-                src={cover}
-                alt=""
-                loading="lazy"
-                className="w-full h-full object-cover rounded-t-[24px] transition-transform duration-700 ease-out hover:scale-105"
-              />
-            ) : (
-              <div className="w-full h-full rounded-t-[24px] bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
-            )}
-          </div>
+          {/* Portrait (mobile-app) covers: the tall screenshot sits as a phone
+              inside a 16:10 area on a soft backdrop. The image is object-contain
+              (whole top-to-bottom, never cropped vertically); a dark rounded
+              bezel around it gives the real-device look. Landscape covers are
+              unchanged. */}
+          {portrait ? (
+            <div className="aspect-[16/10] w-full overflow-hidden rounded-t-[24px] bg-gradient-to-br from-accent/15 via-surface/30 to-accent-2/15 flex items-end justify-center pt-4">
+              {cover ? (
+                <div className="h-full aspect-[9/18.8] overflow-hidden rounded-[20px] bg-neutral-950 ring-1 ring-white/10 shadow-xl p-1">
+                  <img
+                    src={cover}
+                    alt=""
+                    loading="lazy"
+                    className="w-full h-full object-contain rounded-[16px] transition-transform duration-700 ease-out"
+                  />
+                </div>
+              ) : (
+                <div className="h-full aspect-[9/18.8] rounded-[20px] bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
+              )}
+            </div>
+          ) : (
+            <div className="aspect-[16/10] w-full overflow-hidden rounded-t-[24px]">
+              {cover ? (
+                <img
+                  src={cover}
+                  alt=""
+                  loading="lazy"
+                  className="w-full h-full object-cover rounded-t-[24px] transition-transform duration-700 ease-out hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full rounded-t-[24px] bg-gradient-to-br from-accent/40 via-accent-2/30 to-surface/50" />
+              )}
+            </div>
+          )}
           <div className="flex flex-col gap-2 p-5 flex-1">
             <h4 className="text-lg font-semibold tracking-tight">{p.title}</h4>
             <p className="text-sm text-text-soft leading-relaxed line-clamp-3 text-justify md:text-left">
