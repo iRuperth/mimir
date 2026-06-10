@@ -13,6 +13,39 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Force the arrow cursor everywhere so text and headings never show the
+   I-beam (typewriter) caret; only genuinely interactive elements get the
+   hand pointer. Text inputs keep the I-beam where typing is expected, and
+   the few intentional special cursors (grab, wait, help) still win because
+   their utility classes carry their own cursor declaration. */
+* {
+  cursor: default;
+}
+
+a[href],
+button,
+label[for],
+select,
+summary,
+[role='button'],
+[role='link'],
+[role='tab'],
+[role='menuitem'],
+[onclick] {
+  cursor: pointer;
+}
+
+:disabled,
+[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+input:not([type='button']):not([type='submit']):not([type='reset']):not([type='checkbox']):not([type='radio']),
+textarea,
+[contenteditable='true'] {
+  cursor: text;
+}
+
 html,
 body,
 #root {
@@ -27,7 +60,7 @@ body {
   background-color: rgb(var(--bg-soft));
 }
 
-/* Animated background — drifting blobs behind everything.
+/* Animated background of drifting blobs behind everything.
    Glass elements refract these as they pass over, giving the
    refraction continuous motion without scroll dependency. */
 .bg-layer {
@@ -114,7 +147,7 @@ body {
   100% { transform: translate3d(104vw, 0, 0); opacity: 0; }
 }
 
-/* Top fade band — sits below the floating navbar (z-50) and above
+/* Top fade band that sits below the floating navbar (z-50) and above
    page content. As the user scrolls, content moving past this band
    gradually fades into the page background instead of clipping
    against the navbar edge. Hidden while a modal is open so the
@@ -142,7 +175,7 @@ body.modal-open .top-fade {
 
 /* When a project modal is open, fade out the rest of the page
    (sections, footer, side nav, glass tuner) so only the navbar and
-   the modal card stay visible — but keep the neural canvas and the
+   the modal card stay visible, but keep the neural canvas and the
    drifting blobs rendering underneath. */
 main,
 footer,
@@ -187,7 +220,7 @@ body.modal-open .glass-tuner-root {
   background: rgb(var(--accent) / 0.7);
 }
 
-/* Hide scrollbar utility — scrolling still works, the track/thumb
+/* Hide scrollbar utility: scrolling still works, the track/thumb
    just isn't painted. Used on overlays where a visible bar competes
    with the floating card aesthetic. */
 .no-scrollbar {
