@@ -4,7 +4,7 @@
 
 # $\color{#A78BFA}{\textsf{Mimir}}$
 
-**Una plantilla de portfolio open source — haz fork, rellénala y publícala.**
+**Una plantilla de portfolio open source: haz fork, rellénala y publícala.**
 
 [![English](https://img.shields.io/badge/English-1a1a1a?style=for-the-badge)](README.md) **·** [![Español](https://img.shields.io/badge/Espa%C3%B1ol-1a1a1a?style=for-the-badge)](README.es.md)
 
@@ -37,10 +37,10 @@ Lleva el nombre de **Mímir**, el dios nórdico del conocimiento y la sabiduría
 
 El objetivo de Mimir es ofrecer a la comunidad un portfolio que sea:
 
-- **Gratis** — licencia MIT, sin atribución obligatoria.
-- **Fácil de forkear** — el contenido vive en archivos de configuración, no en el árbol React.
-- **Fácil de extender** — arquitectura documentada, superficie pequeña, sin magia oculta.
-- **Impulsado por la comunidad** — issues, pull requests y discusiones son bienvenidos. Si añades una feature, arreglas un bug, lo traduces a un nuevo idioma o creas un nuevo tema, por favor contribuye de vuelta.
+- **Gratis**: licencia MIT, sin atribución obligatoria.
+- **Fácil de forkear**: el contenido vive en archivos de configuración, no en el árbol React.
+- **Fácil de extender**: arquitectura documentada, superficie pequeña, sin magia oculta.
+- **Impulsado por la comunidad**: issues, pull requests y discusiones son bienvenidos. Si añades una feature, arreglas un bug, lo traduces a un nuevo idioma o creas un nuevo tema, por favor contribuye de vuelta.
 
 > Si construyes algo encima de Mimir, abre un issue o PR y cuéntanoslo. Cuantas más variaciones publique la comunidad, mejor será la plantilla.
 
@@ -68,13 +68,13 @@ El bundle de producción por defecto ronda **150–200 KB gzip**. Aquí el porqu
 
 ## Bilingüe por diseño
 
-Cada string visible en Mimir existe dos veces — una en inglés, otra en español — y el visitante puede cambiar entre ellas con un solo clic en la navbar.
+Cada string visible en Mimir existe dos veces (una en inglés, otra en español) y el visitante puede cambiar entre ellas con un solo clic en la navbar.
 
 - El idioma por defecto viene de `DEFAULT_LANGUAGE` en `.env`.
 - La configuración regional del navegador del visitante gana si coincide con un idioma soportado.
 - Los títulos, descripciones, detalles de proyectos y etiquetas de categoría usan campos pareados `_en` / `_es` en `config/projects.json`.
 - Los strings de UI (botones, encabezados, tooltips) viven en `src/i18n/locales/en.json` y `src/i18n/locales/es.json`.
-- Añadir un tercer idioma es un proceso de cuatro pasos — ver [Sección 3.8](#38-añadir-un-nuevo-idioma).
+- Añadir un tercer idioma es un proceso de cuatro pasos: ver [Sección 3.8](#38-añadir-un-nuevo-idioma).
 
 ---
 
@@ -95,9 +95,9 @@ Cada string visible en Mimir existe dos veces — una en inglés, otra en españ
 
 Necesitas tres cosas instaladas en tu máquina. Si ya las tienes, salta a la [Sección 2](#2-arrancar-el-proyecto).
 
-- **Node.js 20 o superior** — descárgalo desde <https://nodejs.org>
-- **pnpm** — instalado una sola vez vía Corepack (ver abajo)
-- **Git** — descárgalo desde <https://git-scm.com>
+- **Node.js 20 o superior**: descárgalo desde <https://nodejs.org>
+- **pnpm**: instalado una sola vez vía Corepack (ver abajo)
+- **Git**: descárgalo desde <https://git-scm.com>
 
 ### Instalar pnpm (una sola vez, cualquier OS)
 
@@ -114,7 +114,7 @@ Verifica la instalación:
 
 ## 2. Arrancar el proyecto
 
-Elige la sección que corresponda a tu OS. **Cada comando va en su propia línea** — cópialos uno a uno.
+Elige la sección que corresponda a tu OS. **Cada comando va en su propia línea**: cópialos uno a uno.
 
 ### macOS
 
@@ -174,12 +174,12 @@ Luego abre <http://localhost:5173> en tu navegador.
 
 Todo el contenido del sitio vive en **dos archivos**:
 
-- `.env` — tu información personal, colores del tema, enlaces sociales.
-- `config/projects.json` — categorías, proyectos, skills, mapeo de iconos.
+- `.env`: tu información personal, colores del tema, enlaces sociales.
+- `config/projects.json`: categorías, proyectos, skills, mapeo de iconos.
 
 Nunca necesitas tocar el código fuente para cambiar el contenido.
 
-### 3.1 Información personal — edita `.env`
+### 3.1 Información personal: edita `.env`
 
 1. Copia la plantilla (ya lo hiciste en la Sección 2).
 2. Abre `.env` en tu editor.
@@ -189,7 +189,7 @@ Nunca necesitas tocar el código fuente para cambiar el contenido.
 | -------------------- | ------------------------------------------------------------------------- |
 | `OWNER_*`            | Tu nombre, título, ruta del avatar, bio (en inglés y español)             |
 | `DEFAULT_LANGUAGE`   | `en` o `es` (el navegador del visitante prevalece si coincide)            |
-| `ANIMATIONS`         | `true` / `false` — activa o desactiva las animaciones por scroll          |
+| `ANIMATIONS`         | `true` / `false`: activa o desactiva las animaciones por scroll           |
 | `DEFAULT_THEME`      | `light`, `dark` o `system`                                                |
 | `LIGHT_*` / `DARK_*` | Paleta de colores completa por tema                                       |
 | `CB_*`               | Acentos seguros Okabe-Ito que se usan cuando el modo daltónico está activo |
@@ -198,7 +198,7 @@ Nunca necesitas tocar el código fuente para cambiar el contenido.
 
 Reinicia el servidor de desarrollo después de editar `.env`.
 
-### 3.2 Categorías — edita `config/projects.json`
+### 3.2 Categorías: edita `config/projects.json`
 
 Cada categoría se convierte en su propia sección de página, con un encabezado, una descripción breve, una fila de skills derivada automáticamente y una rejilla de proyectos debajo.
 
@@ -215,12 +215,12 @@ Las categorías viven en el array `"categories"` al principio de `config/project
 }
 ```
 
-- **Añadir una categoría** — añade un nuevo objeto con un `id` único. La sección aparece automáticamente cuando al menos un proyecto usa ese `id` en su campo `category`.
-- **Eliminar una categoría** — borra el objeto del array. O pon `enabled` a `false` para ocultarla sin perder los datos. Las categorías ocultas también ocultan todos los proyectos que les pertenecen.
-- **Reordenar categorías** — cambia el orden de los objetos en el array.
-- **Renombrar una categoría** — edita su `label_en` y `label_es`.
+- **Añadir una categoría**: añade un nuevo objeto con un `id` único. La sección aparece automáticamente cuando al menos un proyecto usa ese `id` en su campo `category`.
+- **Eliminar una categoría**: borra el objeto del array. O pon `enabled` a `false` para ocultarla sin perder los datos. Las categorías ocultas también ocultan todos los proyectos que les pertenecen.
+- **Reordenar categorías**: cambia el orden de los objetos en el array.
+- **Renombrar una categoría**: edita su `label_en` y `label_es`.
 
-### 3.3 Proyectos — edita `config/projects.json`
+### 3.3 Proyectos: edita `config/projects.json`
 
 Cada proyecto vive en el array `"projects"`. Cada entrada tiene este aspecto:
 
@@ -240,15 +240,15 @@ Cada proyecto vive en el array `"projects"`. Cada entrada tiene este aspecto:
 }
 ```
 
-- **Añadir un proyecto** — añade un nuevo objeto. Asegúrate de que:
+- **Añadir un proyecto**: añade un nuevo objeto. Asegúrate de que:
   - `id` sea único.
   - `category` coincida con un `id` de categoría existente.
   - `imageFolder` coincida con una carpeta que crees bajo `public/projects/`.
-- **Eliminar un proyecto** — borra el objeto del array. Borra también la carpeta correspondiente bajo `public/projects/` si ya no necesitas las imágenes.
-- **Campos bilingües** — cada campo `_en` necesita su contraparte `_es`.
+- **Eliminar un proyecto**: borra el objeto del array. Borra también la carpeta correspondiente bajo `public/projects/` si ya no necesitas las imágenes.
+- **Campos bilingües**: cada campo `_en` necesita su contraparte `_es`.
 - **`details_en` / `details_es`** son opcionales. Si ambos están vacíos u omitidos, el botón Ver más sigue expandiendo el modal (revelando el carousel de imágenes, las herramientas, la descripción y los enlaces) pero no se renderizan párrafos adicionales. Añade texto largo cuando lo tengas.
-- **`tools`** — cada nombre alimenta automáticamente la fila de skills por categoría y la sección global de Skills. Sin mantenimiento manual.
-- **`links`** — cada enlace se renderiza como un botón glass al final de la descripción.
+- **`tools`**: cada nombre alimenta automáticamente la fila de skills por categoría y la sección global de Skills. Sin mantenimiento manual.
+- **`links`**: cada enlace se renderiza como un botón glass al final de la descripción.
 
 ### 3.4 Imágenes de proyecto
 
@@ -262,11 +262,11 @@ public/projects/my-project/
 ```
 
 - **El nombre de la carpeta** debe coincidir con el campo `imageFolder` del proyecto correspondiente.
-- **Los nombres de archivo** pueden ser cualquiera. Las imágenes aparecen en el carousel ordenadas alfabéticamente — usa el prefijo `01_`, `02_`, … para controlar la secuencia.
+- **Los nombres de archivo** pueden ser cualquiera. Las imágenes aparecen en el carousel ordenadas alfabéticamente: usa el prefijo `01_`, `02_`, … para controlar la secuencia.
 - **Formatos soportados:** `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
-- **Añadir una imagen** — coloca el archivo en la carpeta. En modo desarrollo aparece al instante; para producción reconstruye con `pnpm build`.
-- **Eliminar una imagen** — borra el archivo. El carousel se actualiza automáticamente.
-- **Relación de aspecto** — el carousel se renderiza a 16:9 con `object-cover`, así que las capturas anchas y las imágenes a sangre completa quedan mejor. Cualquier imagen más estrecha será recortada.
+- **Añadir una imagen**: coloca el archivo en la carpeta. En modo desarrollo aparece al instante; para producción reconstruye con `pnpm build`.
+- **Eliminar una imagen**: borra el archivo. El carousel se actualiza automáticamente.
+- **Relación de aspecto**: el carousel se renderiza a 16:9 con `object-cover`, así que las capturas anchas y las imágenes a sangre completa quedan mejor. Cualquier imagen más estrecha será recortada.
 
 ### 3.5 Sección Skills
 
@@ -274,7 +274,7 @@ La sección Skills al final de la página agrupa todas las herramientas que menc
 
 Tres campos en `config/projects.json` la controlan:
 
-**`skillGroups`** — los grupos y su orden. Etiquetas bilingües:
+**`skillGroups`**: los grupos y su orden. Etiquetas bilingües:
 
 ```json
 "skillGroups": [
@@ -283,7 +283,7 @@ Tres campos en `config/projects.json` la controlan:
 ]
 ```
 
-**`skillGroupOf`** — mapea cada nombre de skill a su id de grupo. Las skills sin mapeo caen en un grupo "Other" generado automáticamente para que nada se pierda nunca:
+**`skillGroupOf`**: mapea cada nombre de skill a su id de grupo. Las skills sin mapeo caen en un grupo "Other" generado automáticamente para que nada se pierda nunca:
 
 ```json
 "skillGroupOf": {
@@ -293,7 +293,7 @@ Tres campos en `config/projects.json` la controlan:
 }
 ```
 
-**`skillsExtra`** — skills que quieres mostrar pero alrededor de las cuales aún no has lanzado un proyecto:
+**`skillsExtra`**: skills que quieres mostrar pero alrededor de las cuales aún no has lanzado un proyecto:
 
 ```json
 "skillsExtra": ["Rust", "Cursor", "Figma"]
@@ -322,7 +322,7 @@ Si el slug natural resulta incómodo, añade un override bajo `"skillIcons"` en 
 }
 ```
 
-Las skills sin archivo de icono se renderizan simplemente como texto — nada se rompe.
+Las skills sin archivo de icono se renderizan simplemente como texto: nada se rompe.
 
 Fuentes sugeridas: [Devicon](https://devicon.dev/) y [Simple Icons](https://simpleicons.org/). Consulta [`public/icons/README.md`](public/icons/README.md) para todos los detalles.
 
@@ -345,7 +345,7 @@ El audio siempre arranca en pausa; el visitante decide si activarlo.
 
 ## 4. Comandos útiles
 
-Cada comando asume que ya has ejecutado `pnpm install` (o `make install`). Cada comando está en su propia línea — cópialos uno a uno.
+Cada comando asume que ya has ejecutado `pnpm install` (o `make install`). Cada comando está en su propia línea: cópialos uno a uno.
 
 ### Arrancar el servidor de desarrollo
 
@@ -395,7 +395,7 @@ Sirve lo que haya en `dist/` para que puedas comprobarlo antes de desplegar.
 
 ## 5. Desplegar
 
-### Opción A — GitHub Actions (recomendado)
+### Opción A: GitHub Actions (recomendado)
 
 1. Haz push de tu fork a `main`.
 2. En tu repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
@@ -406,7 +406,7 @@ Tu sitio estará en `https://<username>.github.io/<repo-name>/`.
 
 #### Inyecta tu `.env` en el workflow
 
-`.env` está en `.gitignore` (bien — puede contener claves de Supabase, enlaces sociales, etc.), por lo que el workflow no lo ve en build time. Para inyectarlo:
+`.env` está en `.gitignore` (bien, puede contener claves de Supabase, enlaces sociales, etc.), por lo que el workflow no lo ve en build time. Para inyectarlo:
 
 1. Abre <https://github.com/`<tu-usuario>`/`<tu-repo>`/settings/secrets/actions>.
 2. Pulsa **New repository secret**.
@@ -414,17 +414,17 @@ Tu sitio estará en `https://<username>.github.io/<repo-name>/`.
 4. **Secret:** pega el **contenido completo** de tu `.env` local (todas las líneas `VITE_*=...`).
 5. Guarda.
 
-El workflow escribe ese secret en `.env` al inicio de cada build. Si el secret no está definido, cae a `.env.example` para que el build no falle — pero el sitio mostrará contenido placeholder.
+El workflow escribe ese secret en `.env` al inicio de cada build. Si el secret no está definido, cae a `.env.example` para que el build no falle, pero el sitio mostrará contenido placeholder.
 
-**Solo necesitas actualizar el secret cuando cambies `.env`.** Añadir un proyecto, imagen, skill o editar código fuente **no** requiere tocar el secret — esos cambios se leen de `config/projects.json`, `public/` y el árbol de fuentes, que se commitean y se hace push normalmente.
+**Solo necesitas actualizar el secret cuando cambies `.env`.** Añadir un proyecto, imagen, skill o editar código fuente **no** requiere tocar el secret: esos cambios se leen de `config/projects.json`, `public/` y el árbol de fuentes, que se commitean y se hace push normalmente.
 
-### Opción B — Manual
+### Opción B: Manual
 
 Ejecuta `pnpm run deploy` (o `make deploy`). Esto hace el build y publica `dist/` en la branch `gh-pages`.
 
 > Si despliegas en una base path distinta a `/mimir/`, configura `VITE_BASE_PATH` en `.env`.
 
-### Opción C — Cualquier host estático
+### Opción C: Cualquier host estático
 
 Ejecuta `pnpm build` y sube el contenido de `dist/` a Netlify, Vercel, Cloudflare Pages, S3 o cualquier host estático.
 
@@ -442,7 +442,7 @@ Mimir es un **sitio estático**. No hay servidor, no hay base de datos (a menos 
 
 ```
 mimir/
-├── .env.example           # plantilla — copia a .env
+├── .env.example           # plantilla: copia a .env
 ├── Makefile               # atajos multi-OS para install / dev / build / deploy
 ├── README.md              # versión en inglés
 ├── README.es.md           # este archivo (español)
@@ -457,11 +457,11 @@ mimir/
 ├── docs/                  # logo, capturas, materiales escritos
 ├── public/                # archivos estáticos servidos tal cual
 ├── src/                   # código fuente de la aplicación
-├── supabase/              # backend opcional (formularios, analítica) — borrable
+├── supabase/              # backend opcional (formularios, analítica), borrable
 └── .github/workflows/     # workflow de despliegue a GitHub Pages
 ```
 
-### 6.2 `public/` — assets estáticos
+### 6.2 `public/`: assets estáticos
 
 ```
 public/
@@ -476,14 +476,14 @@ public/
 
 Todo lo que esté en `public/` se copia tal cual al output del build. Usa rutas absolutas (p. ej. `/avatar.jpg`) para referenciar estos archivos desde `.env`.
 
-### 6.3 `src/` — código de la aplicación
+### 6.3 `src/`: código de la aplicación
 
 ```
 src/
 ├── main.tsx               # entrada React, monta <App /> e i18n
 ├── App.tsx                # layout principal, composición de secciones
 ├── vite-env.d.ts          # tipado de import.meta.env
-├── config/                # loaders de config — leen .env y projects.json
+├── config/                # loaders de config: leen .env y projects.json
 ├── components/            # componentes React, agrupados por propósito
 │   ├── layout/            # navbar, footer, chrome de la página
 │   ├── sections/          # hero, categorías, skills, contacto
@@ -527,7 +527,7 @@ projects.json ──┘                       │
 - `src/config/projects.ts` importa `config/projects.json`, lo valida y expone helpers como `localizedProject(p, lang)` y `visibleCategories(lang)` para que los componentes nunca traten con campos bilingües crudos.
 - `src/config/theme.ts` escribe variables CSS (`--bg`, `--fg`, `--accent`, …) desde `.env` para que las utilidades de Tailwind resuelvan al color correcto en cada tema.
 
-### 6.5 Añadir una nueva sección visible — ejemplo
+### 6.5 Añadir una nueva sección visible: ejemplo
 
 Supón que quieres una sección "Charlas":
 
@@ -544,11 +544,11 @@ Sin router, sin lazy loading, sin librería de estado global. Una página, un á
 
 Mimir es open source y las contribuciones son bienvenidas.
 
-- **Bugs y feature requests** — abre un issue con una repro clara y tu OS / navegador.
-- **Pull requests** — haz fork, crea una branch desde `main`, ejecuta `pnpm exec tsc -b --noEmit` antes de push.
-- **Traducciones** — añadir un tercer idioma es la contribución de mayor impacto. Sigue la [Sección 3.8](#38-añadir-un-nuevo-idioma) y abre un PR.
-- **Temas** — sube un preset `themes/<nombre>.env` y lo añadimos a la documentación.
-- **Discusiones** — propuestas para nuevas secciones, layouts o integraciones van en GitHub Discussions.
+- **Bugs y feature requests**: abre un issue con una repro clara y tu OS / navegador.
+- **Pull requests**: haz fork, crea una branch desde `main`, ejecuta `pnpm exec tsc -b --noEmit` antes de push.
+- **Traducciones**: añadir un tercer idioma es la contribución de mayor impacto. Sigue la [Sección 3.8](#38-añadir-un-nuevo-idioma) y abre un PR.
+- **Temas**: sube un preset `themes/<nombre>.env` y lo añadimos a la documentación.
+- **Discusiones**: propuestas para nuevas secciones, layouts o integraciones van en GitHub Discussions.
 
 Al contribuir aceptas que tu contribución se libera bajo la licencia MIT del proyecto.
 
@@ -556,4 +556,4 @@ Al contribuir aceptas que tu contribución se libera bajo la licencia MIT del pr
 
 ## 8. Licencia
 
-**MIT** — haz un fork, hazlo tuyo. Sin atribución obligatoria, pero una estrella en el repo siempre se agradece.
+**MIT**: haz un fork, hazlo tuyo. Sin atribución obligatoria, pero una estrella en el repo siempre se agradece.

@@ -16,7 +16,7 @@ interface Props {
 }
 
 /* Single gear button that collapses every control (language, theme,
-   colorblind, music) into one popover. Rendered through a portal so it
+   colorblind, music) into one popover, rendered through a portal so it
    escapes the navbar's clipping box, and wired into the shared tooltipBus
    so opening it closes the navbar dropdowns and vice versa. The controls
    inside keep their own ControlTooltip behaviour untouched. */
@@ -66,7 +66,7 @@ export const SettingsMenu = ({ mode, onThemeToggle, colorblind, onColorblindTogg
 
   useEffect(() => () => cancelClose(), []);
 
-  /* A foreign dropdown opening closes this menu — but our own child
+  /* A foreign dropdown opening closes this menu, but our own child
      controls (LangToggle, etc.) also broadcast on hover; those fire while
      the cursor is inside us, so ignore the bus in that case. */
   useEffect(

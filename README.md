@@ -4,7 +4,7 @@
 
 # $\color{#A78BFA}{\textsf{Mimir}}$
 
-**An open-source portfolio template — fork it, fill it, ship it.**
+**An open-source portfolio template: fork it, fill it, ship it.**
 
 [![English](https://img.shields.io/badge/English-1a1a1a?style=for-the-badge)](README.md) **·** [![Español](https://img.shields.io/badge/Espa%C3%B1ol-1a1a1a?style=for-the-badge)](README.es.md)
 
@@ -37,10 +37,10 @@ It is named after **Mímir**, the Norse god of knowledge and wisdom.
 
 The goal of Mimir is to give the community a portfolio that is:
 
-- **Free to use** — MIT licensed, no attribution required.
-- **Easy to fork** — content lives in config files, not in the React tree.
-- **Easy to extend** — well-documented architecture, small surface area, no hidden magic.
-- **Community-driven** — issues, pull requests and discussions are welcome. If you add a feature, fix a bug, translate it into a new language or build a new theme, please contribute it back.
+- **Free to use**: MIT licensed, no attribution required.
+- **Easy to fork**: content lives in config files, not in the React tree.
+- **Easy to extend**: well-documented architecture, small surface area, no hidden magic.
+- **Community-driven**: issues, pull requests and discussions are welcome. If you add a feature, fix a bug, translate it into a new language or build a new theme, please contribute it back.
 
 > If you build something on top of Mimir, open an issue or PR and tell us about it. The more variations the community ships, the better the template gets.
 
@@ -68,13 +68,13 @@ The default production bundle is around **150–200 KB gzip**. Here's why each p
 
 ## Bilingual by design
 
-Every visible string in Mimir exists twice — once in English, once in Spanish — and the visitor can switch between them with a single click in the navbar.
+Every visible string in Mimir exists twice (once in English, once in Spanish) and the visitor can switch between them with a single click in the navbar.
 
 - The default language comes from `DEFAULT_LANGUAGE` in `.env`.
 - The visitor's browser locale wins if it matches a supported language.
 - Project titles, descriptions, details and category labels use paired `_en` / `_es` fields in `config/projects.json`.
 - UI strings (buttons, section headers, tooltips) live in `src/i18n/locales/en.json` and `src/i18n/locales/es.json`.
-- Adding a third language is a four-step process — see [Section 3.8](#38-add-a-new-language).
+- Adding a third language is a four-step process: see [Section 3.8](#38-add-a-new-language).
 
 ---
 
@@ -95,9 +95,9 @@ Every visible string in Mimir exists twice — once in English, once in Spanish 
 
 You need three things installed on your machine. If you already have them, skip to [Section 2](#2-start-the-project).
 
-- **Node.js 20 or newer** — download from <https://nodejs.org>
-- **pnpm** — installed once via Corepack (see below)
-- **Git** — download from <https://git-scm.com>
+- **Node.js 20 or newer**: download from <https://nodejs.org>
+- **pnpm**: installed once via Corepack (see below)
+- **Git**: download from <https://git-scm.com>
 
 ### Install pnpm (one time, any OS)
 
@@ -114,7 +114,7 @@ Verify the installation:
 
 ## 2. Start the project
 
-Pick the section that matches your OS. **Every command goes on its own line** — copy them one by one.
+Pick the section that matches your OS. **Every command goes on its own line**, so copy them one by one.
 
 ### macOS
 
@@ -174,12 +174,12 @@ Then open <http://localhost:5173> in your browser.
 
 All site content lives in **two files**:
 
-- `.env` — your personal info, theme colors, social links.
-- `config/projects.json` — categories, projects, skills, icon mapping.
+- `.env`: your personal info, theme colors, social links.
+- `config/projects.json`: categories, projects, skills, icon mapping.
 
 You never need to touch source code to change content.
 
-### 3.1 Personal info — edit `.env`
+### 3.1 Personal info (edit `.env`)
 
 1. Copy the template (you already did this in Section 2).
 2. Open `.env` in your editor.
@@ -189,7 +189,7 @@ You never need to touch source code to change content.
 | -------------------- | --------------------------------------------------------------- |
 | `OWNER_*`            | Your name, title, avatar path, bio (English and Spanish)        |
 | `DEFAULT_LANGUAGE`   | `en` or `es` (visitor's browser still wins when it matches)     |
-| `ANIMATIONS`         | `true` / `false` — toggle scroll-driven animations              |
+| `ANIMATIONS`         | `true` / `false`, toggle scroll-driven animations              |
 | `DEFAULT_THEME`      | `light`, `dark`, or `system`                                    |
 | `LIGHT_*` / `DARK_*` | Full color palette per theme                                    |
 | `CB_*`               | Okabe-Ito safe accents used when colorblind mode is on          |
@@ -198,7 +198,7 @@ You never need to touch source code to change content.
 
 Restart the dev server after editing `.env`.
 
-### 3.2 Categories — edit `config/projects.json`
+### 3.2 Categories (edit `config/projects.json`)
 
 Each category becomes its own page section, with a heading, a short description, an auto-derived skills row and a project grid below.
 
@@ -215,12 +215,12 @@ Categories live in the `"categories"` array at the top of `config/projects.json`
 }
 ```
 
-- **Add a category** — append a new object with a unique `id`. The section appears automatically when at least one project uses that `id` in its `category` field.
-- **Remove a category** — delete the object from the array. Or set `enabled` to `false` to hide it without losing the data. Hidden categories also hide every project that belongs to them.
-- **Reorder categories** — change the order of the objects in the array.
-- **Rename a category** — edit its `label_en` and `label_es`.
+- **Add a category**: append a new object with a unique `id`. The section appears automatically when at least one project uses that `id` in its `category` field.
+- **Remove a category**: delete the object from the array. Or set `enabled` to `false` to hide it without losing the data. Hidden categories also hide every project that belongs to them.
+- **Reorder categories**: change the order of the objects in the array.
+- **Rename a category**: edit its `label_en` and `label_es`.
 
-### 3.3 Projects — edit `config/projects.json`
+### 3.3 Projects (edit `config/projects.json`)
 
 Each project lives in the `"projects"` array. Each entry looks like this:
 
@@ -240,15 +240,15 @@ Each project lives in the `"projects"` array. Each entry looks like this:
 }
 ```
 
-- **Add a project** — append a new object. Make sure:
+- **Add a project**: append a new object. Make sure:
   - `id` is unique.
   - `category` matches an existing category `id`.
   - `imageFolder` matches a folder you create under `public/projects/`.
-- **Remove a project** — delete the object from the array. Also delete the corresponding folder under `public/projects/` if you no longer need the images.
-- **Bilingual fields** — every `_en` field needs a matching `_es` counterpart.
+- **Remove a project**: delete the object from the array. Also delete the corresponding folder under `public/projects/` if you no longer need the images.
+- **Bilingual fields**: every `_en` field needs a matching `_es` counterpart.
 - **`details_en` / `details_es`** are optional. If both are empty or omitted, the Show more button still expands the modal (revealing the image carousel, tools, description and links) but no extra paragraphs render. Drop in long-form copy whenever you have it.
-- **`tools`** — each name automatically feeds the per-category skills row and the global Skills section. No manual upkeep.
-- **`links`** — each link is rendered as a glass button at the end of the description.
+- **`tools`**: each name automatically feeds the per-category skills row and the global Skills section. No manual upkeep.
+- **`links`**: each link is rendered as a glass button at the end of the description.
 
 ### 3.4 Project images
 
@@ -262,11 +262,11 @@ public/projects/my-project/
 ```
 
 - **Folder name** must match the `imageFolder` field of the corresponding project.
-- **File names** can be anything. Images appear in the carousel sorted alphabetically — prefix with `01_`, `02_`, … to control the sequence.
+- **File names** can be anything. Images appear in the carousel sorted alphabetically, so prefix with `01_`, `02_`, … to control the sequence.
 - **Supported formats:** `.jpg`, `.jpeg`, `.png`, `.webp`, `.avif`.
-- **Add an image** — drop the file in the folder. In dev mode it appears instantly; for production rebuild with `pnpm build`.
-- **Remove an image** — delete the file. The carousel updates automatically.
-- **Aspect ratio** — the carousel renders at 16:9 with `object-cover`, so wide screenshots and full-bleed shots look best. Anything narrower will be cropped.
+- **Add an image**: drop the file in the folder. In dev mode it appears instantly; for production rebuild with `pnpm build`.
+- **Remove an image**: delete the file. The carousel updates automatically.
+- **Aspect ratio**: the carousel renders at 16:9 with `object-cover`, so wide screenshots and full-bleed shots look best. Anything narrower will be cropped.
 
 ### 3.5 Skills section
 
@@ -274,7 +274,7 @@ The Skills section at the end of the page groups every tool you mention across y
 
 Three fields in `config/projects.json` control it:
 
-**`skillGroups`** — the buckets and their order. Bilingual labels:
+**`skillGroups`**: the buckets and their order. Bilingual labels:
 
 ```json
 "skillGroups": [
@@ -283,7 +283,7 @@ Three fields in `config/projects.json` control it:
 ]
 ```
 
-**`skillGroupOf`** — maps each skill name to its bucket id. Skills with no mapping fall into an auto-generated "Other" bucket so nothing is ever lost:
+**`skillGroupOf`**: maps each skill name to its bucket id. Skills with no mapping fall into an auto-generated "Other" bucket so nothing is ever lost:
 
 ```json
 "skillGroupOf": {
@@ -293,7 +293,7 @@ Three fields in `config/projects.json` control it:
 }
 ```
 
-**`skillsExtra`** — skills you want to display but haven't shipped a project around yet:
+**`skillsExtra`**: skills you want to display but haven't shipped a project around yet:
 
 ```json
 "skillsExtra": ["Rust", "Cursor", "Figma"]
@@ -322,7 +322,7 @@ If the natural slug is awkward, add an override under `"skillIcons"` in `config/
 }
 ```
 
-Skills with no icon file just render as text — nothing breaks.
+Skills with no icon file just render as text, and nothing breaks.
 
 Suggested sources: [Devicon](https://devicon.dev/) and [Simple Icons](https://simpleicons.org/). See [`public/icons/README.md`](public/icons/README.md) for the full details.
 
@@ -345,7 +345,7 @@ The audio always starts paused; the visitor decides whether to enable it.
 
 ## 4. Useful commands
 
-Every command assumes you have already run `pnpm install` (or `make install`). Each command is on its own line — copy them one by one.
+Every command assumes you have already run `pnpm install` (or `make install`). Each command is on its own line, so copy them one by one.
 
 ### Start the dev server
 
@@ -395,7 +395,7 @@ Useful in CI or as a pre-commit check.
 
 ## 5. Deploy
 
-### Option A — GitHub Actions (recommended)
+### Option A: GitHub Actions (recommended)
 
 1. Push your fork to `main`.
 2. In your repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
@@ -406,7 +406,7 @@ Your site will be at `https://<username>.github.io/<repo-name>/`.
 
 #### Provide your `.env` to the workflow
 
-`.env` is gitignored (good — it may hold Supabase keys, social links, etc.), so the workflow can't see it at build time. To inject it:
+`.env` is gitignored (good, since it may hold Supabase keys, social links, etc.), so the workflow can't see it at build time. To inject it:
 
 1. Open <https://github.com/`<your-user>`/`<your-repo>`/settings/secrets/actions>.
 2. Click **New repository secret**.
@@ -414,17 +414,17 @@ Your site will be at `https://<username>.github.io/<repo-name>/`.
 4. **Secret:** paste the **full contents** of your local `.env` file (every `VITE_*=...` line).
 5. Save.
 
-The workflow writes that secret to `.env` at the start of every build. If the secret isn't set, it falls back to `.env.example` so the build doesn't break — but the site will show placeholder content.
+The workflow writes that secret to `.env` at the start of every build. If the secret isn't set, it falls back to `.env.example` so the build doesn't break, but the site will show placeholder content.
 
-**You only need to update the secret when you change `.env`.** Adding a project, image, skill or editing source code does **not** require touching the secret — those changes are read from `config/projects.json`, `public/`, and the source tree, which are committed and pushed normally.
+**You only need to update the secret when you change `.env`.** Adding a project, image, skill or editing source code does **not** require touching the secret; those changes are read from `config/projects.json`, `public/`, and the source tree, which are committed and pushed normally.
 
-### Option B — Manual
+### Option B: Manual
 
 Run `pnpm run deploy` (or `make deploy`). This builds and pushes `dist/` to the `gh-pages` branch.
 
 > If you deploy to a base path different from `/mimir/`, set `VITE_BASE_PATH` in `.env`.
 
-### Option C — Any static host
+### Option C: Any static host
 
 Run `pnpm build` and upload the contents of `dist/` to Netlify, Vercel, Cloudflare Pages, S3, or any static host.
 
@@ -442,7 +442,7 @@ Mimir is a **static site**. There is no server, no database (unless you opt in t
 
 ```
 mimir/
-├── .env.example           # template — copy to .env
+├── .env.example           # template, copy to .env
 ├── Makefile               # cross-OS shortcuts for install / dev / build / deploy
 ├── README.md              # this file (English)
 ├── README.es.md           # Spanish version
@@ -457,11 +457,11 @@ mimir/
 ├── docs/                  # logo, screenshots, written assets
 ├── public/                # static files served as-is
 ├── src/                   # application source
-├── supabase/              # optional backend (forms, analytics) — safe to delete
+├── supabase/              # optional backend (forms, analytics), safe to delete
 └── .github/workflows/     # GitHub Pages deploy workflow
 ```
 
-### 6.2 `public/` — static assets
+### 6.2 `public/` (static assets)
 
 ```
 public/
@@ -476,14 +476,14 @@ public/
 
 Anything in `public/` is copied straight to the build output. Use absolute paths (e.g. `/avatar.jpg`) to reference these files from `.env`.
 
-### 6.3 `src/` — application code
+### 6.3 `src/` (application code)
 
 ```
 src/
 ├── main.tsx               # React entry, mounts <App /> and i18n
 ├── App.tsx                # top-level layout, section composition
 ├── vite-env.d.ts          # typed import.meta.env
-├── config/                # config loaders — read .env and projects.json
+├── config/                # config loaders, read .env and projects.json
 ├── components/            # React components, grouped by purpose
 │   ├── layout/            # navbar, footer, page chrome
 │   ├── sections/          # hero, categories, skills, contact
@@ -527,7 +527,7 @@ projects.json ──┘                       │
 - `src/config/projects.ts` imports `config/projects.json`, validates it, and exposes helpers like `localizedProject(p, lang)` and `visibleCategories(lang)` so components never deal with raw bilingual fields.
 - `src/config/theme.ts` writes CSS variables (`--bg`, `--fg`, `--accent`, …) from `.env` so Tailwind utilities resolve to the right color in every theme.
 
-### 6.5 Adding a new visible section — example
+### 6.5 Adding a new visible section (example)
 
 Say you want a "Talks" section:
 
@@ -544,11 +544,11 @@ No router, no lazy loading, no global state library. One page, one render tree.
 
 Mimir is open source and contributions are welcome.
 
-- **Bugs and feature requests** — open an issue with a clear repro and your OS / browser.
-- **Pull requests** — fork, branch off `main`, run `pnpm exec tsc -b --noEmit` before pushing.
-- **Translations** — adding a third language is the highest-leverage contribution. Follow [Section 3.8](#38-add-a-new-language) and open a PR.
-- **Themes** — drop a `themes/<name>.env` preset and we'll add it to the docs.
-- **Discussions** — proposals for new sections, layouts or integrations go in GitHub Discussions.
+- **Bugs and feature requests**: open an issue with a clear repro and your OS / browser.
+- **Pull requests**: fork, branch off `main`, run `pnpm exec tsc -b --noEmit` before pushing.
+- **Translations**: adding a third language is the highest-leverage contribution. Follow [Section 3.8](#38-add-a-new-language) and open a PR.
+- **Themes**: drop a `themes/<name>.env` preset and we'll add it to the docs.
+- **Discussions**: proposals for new sections, layouts or integrations go in GitHub Discussions.
 
 By contributing you agree that your contribution is released under the project's MIT license.
 
@@ -556,4 +556,4 @@ By contributing you agree that your contribution is released under the project's
 
 ## 8. License
 
-**MIT** — fork it, make it yours. No attribution required, but a star on the repo is always appreciated.
+**MIT**: fork it, make it yours. No attribution required, but a star on the repo is always appreciated.

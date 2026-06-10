@@ -1,5 +1,5 @@
 /* Jump to an absolute Y position bypassing CSS `scroll-behavior: smooth`.
-   We need this because all in-page animations are scroll-scrubbed —
+   We need this because all in-page animations are scroll-scrubbed, so
    smooth scrolling would replay every animation in fast-forward as the
    page travels. Setting scroll-behavior to auto for a single frame
    forces an instant snap; the previous value is restored on the next

@@ -47,14 +47,19 @@ export interface ProjectDef {
   details_es?: string;
   tools: string[];
   links: ProjectLink[];
-  /* When true, the project's source is a private repo — the card shows a
+  /* When true, the project's source is a private repo, so the card shows a
      "Private repository" badge instead of a (broken) link to it. */
   private?: boolean;
+  /* Screenshot orientation. Defaults to "landscape" (the ultrawide desktop
+     captures the gallery is built around). "portrait" is for mobile apps
+     whose screenshots are tall phone frames; the card shows them upright
+     and the modal switches to a side-by-side layout. */
+  orientation?: 'landscape' | 'portrait';
   imageFolder: string;
   images: string[];
 }
 
-/* Project images — drop files in public/projects/<imageFolder>/, they
+/* Project images: drop files in public/projects/<imageFolder>/, they
    get auto-discovered and grouped by folder. */
 const imageModules = import.meta.glob(
   '/public/projects/*/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}',
@@ -71,7 +76,7 @@ for (const [absPath, url] of Object.entries(imageModules)) {
 }
 for (const arr of Object.values(imagesByFolder)) arr.sort();
 
-/* Skill icons — drop SVG/PNG files in public/icons/, named by the
+/* Skill icons: drop SVG/PNG files in public/icons/, named by the
    slugified tool name (e.g. "Node.js" → node-js.svg). The map below
    in projects.json (skillIcons) lets a tool name override its slug
    when the natural one is awkward (e.g. "C++" → cpp). */
@@ -109,7 +114,7 @@ export const iconForSkill = (name: string): string | null => {
 
 /* Categories with enabled !== false are visible. Setting enabled: false
    in the JSON hides the entire section AND any projects that belong to
-   it — no need to delete data to temporarily hide a category. */
+   it, so there is no need to delete data to temporarily hide a category. */
 export const categories: CategoryDef[] = (data.categories as CategoryDef[]).filter(
   (c) => c.enabled !== false,
 );
@@ -140,6 +145,7 @@ export const localizedProject = (p: ProjectDef, lang: 'en' | 'es') => ({
     label: (lang === 'es' ? link.label_es : link.label_en) ?? link.label ?? link.url,
   })),
   isPrivate: p.private === true,
+  isPortrait: p.orientation === 'portrait',
   images: p.images,
 });
 
@@ -165,7 +171,7 @@ export const skillsForCategory = (categoryId: string): SkillEntry[] => {
 };
 
 /* All skills across every visible project, plus any extras listed in
-   projects.json (skillsExtra) — useful for languages or tools that
+   projects.json (skillsExtra), useful for languages or tools that
    don't yet have a project to back them up. */
 export const allSkills = (): SkillEntry[] => {
   const counts = new Map<string, number>();
@@ -225,7 +231,7 @@ export const groupedSkills = (lang: 'en' | 'es'): SkillGroupResult[] => {
   }
 
   // Any non-empty group not declared in skillGroups (shouldn't happen
-  // unless skillGroupOf references unknown ids) — still surface them so
+  // unless skillGroupOf references unknown ids), still surface them so
   // the user notices the misconfiguration instead of silently dropping.
   for (const [id, skills] of byGroup.entries()) {
     if (skills.length === 0) continue;

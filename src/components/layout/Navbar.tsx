@@ -128,7 +128,7 @@ export const Navbar = ({ mode, onThemeToggle, colorblind, onColorblindToggle }: 
   }, [openDropdown]);
 
   /* When any other tooltip (a control button) opens, close the navbar
-     dropdown immediately — same coordination rule used by the controls. */
+     dropdown immediately, the same coordination rule used by the controls. */
   useEffect(
     () =>
       onTooltipOpen((openedId) => {

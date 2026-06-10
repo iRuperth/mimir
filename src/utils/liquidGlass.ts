@@ -1,4 +1,4 @@
-/* Apple Liquid Glass — SDF refraction with circular bead falloff.
+/* Apple Liquid Glass: SDF refraction with circular bead falloff.
    Ported from the AGSL/SkSL shader at github.com/Kashif-E/KMPLiquidGlass
    (Apache 2.0, originally by Kyant). The key difference vs naive gradient
    displacement: the bead uses circleMap(t) = 1 - sqrt(1 - t^2), giving

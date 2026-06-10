@@ -86,7 +86,7 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
 
     /* Anchor the scroller at the first card of the middle copy. Until a
        real card has a real width (parent filters, fonts, images, etc. can
-       all delay layout) we keep retrying — otherwise scrollLeft snaps to
+       all delay layout) we keep retrying, otherwise scrollLeft snaps to
        a half-measured position and one lone card ends up parked at the
        right edge with nothing else on screen. */
     const anchor = () => {
@@ -173,7 +173,7 @@ export const ProjectCarousel = ({ items, onSelect }: Props) => {
     const dx = e.clientX - dragStartX.current;
     if (Math.abs(dx) > 4 && !movedRef.current) {
       movedRef.current = true;
-      // A real drag has begun — capture the pointer now so the scrub
+      // A real drag has begun, so capture the pointer now so the scrub
       // tracks smoothly even if the cursor leaves the element.
       el.setPointerCapture(e.pointerId);
     }

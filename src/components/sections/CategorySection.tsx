@@ -52,7 +52,7 @@ export const CategorySection = ({ category, projects: items }: Props) => {
      into the viewport and fades out as it crosses past. With min-h-screen
      plus generous vertical padding, the empty space at the top and
      bottom of each section gives scroll distance to play the transition
-     in/out — no two categories share visibility at full opacity. */
+     in/out, so no two categories share visibility at full opacity. */
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],

@@ -116,7 +116,7 @@ export const Skills = () => {
     setSelectedSkill((prev) => (prev === name ? null : name));
   };
 
-  /* Reset the selected skill whenever the active group changes —
+  /* Reset the selected skill whenever the active group changes, because
      otherwise a stale pill from a hidden group stays "active" in
      state but isn't visible to clear it. */
   const handleGroupChange = (id: string) => {

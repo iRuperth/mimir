@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Reusable portfolio template — liquid glass, scroll animations, configurable via .env",
+  "description": "Reusable portfolio template with liquid glass, scroll animations, configurable via .env",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

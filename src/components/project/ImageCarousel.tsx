@@ -6,10 +6,12 @@ interface Props {
   images: string[];
   alt: string;
   autoplayMs?: number;
-  /* "cover" (default) crops images to fill a 16:9 frame — used on the
+  /* "cover" (default) crops images to fill a 16:9 frame, used on the
      compact card. "contain" shows the whole image without cropping on a
-     neutral backdrop — used in the modal where detail matters. */
-  fit?: 'cover' | 'contain';
+     neutral backdrop, used in the modal where detail matters. "portrait"
+     is "contain" inside a tall phone-shaped frame, for mobile-app
+     screenshots that would otherwise float in an ultrawide letterbox. */
+  fit?: 'cover' | 'contain' | 'portrait';
 }
 
 const ChevronLeft = () => (
@@ -49,11 +51,36 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000, fit = 'cover' }:
   /* Project screenshots are ~2.2:1 ultrawide. "cover" crops them into a
      16:9 thumbnail on the card; "contain" keeps the full frame in the
      modal, with the frame matching the screenshots' real ratio so they
-     fill it edge-to-edge instead of sitting in side letterbox bars. */
-  const isContain = fit === 'contain';
-  const frameAspect = isContain ? 'aspect-[64/29]' : 'aspect-video';
+     fill it edge-to-edge instead of sitting in side letterbox bars.
+     "portrait" is for tall phone screenshots (~9:19.5): a phone-shaped
+     frame holding the whole image so it reads as a real device capture
+     instead of a sliver lost in an ultrawide letterbox. */
+  const isPortrait = fit === 'portrait';
+  const isContain = fit === 'contain' || isPortrait;
+  /* Portrait: cap the frame's HEIGHT to a slice of the viewport and let the
+     9:19.5 aspect-ratio derive the width from it, so the phone never grows
+     tall enough to push the modal's controls off-screen. h-[…] + aspect +
+     mx-auto = a centered, height-bounded phone. Landscape/contain frames are
+     width-driven as before. */
+  /* Portrait: a phone-shaped frame. Matches the screenshots' real ~9:18.8
+     ratio and is height-capped so it never pushes the modal controls
+     off-screen. The image inside is object-contain, so it's shown WHOLE
+     vertically (nothing cropped top/bottom); the device look comes from the
+     frame's bezel + rounded corners, not from cropping the screenshot. */
+  const frameAspect = isPortrait
+    ? 'h-[68vh] max-h-[560px] aspect-[9/18.8] w-auto mx-auto'
+    : isContain
+      ? 'aspect-[64/29]'
+      : 'aspect-video';
   const imgFit = isContain ? 'object-contain' : 'object-cover';
   const hoverScale = isContain ? '' : 'group-hover:scale-105';
+  const frameRound = isPortrait ? 'rounded-[2rem]' : 'rounded-2xl';
+  /* Portrait phone bezel: a dark, rounded carcass drawn AROUND the image so
+     the corners read as a real device without cropping the screenshot
+     vertically. */
+  const phoneBezel = isPortrait
+    ? 'bg-neutral-950 ring-1 ring-white/10 shadow-2xl p-1.5'
+    : '';
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -73,7 +100,7 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000, fit = 'cover' }:
     };
   }, [emblaApi, onSelect]);
 
-  /* Autoplay — advances every `autoplayMs` while pause flag is false.
+  /* Autoplay advances every `autoplayMs` while pause flag is false.
      Hovering pauses; leaving resumes. Manual nav also briefly resets
      the timer via the paused state in the click handlers below. */
   useEffect(() => {
@@ -136,18 +163,20 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000, fit = 'cover' }:
   if (images.length === 1) {
     return (
       <div
-        className={`w-full ${frameAspect} rounded-2xl overflow-hidden group ${
-          isContain ? 'bg-black/20' : ''
+        className={`w-full ${frameAspect} ${frameRound} ${phoneBezel} overflow-hidden group ${
+          isContain && !isPortrait ? 'bg-black/20' : ''
         }`}
       >
-        <img
-          src={images[0]}
-          alt={alt}
-          loading="lazy"
-          className={`w-full h-full ${imgFit} transition-transform duration-500 ease-out ${
-            isContain ? '' : 'group-hover:scale-110'
-          }`}
-        />
+        <div className={`w-full h-full overflow-hidden ${isPortrait ? 'rounded-[1.6rem]' : ''}`}>
+          <img
+            src={images[0]}
+            alt={alt}
+            loading="lazy"
+            className={`w-full h-full ${imgFit} transition-transform duration-500 ease-out ${
+              isContain ? '' : 'group-hover:scale-110'
+            }`}
+          />
+        </div>
       </div>
     );
   }
@@ -159,17 +188,33 @@ export const ImageCarousel = ({ images, alt, autoplayMs = 2000, fit = 'cover' }:
       onMouseLeave={() => setPaused(false)}
     >
       <div
-        className={`absolute inset-0 overflow-hidden rounded-2xl ${isContain ? 'bg-black/20' : ''}`}
+        className={`absolute inset-0 overflow-hidden ${frameRound} ${phoneBezel} ${
+          isContain && !isPortrait ? 'bg-black/20' : ''
+        }`}
         ref={emblaRef}
       >
         <div className="flex h-full">
           {images.map((src, i) => (
             <div className="flex-[0_0_100%] min-w-0 group h-full" key={src + i}>
-              <div className="h-full overflow-hidden">
+              {/* The slide's own wrapper carries the rounding. Embla translates
+                  each slide with a transform, which spawns a compositing layer
+                  that ignores the rounded ancestor's overflow clip (same iOS
+                  Safari issue noted elsewhere), so the corners looked square.
+                  Rounding the slide wrapper itself clips locally and survives
+                  the transform. The image is object-contain so the screenshot
+                  is whole top-to-bottom; the bezel padding gives it a device
+                  border. */}
+              {/* Carousel slides are all in the DOM but translated off screen,
+                  so `loading="lazy"` left every off-screen slide unloaded (it
+                  never enters the viewport), so they showed up blank as the
+                  carousel advanced. Eager-load them so they're ready by the time
+                  autoplay reaches each one; decode async to avoid jank. */}
+              <div className={`h-full overflow-hidden ${isPortrait ? 'rounded-[1.6rem]' : frameRound}`}>
                 <img
                   src={src}
                   alt={`${alt} (${i + 1}/${images.length})`}
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                   className={`w-full h-full ${imgFit} transition-transform duration-500 ease-out ${hoverScale}`}
                 />
               </div>

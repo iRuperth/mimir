@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { GlassCard } from '@/components/glass/GlassCard';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { ImageCarousel } from './ImageCarousel';
+import { PrivateBadge } from './PrivateBadge';
 import { localizedProject } from '@/config/projects';
 import type { ProjectDef } from '@/config/projects';
 
@@ -76,13 +77,7 @@ export const ProjectCard = ({ project, compact }: Props) => {
               ))}
               {p.isPrivate && (
                 <li>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-text-soft whitespace-nowrap">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                    {t('projects.private')}
-                  </span>
+                  <PrivateBadge />
                 </li>
               )}
             </ul>

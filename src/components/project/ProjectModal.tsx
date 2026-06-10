@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { GlassCard } from '@/components/glass/GlassCard';
 import { LiquidGlass } from '@/components/glass/LiquidGlass';
 import { ImageCarousel } from './ImageCarousel';
+import { PrivateBadge } from './PrivateBadge';
 import { localizedProject } from '@/config/projects';
 import type { ProjectDef } from '@/config/projects';
 
@@ -30,22 +31,6 @@ const ExternalIcon = () => (
   </svg>
 );
 
-const LockIcon = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
 
 /* Expanded project view. The motion.div wrapping the card shares its
    layoutId with the originating ProjectGridCard, so framer-motion morphs
@@ -54,7 +39,11 @@ export const ProjectModal = ({ project, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage?.startsWith('es') ? 'es' : 'en';
   const p = localizedProject(project, lang);
-  const [expanded, setExpanded] = useState(false);
+  const portrait = p.isPortrait;
+  /* Portrait (mobile-app) modals open already expanded: the side-by-side
+     image + description is the whole point, so there's nothing to reveal and
+     no show-more/less toggle. Landscape projects still start collapsed. */
+  const [expanded, setExpanded] = useState(portrait);
   const detailParagraphs = p.details ? p.details.split(/\n\s*\n/).filter(Boolean) : [];
   const hasDetails = detailParagraphs.length > 0;
 
@@ -107,7 +96,7 @@ export const ProjectModal = ({ project, onClose }: Props) => {
         >
         <GlassCard radius={28} className="!overflow-hidden">
           <div className="relative overflow-y-auto max-h-[96vh] no-scrollbar">
-            {expanded && (
+            {expanded && !portrait && (
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
@@ -142,107 +131,162 @@ export const ProjectModal = ({ project, onClose }: Props) => {
                 {p.title}
               </h3>
 
-              <div className="w-full max-w-5xl mx-auto">
-                <ImageCarousel images={p.images} alt={p.title} fit="contain" />
-              </div>
+              {/* Portrait (mobile-app) projects, when expanded, switch to a
+                  side-by-side layout on md+: the tall phone screenshots sit on
+                  the left and the title's description on the right, with the
+                  tools and links stacked below the text. Collapsed (or any
+                  landscape project) keeps the original stacked flow with the
+                  carousel centered above the expandable text. */}
+              <div
+                className={
+                  portrait && expanded
+                    ? 'flex flex-col gap-5 md:grid md:grid-cols-[minmax(0,18rem)_1fr] md:items-start md:gap-7'
+                    : 'flex flex-col gap-5'
+                }
+              >
+                {/* Portrait screenshots are tall phone frames (~9:19.5). At a
+                    normal modal width they fill the whole viewport height,
+                    pushing the "show more" button off-screen. The carousel
+                    itself caps its height (see ImageCarousel portrait mode) so
+                    the phone stays a comfortable size and the button is always
+                    reachable; here we just center it and, when expanded on md+,
+                    let it own the narrow left column. */}
+                <div
+                  className={
+                    portrait
+                      ? 'w-full flex justify-center md:block'
+                      : 'w-full max-w-5xl mx-auto'
+                  }
+                >
+                  <ImageCarousel
+                    images={p.images}
+                    alt={p.title}
+                    fit={portrait ? 'portrait' : 'contain'}
+                  />
+                </div>
 
-              <AnimatePresence initial={false}>
-                {expanded && (
-                  <motion.div
-                    key="expand"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-5 pt-1">
-                      {p.tools.length > 0 && (
-                        <ul className="flex flex-wrap gap-2 justify-center">
-                          {p.tools.map((tool) => (
-                            <LiquidGlass
-                              key={tool}
-                              as="li"
-                              radius={999}
-                              refractionHeight={10}
-                              refractionAmount={14}
-                              chromaticAberration={4}
-                              blur={1}
-                              className="px-3 py-1 text-xs font-medium"
-                            >
-                              {tool}
-                            </LiquidGlass>
-                          ))}
-                        </ul>
-                      )}
-
-                      <div className="relative rounded-2xl bg-white/5 border border-white/10 p-5 md:p-6">
-                        <p className="text-text-soft leading-relaxed md:text-lg text-justify md:text-left">
-                          {p.description}
-                        </p>
-
-                        {hasDetails && (
-                          <div className="flex flex-col gap-3 pt-4 text-text-soft leading-relaxed text-justify md:text-left">
-                            {detailParagraphs.map((para, i) => (
-                              <p key={i}>{para}</p>
+                <AnimatePresence initial={false}>
+                  {expanded && (
+                    <motion.div
+                      key="expand"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="flex flex-col gap-5 pt-1">
+                        {/* Landscape keeps the tools as a centered chip row
+                            above the description. Portrait moves them below
+                            the text (rendered inside the panel) so the right
+                            column reads description-first. */}
+                        {!portrait && p.tools.length > 0 && (
+                          <ul className="flex flex-wrap gap-2 justify-center">
+                            {p.tools.map((tool) => (
+                              <LiquidGlass
+                                key={tool}
+                                as="li"
+                                radius={999}
+                                refractionHeight={10}
+                                refractionAmount={14}
+                                chromaticAberration={4}
+                                blur={1}
+                                className="px-3 py-1 text-xs font-medium"
+                              >
+                                {tool}
+                              </LiquidGlass>
                             ))}
-                          </div>
-                        )}
-
-                        {(p.links.length > 0 || p.isPrivate) && (
-                          <ul className="flex flex-wrap items-center gap-2 mt-4">
-                            {p.links.map((link) => (
-                              <li key={link.url + link.label}>
-                                <LiquidGlass
-                                  as="a"
-                                  href={link.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  radius={999}
-                                  refractionHeight={14}
-                                  refractionAmount={22}
-                                  chromaticAberration={6}
-                                  blur={1}
-                                  className="is-press inline-flex items-center px-4 py-2 text-sm font-medium whitespace-nowrap"
-                                  contentClassName="!inline-flex !w-auto !h-auto items-center gap-1.5"
-                                >
-                                  {link.label}
-                                  <ExternalIcon />
-                                </LiquidGlass>
-                              </li>
-                            ))}
-                            {p.isPrivate && (
-                              <li>
-                                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-text-soft whitespace-nowrap">
-                                  <LockIcon />
-                                  {t('projects.private')}
-                                </span>
-                              </li>
-                            )}
                           </ul>
                         )}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
-              <div className="flex justify-end">
-                <LiquidGlass
-                  as="button"
-                  type="button"
-                  onClick={() => setExpanded((v) => !v)}
-                  aria-expanded={expanded}
-                  radius={999}
-                  refractionHeight={14}
-                  refractionAmount={22}
-                  chromaticAberration={6}
-                  blur={1}
-                  className="is-press px-6 py-3 text-base font-semibold"
-                >
-                  {expanded ? t('projects.showLess') : t('projects.showMore')}
-                </LiquidGlass>
+                        <div className="relative rounded-2xl bg-white/5 border border-white/10 p-5 md:p-6">
+                          <p className="text-text-soft leading-relaxed md:text-lg text-justify md:text-left">
+                            {p.description}
+                          </p>
+
+                          {hasDetails && (
+                            <div className="flex flex-col gap-3 pt-4 text-text-soft leading-relaxed text-justify md:text-left">
+                              {detailParagraphs.map((para, i) => (
+                                <p key={i}>{para}</p>
+                              ))}
+                            </div>
+                          )}
+
+                          {portrait && p.tools.length > 0 && (
+                            <ul className="flex flex-wrap gap-2 mt-4">
+                              {p.tools.map((tool) => (
+                                <LiquidGlass
+                                  key={tool}
+                                  as="li"
+                                  radius={999}
+                                  refractionHeight={10}
+                                  refractionAmount={14}
+                                  chromaticAberration={4}
+                                  blur={1}
+                                  className="px-3 py-1 text-xs font-medium"
+                                >
+                                  {tool}
+                                </LiquidGlass>
+                              ))}
+                            </ul>
+                          )}
+
+                          {(p.links.length > 0 || p.isPrivate) && (
+                            <ul className="flex flex-wrap items-center gap-2 mt-4">
+                              {p.links.map((link) => (
+                                <li key={link.url + link.label}>
+                                  <LiquidGlass
+                                    as="a"
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    radius={999}
+                                    refractionHeight={14}
+                                    refractionAmount={22}
+                                    chromaticAberration={6}
+                                    blur={1}
+                                    className="is-press inline-flex items-center px-4 py-2 text-sm font-medium whitespace-nowrap"
+                                    contentClassName="!inline-flex !w-auto !h-auto items-center gap-1.5"
+                                  >
+                                    {link.label}
+                                    <ExternalIcon />
+                                  </LiquidGlass>
+                                </li>
+                              ))}
+                              {p.isPrivate && (
+                                <li>
+                                  <PrivateBadge />
+                                </li>
+                              )}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+
+              {/* Portrait modals open fully expanded, so there's no toggle;
+                  the description is always shown beside the phone. */}
+              {!portrait && (
+                <div className="flex justify-end">
+                  <LiquidGlass
+                    as="button"
+                    type="button"
+                    onClick={() => setExpanded((v) => !v)}
+                    aria-expanded={expanded}
+                    radius={999}
+                    refractionHeight={14}
+                    refractionAmount={22}
+                    chromaticAberration={6}
+                    blur={1}
+                    className="is-press px-6 py-3 text-base font-semibold"
+                  >
+                    {expanded ? t('projects.showLess') : t('projects.showMore')}
+                  </LiquidGlass>
+                </div>
+              )}
             </motion.div>
           </div>
         </GlassCard>

@@ -71,7 +71,7 @@ export const ControlTooltip = ({ label, children, extra, align = 'center', onAct
 
   useEffect(() => () => cancelClose(), [cancelClose]);
 
-  /* Close immediately when any other tooltip opens — kills the overlap
+  /* Close immediately when any other tooltip opens, which kills the overlap
      window where two pills are visible during a 180ms close timer. */
   useEffect(
     () =>

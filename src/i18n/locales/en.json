@@ -9,7 +9,7 @@
   },
   "skills": {
     "title": "Skills",
-    "subtitle": "The full toolbox — grouped by where each piece lives in the stack.",
+    "subtitle": "The full toolbox, grouped by where each piece lives in the stack.",
     "usedIn": "Used in"
   },
   "hero": {
@@ -28,6 +28,7 @@
     "showMore": "Show more",
     "showLess": "Show less",
     "private": "Private repository",
+    "privateHint": "Want access to the code? Get in touch and request it.",
     "empty": "No projects in this category yet."
   },
   "contact": {

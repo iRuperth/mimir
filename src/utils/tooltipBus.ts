@@ -1,11 +1,11 @@
 /* Single coordination channel used by every hoverable popover in the
-   navbar — Projects / Skills / Contact dropdowns AND control button
+   navbar: Projects / Skills / Contact dropdowns AND control button
    tooltips (language, theme, colorblind, music).
 
    When any element opens, it dispatches its id; every listener that
    sees a different id closes itself. This is the same mechanism the
    Navbar already used internally (one `openDropdown` string)
-   generalised to a global bus so the control tooltips share it too —
+   generalised to a global bus so the control tooltips share it too, so that
    no two popovers can ever be visible at the same time. */
 
 export const TOOLTIP_OPEN_EVENT = 'mimir:tooltip-open';
