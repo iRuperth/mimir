@@ -11,7 +11,7 @@ import { config } from '@/config/env';
 
 /* Storage key is versioned. Bumping it discards any prior saved
    volumes so the default from VITE_MUSIC_VOLUME (.env) takes effect
-   again — useful when the default itself changes. */
+   again, which is useful when the default itself changes. */
 const STORAGE_KEY = 'mimir-music-volume-v2';
 
 const readStoredVolume = (): number | null => {
@@ -49,7 +49,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   /* Once the user takes manual control (presses the music button), the
      autoplay fallback must stop trying to start playback on later
-     gestures — otherwise pausing and then clicking elsewhere would
+     gestures, otherwise pausing and then clicking elsewhere would
      restart the music. This ref carries that "hands off" signal into the
      autoplay effect. */
   const userControlledRef = useRef(false);
@@ -127,20 +127,20 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   /* Apply volume changes live so dragging the slider while playing
      updates output immediately, and persist so the user's preference
      survives reloads. Volume change must NOT recreate the audio
-     element — that would reset playback position. */
+     element, because that would reset playback position. */
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
     try {
       localStorage.setItem(STORAGE_KEY, String(volume));
     } catch {
-      /* quota / disabled — fine */
+      /* quota / disabled, fine */
     }
   }, [volume]);
 
   const toggle = useCallback(() => {
     const a = audioRef.current;
     if (!a) return;
-    // The user is now driving playback — disable the autoplay fallback so
+    // The user is now driving playback, so disable the autoplay fallback so
     // it can never override an explicit pause.
     userControlledRef.current = true;
     autoplayCleanupRef.current?.();

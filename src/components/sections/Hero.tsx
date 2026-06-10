@@ -111,8 +111,8 @@ export const Hero = () => {
         style={{ opacity: textOpacity, y: textY }}
         className="relative z-10 flex flex-col items-center gap-6 text-center max-w-4xl"
       >
-        {/* Avatar entrance: a plain soft fade-in — no movement, no
-           scale — matching the Apple-style ease used elsewhere. The
+        {/* Avatar entrance: a plain soft fade-in (no movement, no
+           scale), matching the Apple-style ease used elsewhere. The
            outer motion.div handles entrance, the inner motion.div
            applies the scroll-driven scale, and the deepest div handles
            the hover scale via CSS so all three compose cleanly. */}

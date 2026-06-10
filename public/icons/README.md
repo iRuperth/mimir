@@ -43,8 +43,8 @@ Then name the file after the override (e.g. `nodejs.svg`).
 
 ## Where to grab icons
 
-- [Devicon](https://devicon.dev/) — SVGs for languages and frameworks
-- [Simple Icons](https://simpleicons.org/) — brand SVGs (2400+)
-- [Tabler Icons](https://tabler.io/icons) — general-purpose icons
+- [Devicon](https://devicon.dev/): SVGs for languages and frameworks
+- [Simple Icons](https://simpleicons.org/): brand SVGs (2400+)
+- [Tabler Icons](https://tabler.io/icons): general-purpose icons
 
-Tools without an icon file just render as text — nothing breaks.
+Tools without an icon file just render as text, nothing breaks.

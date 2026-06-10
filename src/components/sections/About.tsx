@@ -15,7 +15,7 @@ export const About = () => {
       {bio.length > 0 ? (
         <p className="text-lg leading-relaxed text-text whitespace-pre-line indent-8">{bio}</p>
       ) : (
-        <p className="text-lg leading-relaxed text-text italic">—</p>
+        <p className="text-lg leading-relaxed text-text italic">,</p>
       )}
     </GlassCard>
   );

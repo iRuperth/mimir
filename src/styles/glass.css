@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────
-   LIQUID GLASS — water-droplet frame.
+   LIQUID GLASS: water-droplet frame.
 
    The frame is intentionally light: a thin bright rim + glossy
    top edge + soft drop shadow. All inner shadows are WHITE
@@ -13,10 +13,10 @@
   box-shadow:
     /* sharp top specular crescent */
     inset 0 1px 0 rgb(255 255 255 / 0.75),
-    /* inner bright ring — gives the impression of glass thickness */
+    /* inner bright ring that gives the impression of glass thickness */
     inset 0 0 0 1px rgb(255 255 255 / 0.08),
     inset 0 0 1.5px 1.5px rgb(255 255 255 / 0.06),
-    /* subtle bottom shadow — catches light from above */
+    /* subtle bottom shadow that catches light from above */
     inset 0 -1px 1px rgb(0 0 0 / 0.18),
     /* drop shadow grounding the glass */
     0 24px 60px -20px rgb(0 0 0 / 0.45),
@@ -36,7 +36,7 @@
     0 1px 3px -1px rgb(0 0 0 / 0.08);
 }
 
-/* Droplet highlights — sharp top crescent, slow drift */
+/* Droplet highlights: sharp top crescent, slow drift */
 .lg-highlight {
   background:
     radial-gradient(
@@ -130,7 +130,7 @@
     inset 0 -1px 1px rgb(0 0 0 / 0.08);
 }
 
-/* Guestbook review cards — borrow the same rim/shadow language as
+/* Guestbook review cards borrow the same rim/shadow language as
    .liquid-glass so the frame reads at the same weight in both themes,
    but stay flat (no displacement filter) for performance and clarity. */
 .entry-card {
