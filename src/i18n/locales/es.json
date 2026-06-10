@@ -9,7 +9,7 @@
   },
   "skills": {
     "title": "Habilidades",
-    "subtitle": "La caja de herramientas completa — agrupadas según dónde vive cada pieza en el stack.",
+    "subtitle": "La caja de herramientas completa, agrupadas según dónde vive cada pieza en el stack.",
     "usedIn": "Usado en"
   },
   "hero": {
@@ -28,6 +28,7 @@
     "showMore": "Ver más",
     "showLess": "Ver menos",
     "private": "Repositorio privado",
+    "privateHint": "¿Quieres acceso al código? Escríbeme y solicítalo.",
     "empty": "Aún no hay proyectos en esta categoría."
   },
   "contact": {
