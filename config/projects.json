@@ -17,6 +17,14 @@
       "description_es": "Puente entre front y back con un único modelo mental: UI accesible, gestión de estado, diseño de API, esquemas de base de datos y pipelines de despliegue. Sostener la feature desde el clic del usuario hasta el byte persistido."
     },
     {
+      "id": "frontend",
+      "enabled": true,
+      "label_en": "Frontend",
+      "label_es": "Frontend",
+      "description_en": "The browser as a platform, not just a render target: semantic HTML, hand-written CSS, and vanilla JavaScript when a framework would be dead weight, with WebAssembly and WebGL as first-class tools and performance and offline support as features, not afterthoughts.",
+      "description_es": "El navegador como plataforma, no solo como destino de render: HTML semántico, CSS escrito a mano y JavaScript vanilla cuando un framework sería lastre, con WebAssembly y WebGL como herramientas de primera clase y el rendimiento y el soporte offline como features, no como detalles de última hora."
+    },
+    {
       "id": "mobile",
       "enabled": true,
       "label_en": "Mobile",
@@ -208,6 +216,20 @@
         { "label": "GitHub", "url": "https://github.com/iRuperth/SADAR" }
       ],
       "imageFolder": "sadar"
+    },
+    {
+      "id": "caissa",
+      "category": "frontend",
+      "title_en": "Caissa",
+      "title_es": "Caissa",
+      "description_en": "Complete chess platform packed into a static website, named after the goddess of chess. Play against Stockfish across six strength levels with a built-in coach that draws the best move on the board and explains it in plain words, analyze any position from both sides with the top three continuations as live ranked arrows, replay 25 major openings with more than 80 annotated variations, study 23 guided lessons from fundamentals to endgames, and solve 26 hand-crafted tactics puzzles validated move by move with chess.js. Everything runs locally in the browser: the engine is Stockfish compiled to WebAssembly running in a worker over the UCI protocol, the rules are pure JavaScript, the 3D landing scene is Three.js, and no data ever leaves the machine. No frameworks, no bundler, no build step: vanilla HTML, CSS and JavaScript deployed automatically to GitHub Pages.",
+      "description_es": "Plataforma de ajedrez completa empaquetada en un sitio web estático, bautizada en honor a la diosa del ajedrez. Juega contra Stockfish en seis niveles de fuerza con un entrenador integrado que dibuja la mejor jugada en el tablero y la explica con palabras sencillas, analiza cualquier posición desde ambos bandos con las tres mejores continuaciones como flechas clasificadas en vivo, repasa 25 aperturas principales con más de 80 variantes comentadas, estudia 23 lecciones guiadas desde los fundamentos hasta los finales y resuelve 26 puzles tácticos hechos a mano y validados jugada a jugada con chess.js. Todo corre en local en el navegador: el motor es Stockfish compilado a WebAssembly ejecutándose en un worker sobre el protocolo UCI, las reglas son JavaScript puro, la escena 3D de la portada es Three.js y ningún dato sale de la máquina. Sin frameworks, sin bundler, sin paso de build: HTML, CSS y JavaScript vanilla desplegados automáticamente en GitHub Pages.",
+      "tools": ["JavaScript", "HTML", "CSS", "Three.js", "chess.js", "Stockfish", "WebAssembly", "Make", "GitHub Actions", "GitHub Pages"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/iRuperth/Caissa" },
+        { "label_en": "Live demo", "label_es": "Demo en vivo", "url": "https://iruperth.github.io/Caissa/" }
+      ],
+      "imageFolder": "caissa"
     }
   ],
   "skillGroups": [
@@ -242,6 +264,10 @@
     "Webpack": "frontend",
     "Yjs": "frontend",
     "WebRTC": "frontend",
+    "Three.js": "frontend",
+    "chess.js": "frontend",
+    "WebAssembly": "frontend",
+    "Stockfish": "tools",
     "React Native": "mobile",
     "Expo": "mobile",
     "EAS": "mobile",
@@ -359,6 +385,7 @@
     "Azure": "cloud",
     "Railway": "cloud",
     "Render": "cloud",
+    "GitHub Pages": "cloud",
     "Resend": "cloud",
     "FFmpeg": "tools",
     "Hydra": "tools",
