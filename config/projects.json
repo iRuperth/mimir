@@ -141,6 +141,20 @@
       "imageFolder": "synapse-core"
     },
     {
+      "id": "synapsequill",
+      "category": "ai",
+      "title_en": "SynapseQuill",
+      "title_es": "SynapseQuill",
+      "description_en": "Automated highlight-video generator for the FIFA World Cup 2026, running entirely on free tiers. It detects a finished match from ESPN data, writes an exciting narration with an LLM (Groq Llama 3.3 70B, with Gemini, Cerebras and Ollama fallbacks) orchestrated through LangChain and LangGraph, fact-checks it with a guardrail that regenerates the script if it invents a score, voices it with Edge-TTS and synced subtitles, composites copyright-safe visuals (team crests, an animated scoreboard, optional FLUX ambience) into an MP4 with MoviePy and ffmpeg, and uploads it privately to YouTube. It also writes blog, X, Instagram and LinkedIn copy for the same match. A React 19 dashboard adds a World Cup 2026 calendar, a self-filling knockout bracket, a FIFA power ranking of the 48 teams, a scheduled-upload content library, and an AI Lab with arXiv RAG, graph RAG and live finance news, all in English and Spanish with light, dark and colorblind themes.",
+      "description_es": "Generador automático de vídeos de resumen para la Copa del Mundo FIFA 2026, ejecutándose por completo sobre planes gratuitos. Detecta un partido finalizado a partir de datos de ESPN, escribe una narración emocionante con un LLM (Groq Llama 3.3 70B, con Gemini, Cerebras y Ollama como alternativas) orquestado mediante LangChain y LangGraph, la verifica con un guardrail que regenera el guion si inventa un marcador, la locuta con Edge-TTS y subtítulos sincronizados, compone visuales libres de derechos (escudos de equipos, un marcador animado, ambientación FLUX opcional) en un MP4 con MoviePy y ffmpeg, y lo sube en privado a YouTube. También redacta textos para blog, X, Instagram y LinkedIn del mismo partido. Un dashboard en React 19 añade un calendario del Mundial 2026, un cuadro eliminatorio que se rellena solo, un power ranking FIFA de las 48 selecciones, una biblioteca de contenido con subidas programadas y un AI Lab con RAG sobre arXiv, graph RAG y noticias financieras en vivo, todo en inglés y español con temas claro, oscuro y para daltonismo.",
+      "tools": ["Python", "LangChain", "LangGraph", "Groq", "Gemini", "Cerebras", "Ollama", "Edge TTS", "MoviePy", "FFmpeg", "ChromaDB", "FastAPI", "Uvicorn", "React", "TypeScript", "Vite", "Docker", "uv", "pnpm"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/iRuperth/SynapseQuill" },
+        { "label_en": "Read the write-up", "label_es": "Leer el artículo", "url": "https://medium.com/@devrup404/one-content-engine-any-topic-any-brand-meet-f88tball-8293de1bd9a4" }
+      ],
+      "imageFolder": "synapsequill"
+    },
+    {
       "id": "project-3",
       "category": "fullstack",
       "title_en": "Mass Regularization Portal",
@@ -343,6 +357,9 @@
     "LiteLLM": "ai",
     "Ollama": "ai",
     "LangChain": "ai",
+    "LangGraph": "ai",
+    "Groq": "ai",
+    "Gemini": "ai",
     "Cerebras": "ai",
     "Whisper": "ai",
     "Edge TTS": "ai",
